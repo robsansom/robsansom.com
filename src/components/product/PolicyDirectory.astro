@@ -1,0 +1,23 @@
+---
+import { apps } from '../../data/apps';
+const base = import.meta.env.BASE_URL;
+---
+<section class="text-page">
+  <p class="label">Privacy &amp; terms</p>
+  <h1 class="display">The details, app by app</h1>
+  <p>Each app’s privacy policy explains its own data, permissions and services; its terms cover using that app and any purchases.</p>
+  <ul class="directory" role="list">
+    {apps.map(app => (
+      <li>
+        <img class="app-icon" src={base + 'studio/' + app.icon} alt="" width="44" height="44" loading="lazy" />
+        <div><h2><a href={app.href}>{app.name}</a></h2><p>{app.tagline}</p></div>
+        <nav aria-label={app.name + ' policies'}>
+          <a href={app.privacy}>Privacy</a>
+          {app.terms ? <a href={app.terms}>Terms</a> : <span class="policy-pending">Terms to follow</span>}
+          <a href={app.support}>Support</a>
+        </nav>
+      </li>
+    ))}
+  </ul>
+  <p class="note">For help with a purchase, your data, or a question about an app, start with that app’s support page.</p>
+</section>

@@ -1,0 +1,83 @@
+---
+import AppStoreBadge from './AppStoreBadge.astro';
+import { site } from '../config/site';
+import { getRelativeLocaleUrl } from '../i18n/utils';
+import { getLocalizedHashPath, useTranslations } from '../i18n/utils';
+import LanguageSelector from './LanguageSelector.astro';
+
+const currentLocale = (Astro.url.pathname.match(/\/find-later\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en') || 'en';
+const t = useTranslations(currentLocale);
+
+const base = (import.meta.env.BASE_URL + 'apps/find-later/').endsWith('/')
+  ? (import.meta.env.BASE_URL + 'apps/find-later/')
+  : `${(import.meta.env.BASE_URL + 'apps/find-later/')}/`;
+const year = new Date().getFullYear();
+const isExternalAppStoreUrl = site.appStoreUrl.startsWith('http');
+const featuresHref = getLocalizedHashPath(currentLocale, '/', 'features');
+---
+
+<footer class="relative bg-pouch-ink text-pouch-text border-t border-theme-soft">
+  <div class="mx-auto max-w-8xl px-6 sm:px-8 lg:px-10 pt-24 sm:pt-32 pb-12">
+    <p class="reveal-eyebrow text-[12px] uppercase tracking-[0.24em] text-pouch-textMuted">{t.footer.taglineEyebrow}</p>
+    <h2 class="reveal-lines mt-6 sm:mt-7 display-section text-[clamp(2.25rem,6vw,5rem)] text-balance">
+      {/* Each sentence is kept on its own unbreakable run so narrow
+          screens wrap between the sentences, never mid-phrase. */}
+      <span class="reveal-line"><span><span class="whitespace-nowrap">{t.footer.taglineHeadline}</span> <span class="text-dim whitespace-nowrap">{t.footer.taglineHeadlineDim}</span></span></span>
+    </h2>
+    <div class="reveal reveal-delay-2 mt-12 sm:mt-16">
+      <AppStoreBadge height={56} />
+    </div>
+
+    <div class="mt-20 sm:mt-24 pt-10 border-t border-theme-soft grid grid-cols-2 sm:grid-cols-3 gap-8 sm:gap-10 text-[14px]">
+      <div>
+        <p class="text-pouch-textMuted text-[12px] uppercase tracking-[0.18em]">{t.footer.product}</p>
+        <ul class="mt-4 space-y-2.5">
+          <li><a href={featuresHref} class="hover:text-pouch-red transition-colors">{t.footer.features}</a></li>
+          <li>
+            {isExternalAppStoreUrl ? (
+              <a
+                href={site.appStoreUrl}
+                target="_blank"
+                rel="noopener"
+                class="hover:text-pouch-red transition-colors"
+              >
+                {t.footer.download}
+              </a>
+            ) : (
+              <span class="text-pouch-textMuted cursor-default">{t.cta.comingSoonShort}</span>
+            )}
+          </li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-pouch-textMuted text-[12px] uppercase tracking-[0.18em]">{t.footer.company}</p>
+        <ul class="mt-4 space-y-2.5">
+          <li><a href={getRelativeLocaleUrl(currentLocale, '/support')} class="hover:text-pouch-red transition-colors">{t.footer.support}</a></li>
+          <li><a href={`mailto:${site.supportEmail}`} class="hover:text-pouch-red transition-colors">{t.footer.contact}</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-pouch-textMuted text-[12px] uppercase tracking-[0.18em]">{t.footer.legal}</p>
+        <ul class="mt-4 space-y-2.5">
+          <li><a href={getRelativeLocaleUrl(currentLocale, '/privacy')} class="hover:text-pouch-red transition-colors">{t.footer.privacy}</a></li>
+          <li><a href={getRelativeLocaleUrl(currentLocale, '/terms')} class="hover:text-pouch-red transition-colors">{t.footer.terms}</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-theme-soft text-[12.5px] text-pouch-textDim space-y-4">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="space-y-1">
+          <p>&copy; {year} Find Later. {t.footer.copyright}</p>
+          <p>{t.footer.appleAffiliation}</p>
+        </div>
+        <div class="mt-2 sm:mt-0">
+          <LanguageSelector />
+        </div>
+      </div>
+      <p class="max-w-3xl leading-[1.55]">
+        {t.footer.appleTrademarks}
+      </p>
+    </div>
+  </div>
+</footer>

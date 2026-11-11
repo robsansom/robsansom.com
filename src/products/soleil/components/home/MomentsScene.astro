@@ -1,0 +1,188 @@
+---
+import { productPath, localizeHtml } from '../../paths';
+/**
+ * Scene 5 — the breadth wall. Oversized phrases carry the whole scene.
+ *
+ * The clusters around them are drawn stickers from the site's own mark
+ * set, not cropped photography: slivers of a face or of app UI read as
+ * broken images at this size, and there is no photography commissioned
+ * for these nine moments yet (see ASSET_NEEDED.md). The stickers are
+ * decorative enhancement and never carry meaning.
+ */
+import { useTranslations } from '../../i18n/utils';
+
+const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const { moments } = t.home;
+
+/**
+ * One commissioned drawing per moment, in the order the copy declares
+ * them. Sides alternate so the wall does not grow a column, and each
+ * line owns its own picture rather than repeating a generic mark.
+ */
+const art = [
+  'soleil-moment-school-run',
+  'soleil-moment-beach-day',
+  'soleil-moment-garden',
+  'soleil-moment-city-walk',
+  'soleil-moment-sport',
+  'soleil-moment-family-holiday',
+  'soleil-moment-sensitive-skin',
+  'soleil-moment-cloudy-bright',
+  'soleil-moment-golden-hour',
+];
+
+const tones = ['solar', 'cyan', 'paper', 'violet', 'solar', 'paper', 'cyan', 'violet'] as const;
+
+const items = moments.items.map((text, i) => ({
+  text,
+  art: art[i] ?? art[i % art.length],
+  tone: tones[i % tones.length],
+  side: i % 2 === 0 ? 'a' : 'b',
+  tilt: [-8, 6, -5, 9, -6][i % 5],
+}));
+---
+
+<section class="scene moments" data-tone="pink" id="moments">
+  <div class="wrap moments__head">
+    <p class="eyebrow" data-reveal="up">{moments.eyebrow}</p>
+    <h2 class="display-lg moments__headline" data-reveal="up">{moments.headline}</h2>
+  </div>
+
+  <ul class="moments__list" data-moments>
+    {
+      items.map((item) => (
+        <li class="moment" data-moment style={`--tilt:${item.tilt}deg`}>
+          <span class="moment__text display-xl">{item.text}</span>
+          <span
+            class={`moment__art moment__art--${item.side} tone-${item.tone}`}
+            aria-hidden="true"
+          >
+            <img
+              src={productPath(`/images/illustrations/${item.art}.webp`)}
+              alt=""
+              width="760"
+              height="760"
+              loading="lazy"
+              decoding="async"
+            />
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="hand moments__closer" data-reveal="up">{moments.closer}</p>
+</section>
+
+<style>
+  .moments {
+    overflow: clip;
+    text-align: center;
+  }
+
+  .moments__head .eyebrow {
+    color: var(--wine);
+    margin-bottom: 0.9rem;
+  }
+
+  .moments__headline {
+    max-width: 18ch;
+    margin-inline: auto;
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .moments__list {
+    display: grid;
+    gap: 0.1em;
+  }
+
+  .moment {
+    position: relative;
+    line-height: 0.88;
+  }
+
+  .moment__text {
+    display: inline-block;
+    padding-inline: 0.1em;
+    transition: transform 0.5s var(--ease-plop);
+  }
+
+  .moment__art {
+    position: absolute;
+    top: 50%;
+    display: grid;
+    place-items: center;
+    width: clamp(104px, 11.5vw, 168px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    box-shadow: var(--lift-md);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-50%) rotate(var(--tilt)) scale(0.86);
+    transition:
+      opacity 0.3s linear,
+      transform 0.55s var(--ease-plop);
+  }
+
+  /* The drawings are composed with their own 12% margin, so they sit
+     edge to edge inside the circle rather than being inset again. */
+  .moment__art img {
+    width: 92%;
+    height: auto;
+  }
+
+  .tone-solar {
+    background: var(--solar-yellow);
+    color: var(--ink);
+  }
+  .tone-cyan {
+    background: var(--sky-cyan);
+    color: var(--ink);
+  }
+  .tone-paper {
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .tone-violet {
+    background: var(--twilight-pale);
+    color: var(--twilight-deep);
+  }
+
+  .moment__art--a {
+    left: max(0.5vw, calc(50% - 42vw));
+  }
+
+  .moment__art--b {
+    right: max(0.5vw, calc(50% - 42vw));
+    --tilt: calc(var(--tilt) * -1);
+  }
+
+  .moment.is-active .moment__art,
+  .moment:hover .moment__art {
+    opacity: 1;
+    transform: translateY(-50%) rotate(var(--tilt)) scale(1);
+  }
+
+  .moment:hover .moment__text {
+    transform: scale(1.03);
+  }
+
+  .moments__closer {
+    margin-top: clamp(1.5rem, 3vw, 2.5rem);
+    font-size: clamp(1.25rem, 2.4vw, 2rem);
+    transform: rotate(-2deg);
+  }
+
+  /* The phrases already reach both edges on a small screen, so the
+     stickers would land on top of them. */
+  @media (max-width: 899px) {
+    .moment__art {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  import { initMoments } from '../../scripts/moments';
+  initMoments();
+</script>

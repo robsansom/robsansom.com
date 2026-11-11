@@ -1,0 +1,24 @@
+---
+/**
+ * A slice of an app screen: the paper ground with one or more of the
+ * app's cards on it (src/components/app/cards/).
+ *
+ * The slice is not decoration. In the app every card is a saturated colour
+ * sitting on paper, and the site puts these surfaces inside scenes of the
+ * same colours — a cyan UV card in a cyan scene would vanish without the
+ * ground under it.
+ */
+export interface Props {
+  /** What the surface shows, for assistive technology. */
+  label: string;
+  class?: string;
+}
+
+const { label, class: className = '' } = Astro.props;
+---
+
+<div class={`app-ui ${className}`} role="img" aria-label={label} data-reveal="up">
+  <div class="ui-screen" aria-hidden="true">
+    <slot />
+  </div>
+</div>

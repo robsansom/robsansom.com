@@ -1,0 +1,9 @@
+---
+import { getLocalePaths } from '../../i18n/utils';
+import IndexPage from '../../components/pages/IndexPage.astro';
+
+export function getStaticPaths() {
+  return getLocalePaths();
+}
+---
+<IndexPage />

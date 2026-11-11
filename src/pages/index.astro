@@ -1,0 +1,66 @@
+---
+import Studio from '../layouts/Studio.astro';
+import { apps, statusLabel } from '../data/apps';
+const base = import.meta.env.BASE_URL;
+const asset = (file: string) => base + 'studio/' + file;
+---
+<Studio current="apps">
+  <section class="hero" aria-labelledby="intro-title">
+    <div class="hero__panel">
+      <div class="hero__copy">
+        <p class="label">Apps by Rob Sansom</p>
+        <h1 id="intro-title" class="display hero__title">Apps for everyday life, and a little play</h1>
+        <p class="lede">I design and build apps for iPhone, iPad and Apple Watch. This is where you’ll find every one of them.</p>
+        <div class="hero__actions">
+          <a class="button" href="#apps">See the apps</a>
+          <a class="button button--light" href={base + 'about/'}>About me</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="apps" aria-labelledby="apps-title">
+    <div class="section-head">
+      <p class="label">The apps</p>
+      <h2 id="apps-title" class="title">Find the one for you</h2>
+    </div>
+    <ul class="app-grid" role="list">
+      {apps.map((app, i) => (
+        <li>
+          <a class={'app-card app-card--' + app.slug} href={app.href}>
+            <div class={'app-card__visual app-card__visual--' + app.sceneKind} style={'--tint:' + app.tint}>
+              {app.sceneKind === 'cover'
+                ? <img src={asset(app.scene)} alt={app.alt} loading={i < 2 ? 'eager' : 'lazy'} decoding="async" />
+                : <div class="phone"><img src={asset(app.scene)} alt={app.alt} loading={i < 2 ? 'eager' : 'lazy'} decoding="async" /></div>}
+              <span class={'status status--' + app.status}>{statusLabel[app.status]}</span>
+              {app.slug === 'your-jobs' && (
+                <div class="jobcard" aria-hidden="true">
+                  <div class="jobcard__top"><span class="sticker">New today</span><span class="jobcard__tag">Remote</span></div>
+                  <p class="jobcard__title">Product Designer</p>
+                  <p class="jobcard__company">Posted 2 hours ago</p>
+                </div>
+              )}
+            </div>
+            <div class="app-card__caption">
+              <img class="app-icon" src={asset(app.icon)} alt="" width="44" height="44" loading="lazy" />
+              <div>
+                <h3 class="app-card__name">{app.name}</h3>
+                <p class="app-card__tagline">{app.tagline}</p>
+              </div>
+              {app.platforms && <p class="app-card__meta">{app.platforms}</p>}
+            </div>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="cta-panel" aria-labelledby="help-title">
+    <h2 id="help-title" class="title">Need a hand with an app?</h2>
+    <p class="lede">Find answers to common questions, or get in touch about any app.</p>
+    <div class="cta-panel__actions">
+      <a class="button" href={base + 'support/'}>Get support</a>
+      <a class="button button--ghost" href={base + 'legal/'}>Privacy &amp; terms</a>
+    </div>
+  </section>
+</Studio>

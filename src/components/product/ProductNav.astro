@@ -1,0 +1,24 @@
+---
+import { apps } from '../../data/apps';
+const { slug } = Astro.props;
+const app = apps.find(a => a.slug === slug)!;
+const base = import.meta.env.BASE_URL;
+const locale = Astro.url.pathname.match(new RegExp('/' + slug + '/(fr|es|de|ja)(?:/|$)'))?.[1];
+const home = app.href + (locale ? locale + '/' : '');
+const current = Astro.url.pathname;
+const fontFace = `@font-face{font-family:'Studio Sans';src:url('${base}studio/instrument.woff2') format('woff2');font-weight:400 700;font-display:swap}`;
+const routes = [['Overview', home], ['Support', home + 'support/'], ['Privacy', home + 'privacy/'], ...(app.terms ? [['Terms', home + 'terms/']] : [])];
+---
+<link rel="preload" href={base + 'studio/instrument.woff2'} as="font" type="font/woff2" crossorigin />
+<style is:inline set:html={fontFace}></style>
+<header class="product-nav" id="nav">
+  <div class="product-nav__identity"><a href={base}>Rob Sansom</a><span aria-hidden="true">/</span><a href={home} class="product-nav__app">{app.name}</a><details class="product-nav__switch"><summary>All apps</summary><nav aria-label="Choose an app">{apps.map(a => <a href={a.href} aria-current={a.slug === slug ? 'true' : undefined}><img src={base + 'studio/' + a.icon} alt="" width="28" height="28" />{a.name}</a>)}<a class="product-nav__home" href={base}>All apps overview</a></nav></details></div>
+  <div class="product-nav__pages"><nav aria-label={app.name + ' pages'}>{routes.map(([label,href]) => <a href={href} aria-current={current === href ? 'page' : undefined}>{label}</a>)}</nav><slot /></div>
+</header>
+<script is:inline>
+document.addEventListener('click',e=>{document.querySelectorAll('.product-nav__switch[open]').forEach(d=>{if(!d.contains(e.target))d.removeAttribute('open')})});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.product-nav__switch[open]').forEach(d=>{d.removeAttribute('open');d.querySelector('summary')?.focus()})});
+</script>
+<style is:global>
+.product-nav{position:relative;z-index:100;background:#f7f7f7;color:#111;border-bottom:1px solid #e6e8eb;font:600 14px/1.4 'Studio Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased;text-transform:none;letter-spacing:0;padding:18px clamp(20px,4vw,64px) 0;box-sizing:border-box;width:100%}.product-nav a{color:#111;text-decoration:none;font:inherit;letter-spacing:0}.product-nav__identity{display:flex;align-items:center;gap:14px;max-width:1320px;margin:auto}.product-nav__identity>a:first-child{font-weight:650}.product-nav__identity>span{color:#c2c6cb;font-weight:400}.product-nav__app{font-weight:650!important}.product-nav__switch{margin-left:auto;position:relative;z-index:300}.product-nav__switch summary{cursor:pointer;list-style:none;border:0;border-radius:10px;padding:9px 16px;font:inherit;background:#111;color:#fff}.product-nav__switch summary::-webkit-details-marker{display:none}.product-nav__switch>nav{position:absolute;right:0;top:42px;display:grid;min-width:230px;padding:6px;background:#fff;border:1px solid #e6e8eb;border-radius:14px;box-shadow:0 12px 32px -12px rgba(0,0,0,.18)}.product-nav__switch>nav a{display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:8px;font-size:14px}.product-nav__switch>nav a img{width:28px;height:28px;border-radius:7px;box-shadow:0 0 0 1px #0000000f}.product-nav__switch>nav a:hover{background:#f0f2f5}.product-nav__switch>nav a[aria-current=true]{background:#ddddf7;color:#2b2a78}.product-nav__switch>nav .product-nav__home{margin-top:6px;border-top:1px solid #eee;border-radius:0 0 8px 8px;padding:12px 10px 8px;color:#63686e}.product-nav__switch summary:hover{background:#2b2b2b}.product-nav__pages{max-width:1320px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:50px}.product-nav__pages>nav{display:flex;gap:24px}.product-nav__pages>nav a{display:block;padding:16px 0 13px;border-bottom:2px solid transparent;color:#63686e}.product-nav__pages>nav a:hover{color:#111}.product-nav__pages a[aria-current=page]{border-color:#111;color:#111}.product-nav select,.product-nav option{color:#333!important;background:#fafafa!important}.product-nav__pages>div>span{color:#555!important}.product-nav select{font-size:13px;max-width:115px}.product-nav a:focus-visible,.product-nav summary:focus-visible{outline:2px solid #111;outline-offset:3px}.product-nav__pages .lang-menu{z-index:150}@media(max-width:500px){.product-nav{padding-top:12px}.product-nav__identity{gap:9px}.product-nav__pages{flex-wrap:wrap;gap:0;padding-bottom:4px}.product-nav__pages>nav{gap:20px}.product-nav__pages>nav a{padding-block:13px 9px}.product-nav__pages>div{margin-left:auto}.product-nav__pages .language-selector{font-size:12px}}
+</style>

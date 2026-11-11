@@ -1,0 +1,342 @@
+---
+/**
+ * Scene 7 — Real Sun, built as a day arc.
+ *
+ * The sun crosses the day once when the scene arrives: the clock runs from
+ * dawn to dusk, the note beneath changes with the light, and the daylight
+ * bars light as the sun passes over them. After that the three controls fly
+ * it to a particular part of the day.
+ *
+ * This is an editorial illustration of the idea — daylight set against the
+ * day's UV — not a screenshot and not a claim about any given day. Nothing
+ * here frames daylight as an allowance.
+ *
+ * Server-rendered with the sun at the peak and the panels stacked, so the
+ * scene is complete and readable before any script runs.
+ */
+import { useTranslations } from '../../i18n/utils';
+
+const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const { realSun } = t.home;
+
+/**
+ * Recorded daylight, drawn as segments riding the day's own UV curve
+ * rather than as a separate bar chart underneath it. Read as
+ * dash/gap pairs along the path (pathLength is normalised to 100), so
+ * each solid run is a stretch of time spent outside.
+ */
+const DAYLIGHT = '9 5 4 8 26 6 14 4 8 100';
+
+/** Pushes the pattern past dawn so the day does not open on a stray dot. */
+const DAYLIGHT_OFFSET = -6;
+
+/** The arc every layer of the figure is drawn from. */
+const ARC = 'M60 392C300 392 380 60 600 60s300 332 540 332';
+---
+
+<section class="scene realsun" data-tone="twilight" id="real-sun" data-realsun data-zone="1">
+  <div class="wrap realsun__inner">
+    <div class="realsun__head">
+      <div class="realsun__lead">
+        <p class="eyebrow" data-reveal="up">{realSun.eyebrow}</p>
+        <h2 class="display-lg realsun__headline" data-reveal="up">
+          <span class="realsun__dim">{realSun.headline}</span>
+          <span>{realSun.headlineAccent}</span>
+        </h2>
+      </div>
+
+      <div class="realsun__detail">
+        <div class="realsun__tabs" hidden data-tabs role="tablist" aria-label={realSun.tabsLabel}>
+          {
+            realSun.tabs.map((tab, i) => (
+              <button type="button" role="tab" id={`rs-tab-${i}`} aria-controls={`rs-panel-${i}`} data-tab={i}>
+                {tab.label}
+              </button>
+            ))
+          }
+        </div>
+
+        <div class="realsun__panels">
+          {
+            realSun.tabs.map((tab, i) => (
+              <div class="realsun__panel" id={`rs-panel-${i}`} data-panel={i} aria-labelledby={`rs-tab-${i}`}>
+                <h3 class="display-sm">{tab.title}</h3>
+                <p>{tab.body}</p>
+              </div>
+            ))
+          }
+        </div>
+
+        <p class="realsun__note">{realSun.note}</p>
+      </div>
+    </div>
+
+    <figure class="realsun__figure" data-reveal="up">
+      <div class="realsun__readout" aria-hidden="true">
+        <p class="realsun__clock" data-clock>13:00</p>
+        <p class="realsun__caption" data-note>{realSun.notes[2]}</p>
+      </div>
+
+      <svg viewBox="0 0 1200 440" role="img" aria-label={realSun.imageAlt}>
+        <defs>
+          {/* Daylight is revealed only as far as the sun has travelled. */}
+          <clipPath id="rs-travelled">
+            <rect data-travelled x="0" y="0" width="1200" height="440" />
+          </clipPath>
+        </defs>
+
+        <path class="rs-area" d={`${ARC}Z`} />
+
+        {/* The day's UV, dotted like a path across the sky. */}
+        <path class="rs-arc" d={ARC} fill="none" data-curve />
+
+        {/* The daylight actually recorded, sitting on the curve. */}
+        <g clip-path="url(#rs-travelled)">
+          <path
+            class="rs-daylight"
+            d={ARC}
+            fill="none"
+            pathLength="100"
+            stroke-dasharray={DAYLIGHT}
+            stroke-dashoffset={DAYLIGHT_OFFSET}
+          />
+        </g>
+
+        <line class="rs-base" x1="46" y1="392" x2="1154" y2="392" />
+
+        <g data-sun transform="translate(600 60)">
+          <circle class="rs-sun__halo" r="46" />
+          <circle class="rs-sun__ring" r="30" />
+          <circle class="rs-sun" r="18" />
+        </g>
+      </svg>
+
+      <figcaption class="realsun__legend">
+        <span class="realsun__key realsun__key--bar"></span>
+        <span>{realSun.eyebrow}</span>
+        <span class="realsun__key realsun__key--curve"></span>
+        <span>UV</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .realsun {
+    margin-inline: clamp(0px, 1.4vw, 20px);
+    border-radius: var(--r-scene);
+    overflow: clip;
+  }
+
+  .realsun__inner {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .realsun__head {
+    display: grid;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    align-items: end;
+  }
+
+  .realsun__lead .eyebrow {
+    color: var(--sky-cyan);
+    margin-bottom: 0.9rem;
+  }
+
+  .realsun__headline {
+    display: grid;
+    gap: 0.35rem;
+    max-width: 18ch;
+  }
+
+  .realsun__dim {
+    color: rgb(255 255 255 / 0.55);
+  }
+
+  .realsun__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .realsun__tabs button {
+    min-height: 44px;
+    padding: 0 1.1rem;
+    border: 2px solid rgb(255 255 255 / 0.36);
+    border-radius: var(--r-pill);
+    background: transparent;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+      background-color 0.2s linear,
+      color 0.2s linear;
+  }
+
+  .realsun__tabs button[aria-selected='true'] {
+    background: var(--sky-cyan);
+    border-color: var(--sky-cyan);
+    color: var(--ink);
+  }
+
+  .realsun__panels {
+    display: grid;
+    gap: 1.5rem;
+    min-height: 6.5rem;
+  }
+
+  .realsun__panel p {
+    margin-top: 0.5rem;
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    max-width: 42ch;
+    color: var(--scene-muted);
+  }
+
+  .realsun__note {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--scene-rule);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    max-width: 52ch;
+    color: rgb(255 255 255 / 0.72);
+  }
+
+  /* The arc ------------------------------------------------------------ */
+
+  .realsun__figure {
+    position: relative;
+  }
+
+  .realsun__figure svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  /* The clock sits in the bowl of the arc, clear of the sun's path. */
+  .realsun__readout {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    width: min(100%, 30rem);
+    transform: translateX(-50%);
+    text-align: center;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* On a phone the arc is barely 120px tall and the bowl has no room: the
+     clock and its caption ran across the curve and the baseline. They sit
+     above the chart instead, still reading as its live label. */
+  @media (max-width: 699px) {
+    .realsun__readout {
+      position: static;
+      width: auto;
+      margin-bottom: 1.25rem;
+      transform: none;
+    }
+  }
+
+  .realsun__clock {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4.25rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .realsun__caption {
+    margin-top: 0.6rem;
+    font-size: clamp(0.9375rem, 1.15vw, 1.0625rem);
+    line-height: 1.4;
+    color: rgb(255 255 255 / 0.78);
+    min-height: 2.8em;
+    max-width: 26ch;
+    margin-inline: auto;
+  }
+
+  .rs-area {
+    fill: rgb(255 216 77 / 0.13);
+  }
+
+  .rs-arc {
+    stroke: var(--solar-yellow);
+    stroke-width: 6;
+    stroke-linecap: round;
+    stroke-dasharray: 1 20;
+  }
+
+  .rs-sun {
+    fill: var(--solar-orange);
+  }
+
+  .rs-sun__ring {
+    fill: var(--solar-orange);
+    opacity: 0.34;
+  }
+
+  .rs-sun__halo {
+    fill: var(--solar-orange);
+    opacity: 0.15;
+  }
+
+  .rs-base {
+    stroke: rgb(255 255 255 / 0.28);
+    stroke-width: 2;
+  }
+
+  /* Daylight rides the curve: one material, one idiom, no second chart. */
+  .rs-daylight {
+    stroke: var(--sky-cyan);
+    stroke-width: 15;
+    stroke-linecap: round;
+  }
+
+  .realsun__legend {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    font-size: 0.8125rem;
+    color: rgb(255 255 255 / 0.7);
+  }
+
+  /* The swatch matches the mark it stands for: a rounded capsule of
+     daylight, not a chart square. */
+  .realsun__key {
+    width: 22px;
+    height: 8px;
+    border-radius: var(--r-pill);
+    background: var(--sky-cyan);
+  }
+
+  .realsun__key--curve {
+    margin-left: 0.75rem;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--solar-yellow);
+  }
+
+  @media (min-width: 900px) {
+    .realsun__head {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    }
+  }
+</style>
+
+<script
+  is:inline
+  type="application/json"
+  id="rs-notes"
+  set:html={JSON.stringify(realSun.notes)}
+/>
+
+<script>
+  import { initDayArc } from '../../scripts/dayarc';
+  initDayArc();
+</script>

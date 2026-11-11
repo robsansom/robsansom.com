@@ -1,0 +1,136 @@
+---
+/**
+ * App Store call-to-action.
+ *
+ * Two states, chosen automatically from `site.appStoreUrl`:
+ *
+ *  1. LIVE (URL starts with `http`): Apple's official, unmodified black
+ *     "Download on the App Store" badge, linking to the product page.
+ *     Per Apple's marketing guidelines the artwork is used as-is (no
+ *     rotation, recolour or animation), min height 40px (default 48px),
+ *     and clear space is left to the consuming layout.
+ *     @see https://developer.apple.com/app-store/marketing/guidelines/
+ *
+ *  2. NOT LIVE (placeholder anchor): a non-clickable "Coming soon to the
+ *     App Store" pill. Apple review flags dead/placeholder App Store
+ *     badges on a submitted Support/Privacy URL, so we never ship a
+ *     clickable badge that doesn't reach a real product page. We also
+ *     don't alter Apple's badge artwork to say "coming soon" (that would
+ *     itself break the badge guidelines) — this is custom copy instead.
+ *
+ * Drop the live `https://apps.apple.com/...` URL into `config/site.ts`
+ * and every instance flips to the real badge with no further edits.
+ */
+import { site } from '../config/site';
+import { useTranslations } from '../i18n/utils';
+
+const t = useTranslations((Astro.url.pathname.match(/\/find-later\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+
+const base = (import.meta.env.BASE_URL + 'apps/find-later/').endsWith('/')
+  ? (import.meta.env.BASE_URL + 'apps/find-later/')
+  : `${(import.meta.env.BASE_URL + 'apps/find-later/')}/`;
+
+export interface Props {
+  href?: string;
+  height?: number;
+  className?: string;
+}
+
+const {
+  href = site.appStoreUrl,
+  height = 48,
+  className = '',
+} = Astro.props;
+
+const aspectRatio = 119.66407 / 40;
+const width = Math.round(height * aspectRatio * 100) / 100;
+const isLive = href.startsWith('http');
+---
+
+{isLive ? (
+  <a
+    href={href}
+    class={`app-store-badge inline-flex shrink-0 ${className}`}
+    aria-label={t.a11y.appStoreLinkLabel}
+    target="_blank"
+    rel="noopener"
+  >
+    <img
+      src={`${base}images/download-on-the-app-store.svg`}
+      alt={t.a11y.appStoreBadgeAlt}
+      width={width}
+      height={height}
+      style={`height:${height}px;width:auto;`}
+      decoding="async"
+    />
+  </a>
+) : (
+  <span
+    class={`app-store-soon inline-flex shrink-0 items-center ${className}`}
+    style={`--soon-h:${height}px;`}
+  >
+    <span class="app-store-soon__dot" aria-hidden="true"></span>
+    <span class="app-store-soon__label">{t.cta.comingSoon}</span>
+  </span>
+)}
+
+<style is:global>
+  .app-store-badge {
+    transition: opacity 200ms ease-out;
+  }
+  .app-store-badge:hover {
+    opacity: 0.85;
+  }
+  .app-store-badge:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.7);
+    outline-offset: 4px;
+    border-radius: 8px;
+  }
+
+  /* Non-clickable "Coming soon" pill. Sized to roughly fill the slot a
+     56px badge would occupy, and theme-aware so it reads as intentional
+     on both the dark and light surfaces the page flips between. */
+  .app-store-soon {
+    height: var(--soon-h, 48px);
+    gap: 10px;
+    padding: 0 22px;
+    border-radius: 13px;
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+    color: #EFEFEF;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: default;
+    user-select: none;
+    transition:
+      background-color 280ms cubic-bezier(0.4, 0.0, 0.2, 1),
+      box-shadow 280ms cubic-bezier(0.4, 0.0, 0.2, 1),
+      color 280ms cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+  :root.is-light .app-store-soon {
+    background-color: rgba(0, 0, 0, 0.04);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+    color: #1A1816;
+  }
+  .app-store-soon__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #FA3454;
+    box-shadow: 0 0 0 0 rgba(250, 52, 84, 0.5);
+    animation: app-store-soon-pulse 2.4s ease-out infinite;
+  }
+  @keyframes app-store-soon-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(250, 52, 84, 0.45); }
+    70% { box-shadow: 0 0 0 7px rgba(250, 52, 84, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(250, 52, 84, 0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .app-store-soon__dot {
+      animation: none;
+    }
+  }
+</style>

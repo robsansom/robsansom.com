@@ -1,0 +1,9 @@
+---
+import { getLocalePaths } from '../../i18n/utils';
+import SupportPage from '../../components/pages/SupportPage.astro';
+
+export function getStaticPaths() {
+  return getLocalePaths();
+}
+---
+<SupportPage />

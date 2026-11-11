@@ -1,0 +1,303 @@
+---
+import { productPath, localizeHtml } from '../../paths';
+/**
+ * Fixed header. The pill nav sits on its own paper background so it can
+ * float over a saturated scene without ever fighting the copy beneath —
+ * scenes carry enough top padding that it never covers a headline.
+ *
+ * The mobile menu is a native <details>, so it opens, closes and takes
+ * keyboard focus with no JavaScript; the inline script only adds Escape
+ * and scroll-locking.
+ */
+import SunMark from './SunMark.astro';
+import Cta from './Cta.astro';
+import LanguageSelector from './LanguageSelector.astro';
+import { useTranslations, toLocale, localePath, localeHash } from '../../i18n/utils';
+
+const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const locale = toLocale((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const home = localePath(locale, productPath('/'));
+
+const links = [
+  { href: localeHash(locale, productPath('/'), '#toolkit'), label: t.nav.features },
+  { href: localeHash(locale, productPath('/'), '#how'), label: t.nav.how },
+  { href: localeHash(locale, productPath('/'), '#real-sun'), label: t.nav.realSun },
+  { href: localeHash(locale, productPath('/'), '#faq'), label: t.nav.faq },
+];
+
+const menuLinks = [
+  ...links,
+  { href: localePath(locale, '/support'), label: t.nav.support },
+  ...(locale === 'en' ? [{ href: productPath('/guides'), label: t.nav.guides }] : []),
+];
+---
+
+<header class="hdr">
+  <div class="hdr__inner">
+    <a class="studio-return" href={import.meta.env.BASE_URL} aria-label="Rob Sansom — all apps">All apps</a>
+    <a class="brand" href={home} aria-label={t.a11y.homeLink}>
+      <SunMark size={28} />
+      <span>Soleil</span>
+    </a>
+
+    <nav class="hdr__nav" aria-label={t.nav.primaryLabel}>
+      <ul>
+        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="hdr__right">
+      <div class="hdr__lang"><LanguageSelector /></div>
+      <div class="hdr__cta"><Cta compact variant="pink" /></div>
+
+      <details class="menu" id="site-menu">
+        <summary aria-label={t.nav.menuLabel}>
+          <span class="menu__label">{t.nav.menu}</span>
+          <span class="menu__bars" aria-hidden="true"><i></i><i></i></span>
+        </summary>
+        <div class="menu__panel">
+          <nav aria-label={t.nav.menuLabel}>
+            <ul class="menu__links">
+              {menuLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+            </ul>
+          </nav>
+          <div class="menu__foot">
+            <Cta variant="pink" />
+            <LanguageSelector layout="row" />
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>
+
+<style>
+  .hdr {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 100;
+    padding: 0.75rem clamp(0.75rem, 2.5vw, 1.5rem);
+    pointer-events: none;
+  }
+
+  .hdr__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    max-width: 1680px;
+    margin-inline: auto;
+  }
+
+  .hdr__inner > * {
+    pointer-events: auto;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding-right: 0.35rem;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    color: var(--ink);
+    text-decoration: none;
+    border-radius: var(--r-pill);
+    transition:
+      background-color 0.2s linear,
+      box-shadow 0.2s linear,
+      padding 0.3s var(--ease-weight);
+  }
+
+  /* Once the page has moved, the wordmark takes the same paper pill as the
+     nav, so it never sits on top of the copy scrolling beneath it. At the
+     top of the hero it stays bare, as drawn. */
+  .hdr.is-scrolled .brand {
+    padding-inline: 0.7rem 1rem;
+    background: rgb(255 253 247 / 0.92);
+    box-shadow: var(--lift-sm);
+  }
+
+  .hdr__nav {
+    display: none;
+  }
+
+  .hdr__nav ul {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+    padding: 0.3rem;
+    border-radius: var(--r-pill);
+    background: rgb(255 253 247 / 0.92);
+    backdrop-filter: blur(6px);
+    box-shadow: var(--lift-sm);
+  }
+
+  .hdr__nav a {
+    display: flex;
+    align-items: center;
+    min-height: 38px;
+    padding: 0 0.95rem;
+    border-radius: var(--r-pill);
+    color: var(--ink);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.18s linear;
+  }
+
+  .hdr__nav a:hover {
+    background: var(--solar-yellow);
+  }
+
+  .hdr__right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .hdr__lang,
+  .hdr__cta {
+    display: none;
+  }
+
+  /* Mobile menu ----------------------------------------------------- */
+
+  .menu summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 46px;
+    padding: 0 1rem;
+    border-radius: var(--r-sm);
+    background: var(--solar-orange);
+    color: var(--ink);
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+    box-shadow: var(--lift-sm);
+  }
+
+  .menu summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .menu__bars {
+    display: grid;
+    gap: 4px;
+    width: 18px;
+  }
+
+  .menu__bars i {
+    display: block;
+    height: 2.5px;
+    border-radius: 2px;
+    background: currentcolor;
+    transition: transform 0.25s var(--ease-weight);
+  }
+
+  .menu[open] .menu__bars i:first-child {
+    transform: translateY(3.25px) rotate(45deg);
+  }
+
+  .menu[open] .menu__bars i:last-child {
+    transform: translateY(-3.25px) rotate(-45deg);
+  }
+
+  .menu__panel {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: calc(var(--header-h) + 2.5rem) 1.5rem 2rem;
+    background: var(--solar-yellow);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .menu__links {
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .menu__links a {
+    display: block;
+    padding: 0.35rem 0;
+    font-family: var(--font-display);
+    font-size: clamp(2.1rem, 11vw, 3rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .menu__foot {
+    display: grid;
+    gap: 1rem;
+    justify-items: start;
+  }
+
+  /* The panel is already solar yellow, so the current-language chip
+     needs the opposite treatment to stay visible. */
+  .menu__foot :global(.lang-row a[aria-current]) {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  @media (min-width: 900px) {
+    .hdr__nav {
+      display: block;
+    }
+    .hdr__lang,
+    .hdr__cta {
+      display: block;
+    }
+    .menu {
+      display: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    const menu = document.getElementById('site-menu');
+    if (!menu) return;
+    const close = () => menu.removeAttribute('open');
+    menu.addEventListener('toggle', () => {
+      document.documentElement.style.overflow = menu.open ? 'hidden' : '';
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menu.open) {
+        close();
+        menu.querySelector('summary')?.focus();
+      }
+    });
+    menu.addEventListener('click', (e) => {
+      if (e.target instanceof HTMLAnchorElement) close();
+    });
+    const header = menu.closest('.hdr');
+    const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 24);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    // A resize past the desktop breakpoint should not leave the page locked.
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 900 && menu.open) close();
+    });
+  })();
+</script>
+
+<style>
+.studio-return { color:var(--ink);background:var(--paper);border-radius:999px;padding:10px 14px;white-space:nowrap;font:600 13px/1.3 var(--font-body);text-decoration:none }
+.studio-return:hover {text-decoration:underline}
+.studio-return:focus-visible {outline:3px solid var(--ink);outline-offset:3px}
+@media(min-width:900px) and (max-width:1150px){.hdr__nav a{padding-inline:.5rem;font-size:13px}.hdr__inner{gap:.5rem}.hdr__cta{display:none}}
+@media(max-width:400px){.studio-return{padding:10px;font-size:12px}.brand{font-size:21px;gap:6px}.hdr__inner{gap:8px}}
+</style>

@@ -1,0 +1,94 @@
+---
+import '../styles/global.css';
+import LanguageSelector from '../components/LanguageSelector.astro';
+import Header from '../../../components/product/ProductNav.astro';
+import Footer from '../../../components/product/ProductFooter.astro';
+import { useTranslations } from '../i18n/utils';
+
+export interface Props {
+  title: string;
+  description?: string;
+  pathname?: string;
+}
+
+const t = useTranslations((Astro.url.pathname.match(/\/find-later\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+
+const {
+  title,
+  description = t.meta.description,
+  pathname = Astro.url.pathname,
+} = Astro.props;
+
+const canonical = new URL(pathname, Astro.site).toString();
+const base = (import.meta.env.BASE_URL + 'apps/find-later/').endsWith('/')
+  ? (import.meta.env.BASE_URL + 'apps/find-later/')
+  : `${(import.meta.env.BASE_URL + 'apps/find-later/')}/`;
+// Social card must be an absolute URL — scrapers ignore relative paths.
+// Resolves against `site` in astro.config.mjs (still the placeholder
+// domain until the real host is set).
+const socialCard = new URL(`${base}images/social-card.png`, Astro.site).toString();
+const currentLocale = (Astro.url.pathname.match(/\/find-later\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en') || 'en';
+---
+
+<!doctype html>
+<html lang={currentLocale} class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#F3F2F7" media="(prefers-color-scheme: light)" />
+    {/* The user's OS chrome picks the right favicon based on their
+        system theme. Most browsers (Safari, Chrome, Firefox) respect
+        the `media` query on a favicon link. The unscoped fallbacks
+        below ensure browsers that don't still get a usable icon. */}
+    <link rel="icon" type="image/png" sizes="32x32" href={`${base}favicon.png`} media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/png" sizes="32x32" href={`${base}favicon-light.png`} media="(prefers-color-scheme: light)" />
+    <link rel="icon" type="image/png" sizes="32x32" href={`${base}favicon.png`} />
+    <link rel="icon" type="image/png" sizes="192x192" href={`${base}images/icon-192.png`} />
+    <link rel="icon" type="image/png" sizes="512x512" href={`${base}images/icon-512.png`} />
+    <link rel="apple-touch-icon" href={`${base}apple-touch-icon.png`} />
+    <link rel="canonical" href={canonical} />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialCard} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={t.meta.title} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={socialCard} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@10..72,100..1000&amp;display=swap" />
+
+    <title>{title}</title>
+    <script is:inline>
+      if ('history' in window && 'scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+      // Reset scroll position on beforeunload to prevent browser caching scroll position
+      window.addEventListener('beforeunload', () => {
+        window.scrollTo(0, 0);
+      });
+      // Force scroll reset on load states
+      document.addEventListener('DOMContentLoaded', () => {
+        window.scrollTo(0, 0);
+      });
+      window.addEventListener('load', () => {
+        window.scrollTo(0, 0);
+      });
+      document.documentElement.classList.add('js-ready');
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col bg-pouch-ink text-pouch-text">
+    <Header slug="find-later"><LanguageSelector /></Header>
+    <main id="main" class="flex-1 studio-product">
+      <slot />
+    </main>
+    <Footer slug="find-later" />
+    <script src="../scripts/motion.ts"></script>
+  </body>
+</html>

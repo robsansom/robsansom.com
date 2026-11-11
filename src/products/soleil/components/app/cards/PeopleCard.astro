@@ -1,0 +1,80 @@
+---
+/**
+ * Your people: everyone you look after, each with their own skin type and
+ * their own sunscreen clock. Twilight-pale, as in the app (Card.family).
+ */
+import Glyph from '../Glyph.astro';
+import { useTranslations } from '../../../i18n/utils';
+
+export interface Props {
+  lean?: number;
+}
+
+const { lean = 0 } = Astro.props;
+const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const ui = t.appUi.people;
+---
+
+<article class="ui-card ui-card--violet pe" style={`--lean:${lean}deg`}>
+  <header class="ui-head">
+    <span class="ui-sticker"><Glyph name="people" />{ui.label}</span>
+  </header>
+
+  <ul class="pe__list">
+    {
+      ui.list.map((person) => (
+        <li class="pe__person">
+          <p class="pe__name">
+            <span class="ui-title">{person.name}</span>
+            {person.child && <span class="ui-sticker pe__badge">{ui.childBadge}</span>}
+          </p>
+          <p class="ui-meta pe__detail">{person.detail}</p>
+          <Glyph name="chevron" class="pe__chevron" />
+        </li>
+      ))
+    }
+  </ul>
+</article>
+
+<style>
+  .pe__list {
+    margin-top: 0.5em;
+  }
+
+  .pe__person {
+    position: relative;
+    padding: 0.7em 1.6em 0.7em 0;
+    border-top: 1px solid var(--card-rule);
+  }
+
+  .pe__person:first-child {
+    border-top: 0;
+  }
+
+  .pe__name {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+
+  .pe__badge {
+    --st: 0deg;
+    font-size: 0.7em;
+    padding: 0.25em 0.7em;
+  }
+
+  .pe__detail {
+    margin-top: 0.2em;
+    color: var(--ink);
+    white-space: normal;
+  }
+
+  .pe__person :global(.pe__chevron) {
+    position: absolute;
+    right: 0.1em;
+    top: 50%;
+    width: 0.8em;
+    height: 0.8em;
+    transform: translateY(-50%);
+  }
+</style>

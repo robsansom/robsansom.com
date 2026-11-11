@@ -1,0 +1,79 @@
+---
+/**
+ * Previous / next controls for a scroll-snap rail in the same <section>
+ * (wired by scripts/rail.ts through `data-rail-prev` / `data-rail-next`).
+ *
+ * Shown at every width a rail exists. Swiping covers touch, but a narrow
+ * desktop window has a mouse and a hidden scrollbar, and without these
+ * the cards past the first were unreachable.
+ */
+import { useTranslations } from '../../i18n/utils';
+
+export interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const { prev, next } = t.home.toolkit;
+---
+
+<div class={`arrows ${className}`}>
+  <button type="button" class="arrows__btn" data-rail-prev aria-label={prev}>
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 12H5M11 6l-6 6 6 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </button>
+  <button type="button" class="arrows__btn" data-rail-next aria-label={next}>
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </button>
+</div>
+
+<style>
+  .arrows {
+    display: flex;
+    gap: 0.5rem;
+    flex: none;
+  }
+
+  /* 44px on a phone: still a full touch target, quieter beside a headline. */
+  .arrows__btn {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: var(--r-pill);
+    background: var(--ink);
+    color: var(--paper);
+    cursor: pointer;
+    transition: transform 0.3s var(--ease-plop), opacity 0.2s linear;
+  }
+
+  .arrows__btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  @media (hover: hover) {
+    .arrows__btn:hover {
+      transform: scale(1.08);
+    }
+  }
+
+  .arrows__btn[disabled] {
+    opacity: 0.28;
+    cursor: default;
+    transform: none;
+  }
+
+  @media (min-width: 900px) {
+    .arrows__btn {
+      width: 52px;
+      height: 52px;
+    }
+
+    .arrows__btn svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+</style>

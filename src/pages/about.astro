@@ -1,0 +1,16 @@
+---
+import Studio from '../layouts/Studio.astro';
+const base = import.meta.env.BASE_URL;
+---
+<Studio title="About — Rob Sansom" current="about">
+  <section class="text-page">
+    <p class="label">About</p>
+    <h1 class="display">Small ideas, made into useful things</h1>
+    <p>I’m Rob Sansom, a product designer building independent apps. Some help with everyday tasks. Others make room for curiosity and play.</p>
+    <p>If you use one of them, thank you. If something isn’t working, or you have an idea, I’d love to hear from you.</p>
+    <div class="actions">
+      <a class="button" href={base + '#apps'}>See the apps</a>
+      <a class="button button--panel" href="https://robsansom.framer.website/">Rob’s portfolio</a>
+    </div>
+  </section>
+</Studio>

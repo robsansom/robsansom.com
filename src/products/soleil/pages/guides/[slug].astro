@@ -1,0 +1,302 @@
+---
+import { productPath, localizeHtml } from '../../paths';
+/**
+ * One SEO guide page per target search query (English only — the guides
+ * target English search phrases, so they deliberately have no locale
+ * variants). Content lives in src/data/guides/*; this template renders it
+ * with Article + FAQPage + BreadcrumbList JSON-LD.
+ *
+ * Long-form pages stay calm: new typography and colour, no spectacle.
+ */
+import Base from '../../layouts/Base.astro';
+import Cta from '../../components/site/Cta.astro';
+import DeviceFrame from '../../components/art/DeviceFrame.astro';
+import { guides, getGuide } from '../../data/guides';
+
+export function getStaticPaths() {
+  return guides.map((g) => ({ params: { slug: g.slug } }));
+}
+
+const { slug } = Astro.params;
+const guide = getGuide(slug!)!;
+const related = guide.related
+  .map((s) => getGuide(s))
+  .filter((g): g is NonNullable<typeof g> => Boolean(g));
+
+const url = new URL(productPath(`/guides/${guide.slug}`), Astro.site).toString();
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: guide.title,
+    description: guide.metaDescription,
+    url,
+    image: new URL(productPath('/images/social-card.png'), Astro.site).toString(),
+    author: { '@type': 'Organization', name: 'Soleil', url: Astro.site?.toString() },
+    publisher: { '@type': 'Organization', name: 'Soleil', url: Astro.site?.toString() },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: guide.faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL(productPath('/'), Astro.site).toString() },
+      { '@type': 'ListItem', position: 2, name: 'Guides', item: new URL(productPath('/guides/'), Astro.site).toString() },
+      { '@type': 'ListItem', position: 3, name: guide.title, item: url },
+    ],
+  },
+];
+---
+
+<Base
+  title={guide.metaTitle}
+  description={guide.metaDescription}
+  pathname={productPath(`/guides/${guide.slug}`)}
+  jsonLd={jsonLd}
+  ogType="article"
+  localised={false}
+>
+  <article>
+    <section class="scene guide__top" data-tone="solar-pale">
+      <div class="wrap guide__wrap">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href={productPath('/')}>Home</a>
+          <span aria-hidden="true">/</span>
+          <a href={productPath('/guides/')}>Guides</a>
+          <span aria-hidden="true">/</span>
+          <span>{guide.category}</span>
+        </nav>
+        <p class="eyebrow guide__cat">{guide.category}</p>
+        <h1 class="display-lg guide__title">{guide.title}</h1>
+      </div>
+    </section>
+
+    <section class="scene" data-tone="paper">
+      <div class="wrap guide__wrap">
+        <div class="prose">
+          {guide.intro.map((p) => <p class="guide__lede" set:html={localizeHtml(p)} />)}
+
+          {
+            guide.blocks.map((b) => {
+              if (b.type === 'h2') return <h2>{b.text}</h2>;
+              if (b.type === 'h3') return <h3>{b.text}</h3>;
+              if (b.type === 'p') return <p set:html={localizeHtml(b.html)} />;
+              if (b.type === 'callout') return <div class="callout" set:html={localizeHtml(b.html)} />;
+              if (b.type === 'list')
+                return b.ordered ? (
+                  <ol>{b.items.map((i) => <li set:html={localizeHtml(i)} />)}</ol>
+                ) : (
+                  <ul>{b.items.map((i) => <li set:html={localizeHtml(i)} />)}</ul>
+                );
+              if (b.type === 'table')
+                return (
+                  <div class="table-scroll">
+                    <table>
+                      <thead>
+                        <tr>{b.head.map((h) => <th>{h}</th>)}</tr>
+                      </thead>
+                      <tbody>
+                        {b.rows.map((r) => (
+                          <tr>{r.map((c) => <td set:html={localizeHtml(c)} />)}</tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                );
+              return null;
+            })
+          }
+        </div>
+
+        <section class="guide__app">
+          <div>
+            <p class="eyebrow guide__cat">How Soleil helps</p>
+            <h2 class="display-md">{guide.soleil.heading}</h2>
+            {guide.soleil.paragraphs.map((p) => <p class="guide__appBody" set:html={localizeHtml(p)} />)}
+            <div class="guide__appCta"><Cta variant="ink" /></div>
+          </div>
+          <div class="guide__shot">
+            <DeviceFrame
+              src={guide.soleil.screenshot.src}
+              alt={guide.soleil.screenshot.alt}
+              tilt={-3}
+            />
+          </div>
+        </section>
+
+        <section class="guide__faqs">
+          <h2 class="display-md">Related questions</h2>
+          <ul>
+            {
+              guide.faqs.map((f) => (
+                <li>
+                  <h3 class="display-sm">{f.q}</h3>
+                  <p>{f.a}</p>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <p class="guide__disclaimer">
+          Soleil is wellness guidance, not medical advice. For sensitive skin or
+          diagnosed conditions, please follow a dermatologist’s plan.
+        </p>
+
+        {
+          related.length > 0 && (
+            <section class="guide__related">
+              <h2 class="eyebrow guide__cat">Keep reading</h2>
+              <ul>
+                {related.map((r) => (
+                  <li>
+                    <a href={productPath(`/guides/${r.slug}`)}>
+                      <span class="eyebrow guide__cat">{r.category}</span>
+                      <span class="guide__relatedTitle">{r.title}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+      </div>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .guide__top {
+    padding-block: calc(var(--header-h) + clamp(2.5rem, 5vw, 4rem)) clamp(2.5rem, 5vw, 3.5rem);
+  }
+
+  .guide__wrap {
+    max-width: 52rem;
+  }
+
+  .crumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--ink-soft);
+    margin-bottom: 2rem;
+  }
+
+  .guide__cat {
+    color: var(--sunset-deep);
+    margin-bottom: 0.9rem;
+  }
+
+  .guide__title {
+    max-width: 22ch;
+  }
+
+  .guide__lede {
+    font-size: 1.1875rem;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  .guide__app {
+    display: grid;
+    gap: 2rem;
+    align-items: center;
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+    padding: clamp(1.75rem, 3.5vw, 2.75rem);
+    border-radius: var(--r-lg);
+    background: var(--sky-pale);
+  }
+
+  .guide__appBody {
+    margin-top: 1rem;
+    font-size: 1.0313rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+
+  .guide__appCta {
+    margin-top: 1.75rem;
+  }
+
+  .guide__shot {
+    width: min(60%, 220px);
+    justify-self: center;
+  }
+
+  .guide__faqs {
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .guide__faqs ul {
+    display: grid;
+    gap: 1.75rem;
+    margin-top: 1.75rem;
+  }
+
+  .guide__faqs li {
+    padding-top: 1.5rem;
+    border-top: 1px solid rgb(23 18 14 / 0.12);
+  }
+
+  .guide__faqs p {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+
+  .guide__disclaimer {
+    margin-top: 2.5rem;
+    font-size: 0.875rem;
+    line-height: 1.65;
+    color: var(--ink-faint);
+  }
+
+  .guide__related {
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  }
+
+  .guide__related ul {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  }
+
+  .guide__related a {
+    display: block;
+    height: 100%;
+    padding: 1.15rem;
+    border-radius: var(--r-md);
+    background: var(--paper-warm);
+    text-decoration: none;
+    transition: transform 0.35s var(--ease-plop);
+  }
+
+  .guide__related a:hover {
+    transform: translateY(-3px);
+    background: var(--solar-pale);
+  }
+
+  .guide__relatedTitle {
+    display: block;
+    margin-top: 0.5rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  @media (min-width: 800px) {
+    .guide__app {
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    }
+  }
+</style>

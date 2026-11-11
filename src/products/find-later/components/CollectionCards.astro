@@ -1,0 +1,67 @@
+---
+/**
+ * CollectionCards — Stacked animated collection share cards.
+ * Clean rounded cards matching the app's Share Collection preview.
+ */
+import { useTranslations } from '../i18n/utils';
+
+const t = useTranslations((Astro.url.pathname.match(/\/find-later\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+---
+
+<div class="collection-cards-stack-wrapper">
+  <div class="collection-ambient-glow"></div>
+  <div class="collection-cards-stack">
+
+    {/* Card 3 (back) — teal — travel */}
+    <div class="collection-card collection-card--3 reveal-image">
+      <div class="collection-card__body" style="--card-bg: #2D9F6F; --card-bg-dark: #237A55;">
+        <div class="collection-card__icon">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" fill="white"/>
+          </svg>
+        </div>
+        <h3 class="collection-card__title">{t.mockCollectionCards.travel.title}</h3>
+        <p class="collection-card__meta">{t.mockCollectionCards.travel.meta}</p>
+      </div>
+      <div class="collection-card__footer" style="--card-bg-dark: #237A55;">
+        <span class="collection-card__footer-title">{t.mockCollectionCards.travel.title}</span>
+        <span class="collection-card__footer-source">icloud.com</span>
+      </div>
+    </div>
+
+    {/* Card 2 (middle) — blue — home */}
+    <div class="collection-card collection-card--2 reveal-image">
+      <div class="collection-card__body" style="--card-bg: #2196F3; --card-bg-dark: #1565C0;">
+        <div class="collection-card__icon">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+            <path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z" fill="white"/>
+          </svg>
+        </div>
+        <h3 class="collection-card__title">{t.mockCollectionCards.home.title}</h3>
+        <p class="collection-card__meta">{t.mockCollectionCards.home.meta}</p>
+      </div>
+      <div class="collection-card__footer" style="--card-bg-dark: #1565C0;">
+        <span class="collection-card__footer-title">{t.mockCollectionCards.home.title}</span>
+        <span class="collection-card__footer-source">icloud.com</span>
+      </div>
+    </div>
+
+    {/* Card 1 (front) — coral — recipes */}
+    <div class="collection-card collection-card--1 reveal-image">
+      <div class="collection-card__body" style="--card-bg: #E04466; --card-bg-dark: #B8354F;">
+        <div class="collection-card__icon">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+            <path d="M8.1 13.34l2.83-2.83L3.91 3.5a4.008 4.008 0 0 0 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z" fill="white"/>
+          </svg>
+        </div>
+        <h3 class="collection-card__title">{t.mockCollectionCards.recipes.title}</h3>
+        <p class="collection-card__meta">{t.mockCollectionCards.recipes.meta}</p>
+      </div>
+      <div class="collection-card__footer" style="--card-bg-dark: #B8354F;">
+        <span class="collection-card__footer-title">{t.mockCollectionCards.recipes.title}</span>
+        <span class="collection-card__footer-source">icloud.com</span>
+      </div>
+    </div>
+
+  </div>
+</div>

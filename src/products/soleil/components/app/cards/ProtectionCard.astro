@@ -1,0 +1,59 @@
+---
+/**
+ * The protection check: skin type, SPF and cover turned into one thing to
+ * do now. Solar, as in the app (Card.protection), and deliberately quieter
+ * than the live UV reading it follows.
+ */
+import Glyph from '../Glyph.astro';
+import { useTranslations } from '../../../i18n/utils';
+
+export interface Props {
+  lean?: number;
+}
+
+const { lean = 0 } = Astro.props;
+const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const ui = t.appUi.protection;
+const rows = [
+  { label: ui.skinLabel, value: ui.skinValue },
+  { label: ui.spfLabel, value: ui.spfValue },
+  { label: ui.coverLabel, value: ui.coverValue },
+];
+---
+
+<article class="ui-card ui-card--solar pc" style={`--lean:${lean}deg`}>
+  <header class="ui-head">
+    <span class="ui-sticker"><Glyph name="shield" />{ui.label}</span>
+    <span class="ui-sticker ui-sticker--state ui-sticker--deep">{ui.state}</span>
+  </header>
+
+  <h4 class="ui-title pc__title">{ui.title}</h4>
+  <p class="ui-body pc__body">{ui.body}</p>
+
+  <ul class="ui-rows pc__rows">
+    {
+      rows.map((row) => (
+        <li class="ui-row">
+          <span class="ui-row__label">{row.label}</span>
+          <span class="ui-row__value">{row.value}</span>
+        </li>
+      ))
+    }
+  </ul>
+</article>
+
+<style>
+  .pc__title {
+    margin-top: 0.8em;
+  }
+
+  .pc__body {
+    margin-top: 0.35em;
+    color: var(--card-muted);
+  }
+
+  .pc__rows {
+    margin-top: 0.6em;
+    border-top: 1px solid var(--card-rule);
+  }
+</style>

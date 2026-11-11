@@ -1,0 +1,179 @@
+---
+/** Scene 6 — the benefit badges settle around the Soleil mark. The
+ *  copy is laid out and readable before any movement happens; the
+ *  cursor reaction is a garnish on pointer devices only. */
+import SunMark from '../site/SunMark.astro';
+import { useTranslations } from '../../i18n/utils';
+
+const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const { why } = t.home;
+
+/** Two loose columns either side of the copy — placed clear of the
+ *  centre so nothing ever lands on the text. */
+const looks = [
+  { x: 5, y: 6, d: 1, tone: 'cyan', tilt: -5 },
+  { x: 72, y: 4, d: 0.6, tone: 'pink', tilt: 4 },
+  { x: 0, y: 20, d: 0.85, tone: 'solar', tilt: 3 },
+  { x: 78, y: 18, d: 1.15, tone: 'violet', tilt: -4 },
+  { x: 8, y: 34, d: 0.7, tone: 'orange', tilt: 5 },
+  { x: 74, y: 32, d: 1, tone: 'ink', tilt: -3 },
+  { x: 1, y: 48, d: 0.55, tone: 'cyan', tilt: 2 },
+  { x: 79, y: 46, d: 0.9, tone: 'solar', tilt: -5 },
+  { x: 7, y: 62, d: 1.1, tone: 'violet', tilt: 4 },
+  { x: 73, y: 60, d: 0.65, tone: 'cyan', tilt: -2 },
+  { x: 2, y: 76, d: 0.8, tone: 'pink', tilt: -4 },
+  { x: 77, y: 74, d: 1.05, tone: 'orange', tilt: 3 },
+  { x: 9, y: 90, d: 0.6, tone: 'ink', tilt: 5 },
+  { x: 71, y: 88, d: 0.95, tone: 'solar', tilt: -3 },
+];
+
+const badges = why.badges.map((label, i) => ({ label, ...looks[i % looks.length] }));
+---
+
+<section class="scene why" data-tone="solar-pale" id="why">
+  <div class="wrap why__stage">
+    <div class="why__centre">
+      <span class="why__mark"><SunMark size={120} /></span>
+      <p class="eyebrow" data-reveal="up">{why.eyebrow}</p>
+      <h2 class="display-lg why__headline" data-reveal="up">{why.headline}</h2>
+      <p class="lede why__body" data-reveal="up">{why.body}</p>
+      <p class="hand why__note" data-reveal="up">{why.note}</p>
+    </div>
+
+    {/* The pile stage. Plain wrapped flow until the physics takes over,
+        so the chips are readable with no JS and under reduced motion. */}
+    <ul class="why__badges" data-pile>
+      {
+        badges.map((badge) => (
+          <li class="why__badge" data-badge>
+            <span class={`sticker sticker--${badge.tone}`}>{badge.label}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .why {
+    overflow: clip;
+  }
+
+  .why__stage {
+    position: relative;
+  }
+
+  .why__centre {
+    max-width: 40ch;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .why__mark {
+    display: block;
+    width: 120px;
+    margin-inline: auto;
+    margin-bottom: 1.25rem;
+    color: var(--solar-orange);
+  }
+
+  .why__centre .eyebrow {
+    color: var(--sunset-deep);
+    margin-bottom: 0.85rem;
+  }
+
+  .why__headline {
+    max-width: 14ch;
+    margin-inline: auto;
+  }
+
+  .why__body {
+    margin-top: 1.1rem;
+    margin-inline: auto;
+  }
+
+  .why__note {
+    margin-top: 1.35rem;
+    transform: rotate(-1.5deg);
+    color: var(--ink-soft);
+  }
+
+  /* One centred pile under the copy at every width. The two absolute
+     columns were never symmetrical about the text, and the stacked
+     arrangement reads as a deliberate cluster rather than a stray edge. */
+  .why__badge > .sticker {
+    transition: transform 0.28s var(--ease-plop), box-shadow 0.28s var(--ease-weight);
+  }
+
+  /* Lift one chip out of the pile. On the inner span, so it composes with
+     the physics transform the simulation parks on the <li>. */
+  @media (hover: hover) {
+    .why__badge:hover > .sticker {
+      transform: translateY(-7px) scale(1.05);
+      box-shadow: var(--lift-md);
+    }
+  }
+
+  /* Physics states -------------------------------------------------- */
+
+  .why__badges[data-pile-pending] .why__badge {
+    opacity: 0;
+  }
+
+  .why__badges[data-pile-active] {
+    display: block;
+    position: relative;
+  }
+
+  .why__badges[data-pile-active] .why__badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    will-change: transform;
+  }
+
+  /* Once settled the transform is final, so stop hinting the compositor.
+     The transition covers the half-turn that rights any chip which came
+     to rest upside down. */
+  .why__badges[data-pile-settled] .why__badge {
+    will-change: auto;
+    transition: transform 0.45s var(--ease-weight);
+  }
+
+  .why__badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    gap: 0.5rem;
+    max-width: 46rem;
+    margin: 2.25rem auto 0;
+    /* Reserved in CSS rather than measured at runtime: the pile needs
+       more depth than the wrapped rows do, and claiming the space up
+       front means switching to physics shifts nothing on the page. */
+    min-height: clamp(15rem, 22vw, 19rem);
+  }
+
+  .why__badge {
+    transform: rotate(var(--tilt));
+  }
+
+  @media (min-width: 900px) {
+    .why__badges {
+      max-width: 60rem;
+      gap: 0.65rem;
+      margin-top: 3rem;
+    }
+
+    .why__badge > .sticker {
+      font-size: 0.9375rem;
+      padding: 0.62rem 1.15rem;
+    }
+  }
+</style>
+
+<script>
+  import { initPile } from '../../scripts/pile';
+  void initPile();
+</script>

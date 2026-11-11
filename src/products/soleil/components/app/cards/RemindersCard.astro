@@ -1,0 +1,59 @@
+---
+/**
+ * Sunscreen timing, which runs on its own clock: two hours at most, sooner
+ * after water, sweat or towel-drying. Pink, as in the app
+ * (Card.reminders), and kept apart from time outside because reapplying
+ * never resets it.
+ */
+import Glyph from '../Glyph.astro';
+import { useTranslations } from '../../../i18n/utils';
+
+export interface Props {
+  lean?: number;
+}
+
+const { lean = 0 } = Astro.props;
+const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const ui = t.appUi.reminders;
+---
+
+<article class="ui-card ui-card--pink rc" style={`--lean:${lean}deg`}>
+  <header class="ui-head">
+    <span class="ui-sticker"><Glyph name="bell" />{ui.label}</span>
+    <span class="ui-sticker ui-sticker--state ui-sticker--solar">{ui.state}</span>
+  </header>
+
+  <h4 class="ui-title rc__title">{ui.title}</h4>
+  <p class="ui-body rc__body">{ui.body}</p>
+
+  <p class="rc__activity">
+    <Glyph name="drop" />
+    {ui.activity}
+  </p>
+</article>
+
+<style>
+  .rc__title {
+    margin-top: 0.8em;
+  }
+
+  .rc__body {
+    margin-top: 0.35em;
+  }
+
+  .rc__activity {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-top: 0.8em;
+    padding-top: 0.7em;
+    border-top: 1px solid var(--card-rule);
+    font-size: 0.875em;
+    font-weight: 600;
+  }
+
+  .rc__activity :global(svg) {
+    width: 1em;
+    height: 1em;
+  }
+</style>

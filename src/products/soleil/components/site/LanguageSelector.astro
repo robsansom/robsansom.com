@@ -1,0 +1,139 @@
+---
+/** Language switcher. Built from links inside <details> so it works with
+ *  no JavaScript and is keyboard-operable by default. */
+import { languages } from '../../i18n/ui';
+import { getLocalizedPath, useTranslations, toLocale } from '../../i18n/utils';
+
+export interface Props {
+  layout?: 'pill' | 'row';
+}
+
+const { layout = 'pill' } = Astro.props;
+const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const current = toLocale((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const pathname = Astro.url.pathname;
+const entries = Object.entries(languages) as [keyof typeof languages, string][];
+---
+
+{
+  layout === 'row' ? (
+    <ul class="lang-row" aria-label={t.a11y.selectLanguage}>
+      {entries.map(([code, name]) => (
+        <li>
+          <a
+            href={getLocalizedPath(code, pathname)}
+            lang={code}
+            aria-current={code === current ? 'true' : undefined}
+          >
+            {name}
+          </a>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <details class="lang">
+      <summary aria-label={t.a11y.selectLanguage}>
+        <span aria-hidden="true">{current.toUpperCase()}</span>
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </summary>
+      <ul>
+        {entries.map(([code, name]) => (
+          <li>
+            <a
+              href={getLocalizedPath(code, pathname)}
+              lang={code}
+              aria-current={code === current ? 'true' : undefined}
+            >
+              {name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </details>
+  )
+}
+
+<style>
+  .lang {
+    position: relative;
+  }
+
+  .lang summary {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    min-width: 52px;
+    min-height: 44px;
+    padding: 0 0.7rem;
+    border-radius: var(--r-pill);
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    list-style: none;
+    box-shadow: var(--lift-sm);
+  }
+
+  .lang summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .lang summary svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.2s var(--ease-weight);
+  }
+
+  .lang[open] summary svg {
+    transform: rotate(180deg);
+  }
+
+  .lang ul {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 160px;
+    padding: 0.4rem;
+    border-radius: var(--r-md);
+    background: var(--paper);
+    color: var(--ink);
+    box-shadow: var(--lift-md);
+    z-index: 10;
+  }
+
+  .lang a,
+  .lang-row a {
+    display: block;
+    padding: 0.6rem 0.75rem;
+    border-radius: var(--r-xs);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .lang a:hover {
+    background: var(--solar-pale);
+  }
+
+  .lang a[aria-current],
+  .lang-row a[aria-current] {
+    background: var(--solar-yellow);
+  }
+
+  .lang-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .lang-row a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    background: rgb(23 18 14 / 0.06);
+  }
+</style>

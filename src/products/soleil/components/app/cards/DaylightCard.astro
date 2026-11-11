@@ -1,0 +1,63 @@
+---
+/**
+ * Real Sun: Apple Watch's Time in Daylight, hour by hour. The one dark
+ * card in the app (Card.realSun), and the only one with paper type.
+ * Daylight is context, never an allowance.
+ */
+import Glyph from '../Glyph.astro';
+import { useTranslations } from '../../../i18n/utils';
+
+export interface Props {
+  lean?: number;
+  /** Orange instead of twilight — how Your Day's own daylight card sits. */
+  tone?: 'twilight' | 'orange';
+}
+
+const { lean = 0, tone = 'twilight' } = Astro.props;
+const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const ui = t.appUi.daylight;
+
+const bars = [18, 30, 26, 44, 62, 70, 52, 38, 24, 14];
+---
+
+<article class={`ui-card ui-card--${tone} dl`} style={`--lean:${lean}deg`}>
+  <header class="ui-head">
+    <span class="ui-sticker"><Glyph name="watch" />{ui.label}</span>
+    <span class="ui-meta">{ui.source}</span>
+  </header>
+
+  <p class="ui-display dl__value">{ui.value}</p>
+
+  <div class="dl__bars" data-grow>
+    {bars.map((h) => <span style={`--h:${h}%`} />)}
+  </div>
+  <p class="ui-axis">{ui.axis.map((label) => <span>{label}</span>)}</p>
+</article>
+
+<style>
+  .dl__value {
+    margin-top: 0.7em;
+  }
+
+  .dl__bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.3em;
+    height: 3.6em;
+    margin-top: 0.8em;
+  }
+
+  .dl__bars span {
+    flex: 1;
+    height: var(--h);
+    border-radius: 0.35em 0.35em 0.15em 0.15em;
+    background: var(--card-fg);
+    opacity: 0.9;
+  }
+
+  /* The strongest hours, in the colour the UV ramp gives them. */
+  .ui-card--twilight .dl__bars span:nth-child(n + 5):nth-child(-n + 7) {
+    background: var(--solar-orange);
+    opacity: 1;
+  }
+</style>

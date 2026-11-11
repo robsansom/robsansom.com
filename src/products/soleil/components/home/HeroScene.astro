@@ -1,0 +1,150 @@
+---
+import SunPathBackdrop from '../art/SunPathBackdrop.astro';
+import DeviceFrame from '../art/DeviceFrame.astro';
+import PhoneScreen from '../app/PhoneScreen.astro';
+import Cta from '../site/Cta.astro';
+import { useTranslations } from '../../i18n/utils';
+
+const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const { hero } = t.home;
+---
+
+<section class="hero scene" data-tone="solar">
+  <SunPathBackdrop />
+
+  <div class="hero__grid wrap wrap--wide">
+    <div class="hero__copy">
+      <h1 class="display-hero hero__title" data-split>
+        {hero.titleLines.map((line) => <span class="hero__line">{line}</span>)}
+      </h1>
+      <p class="lede hero__body" data-reveal="up">{hero.body}</p>
+      <div class="hero__cta" data-reveal="up"><Cta /></div>
+    </div>
+
+    <div class="hero__object">
+      <p class="hand hero__note" data-reveal="up">
+        <svg viewBox="0 0 90 60" aria-hidden="true" focusable="false">
+          <path d="M84 8C60 2 22 10 10 34" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+          <path d="M8 22l2 14 14-4" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        {hero.note}
+      </p>
+
+      <div class="hero__device" data-reveal="plop">
+        <DeviceFrame tilt={7}>
+          <PhoneScreen />
+        </DeviceFrame>
+      </div>
+    </div>
+  </div>
+
+  <p class="hero__cue eyebrow" aria-hidden="true">{hero.scrollCue}</p>
+</section>
+
+<style>
+  .hero {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding-block: calc(var(--header-h) + 3rem) clamp(3.5rem, 8vw, 6rem);
+    overflow: clip;
+  }
+
+  .hero__grid {
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+    width: min(100% - (2 * var(--gutter)), 1680px);
+  }
+
+  .hero__title {
+    display: grid;
+  }
+
+  .hero__line {
+    display: block;
+  }
+
+  .hero__body {
+    margin-top: clamp(1.4rem, 2.5vw, 2rem);
+    font-weight: 500;
+    max-width: 34ch;
+  }
+
+  .hero__cta {
+    margin-top: clamp(1.4rem, 2.5vw, 2rem);
+  }
+
+  /* The device sits fully inside the frame — cropping it at the viewport
+     edge read as a broken image rather than an intentional crop. */
+  .hero__object {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: min(62vw, 290px);
+    margin-inline: auto;
+  }
+
+  .hero__device {
+    width: 100%;
+  }
+
+  .hero__note {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 20ch;
+    margin-bottom: 0.85rem;
+    transform: rotate(-2.5deg);
+    text-align: left;
+  }
+
+  .hero__note svg {
+    width: 52px;
+    flex: none;
+    order: 2;
+    /* Points down at the device on mobile, across at it on desktop. */
+    transform: rotate(-84deg);
+  }
+
+  .hero__cue {
+    position: absolute;
+    left: 50%;
+    bottom: 1.25rem;
+    transform: translateX(-50%);
+    color: rgb(23 18 14 / 0.55);
+    display: none;
+  }
+
+  @media (min-width: 800px) {
+    .hero__grid {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    }
+
+    .hero__object {
+      width: min(24vw, 290px, 40svh);
+      align-items: flex-start;
+    }
+
+    .hero__note {
+      position: absolute;
+      left: -78%;
+      bottom: 24%;
+      width: 70%;
+      /* On a landscape phone the device column is narrow enough that 70%
+         left the note one word per line. Two lines is the drawing. */
+      min-width: 11.5rem;
+      max-width: none;
+      margin-bottom: 0;
+    }
+
+    .hero__note svg {
+      transform: rotate(8deg);
+    }
+
+    .hero__cue {
+      display: block;
+    }
+  }
+</style>

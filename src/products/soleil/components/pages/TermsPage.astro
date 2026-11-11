@@ -1,0 +1,119 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../site/PageHero.astro';
+import { useTranslations } from '../../i18n/utils';
+
+const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const p = t.termsPage;
+---
+
+<Base title={p.metaTitle} description={p.metaDescription}>
+  <PageHero
+    eyebrow={p.eyebrow}
+    title={p.headline}
+    titleDim={p.headlineDim}
+    meta={p.lastUpdated}
+    intro={p.intro}
+  />
+
+  <section class="scene" data-tone="paper">
+    <div class="wrap legal">
+      <div class="legal__tldr">
+        <h2 class="eyebrow">{p.tldrTitle}</h2>
+        <ul>
+          {p.tldr.map((line) => <li>{line}</li>)}
+        </ul>
+      </div>
+
+      <div class="legal__sections">
+        {
+          p.sections.map((section) => (
+            <section>
+              <h2 class="display-sm">{section.title}</h2>
+              <p>{section.body}</p>
+              {section.bullets && (
+                <ul class="legal__bullets">
+                  {section.bullets.map((b) => <li>{b}</li>)}
+                </ul>
+              )}
+              {section.link && (
+                <p class="legal__link">
+                  <a href={section.link.href} rel="noopener">{section.link.label}</a>
+                </p>
+              )}
+            </section>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal {
+    max-width: 58rem;
+  }
+
+  .legal__tldr {
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border-radius: var(--r-lg);
+    background: var(--solar-pale);
+  }
+
+  .legal__tldr h2 {
+    color: var(--sunset-deep);
+    margin-bottom: 1.1rem;
+  }
+
+  .legal__tldr ul {
+    display: grid;
+    gap: 0.65rem;
+  }
+
+  .legal__tldr li,
+  .legal__bullets li {
+    position: relative;
+    padding-left: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .legal__tldr li::before,
+  .legal__bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--solar-orange);
+  }
+
+  .legal__sections {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3rem);
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .legal__sections p {
+    margin-top: 0.75rem;
+    font-size: 1.0313rem;
+    line-height: 1.7;
+    max-width: 72ch;
+    color: var(--ink-soft);
+  }
+
+  .legal__bullets {
+    display: grid;
+    gap: 0.6rem;
+    margin-top: 1rem;
+    color: var(--ink-soft);
+  }
+
+  .legal__link a {
+    color: var(--sunset-deep);
+    font-weight: 600;
+    text-underline-offset: 4px;
+  }
+</style>

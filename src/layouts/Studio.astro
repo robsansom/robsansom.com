@@ -1,0 +1,63 @@
+---
+import '../styles/studio.css';
+import studioFont from '../styles/instrument.woff2?url';
+import { apps } from '../data/apps';
+const {
+  title = 'Rob Sansom — Apps',
+  description = 'Apps for iPhone, iPad and Apple Watch by Rob Sansom: Find Later, Soleil, Your Jobs and MythCraft.',
+  current = '',
+} = Astro.props;
+const base = import.meta.env.BASE_URL;
+const nav = [
+  ['apps', 'Apps', base + '#apps'],
+  ['about', 'About', base + 'about/'],
+  ['legal', 'Privacy', base + 'legal/'],
+];
+const year = new Date().getFullYear();
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f7f7f7" />
+    <title>{title}</title>
+    <link rel="icon" href={base + 'studio/favicon.svg'} type="image/svg+xml" />
+    <link rel="preload" href={studioFont} as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="wordmark" href={base}>Rob Sansom</a>
+        <nav aria-label="Main navigation">
+          {nav.map(([key, label, href]) => <a class={'nav-' + key} href={href} aria-current={current === key ? 'page' : undefined}>{label}</a>)}
+        </nav>
+        <a class="button" href={base + 'support/'} aria-current={current === 'support' ? 'page' : undefined}>Support</a>
+      </div>
+    </header>
+    <main id="main" class="wrap"><slot /></main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="site-footer__grid">
+          <div class="site-footer__brand">
+            <a class="wordmark" href={base}>Rob Sansom</a>
+            <p>Apps designed and built by Rob Sansom.</p>
+          </div>
+          <nav aria-label="Apps">
+            <h2>Apps</h2>
+            {apps.map(app => <a href={app.href}>{app.name}</a>)}
+          </nav>
+          <nav aria-label="More">
+            <h2>More</h2>
+            <a href={base + 'about/'}>About</a>
+            <a href={base + 'support/'}>Support</a>
+            <a href={base + 'legal/'}>Privacy &amp; terms</a>
+          </nav>
+        </div>
+        <p class="site-footer__legal">© {year} Rob Sansom. Apple, iPhone, iPad and Apple Watch are trademarks of Apple Inc. App Store is a service mark of Apple Inc.</p>
+      </div>
+    </footer>
+  </body>
+</html>

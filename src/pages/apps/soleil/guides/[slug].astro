@@ -1,0 +1,6 @@
+---
+import Page from '../../../../products/soleil/pages/guides/[slug].astro';
+import { guides } from '../../../../products/soleil/data/guides';
+export function getStaticPaths() { return guides.map(g => ({params:{slug:g.slug}})); }
+---
+<Page />

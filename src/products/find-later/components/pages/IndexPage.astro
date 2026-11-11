@@ -1,0 +1,180 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../Hero.astro';
+import Showcase from '../Showcase.astro';
+import TabletShowcase from '../TabletShowcase.astro';
+import SplitHeadline from '../SplitHeadline.astro';
+import BentoGrid from '../BentoGrid.astro';
+import PartOfIphone from '../PartOfIphone.astro';
+import AppStoreBadge from '../AppStoreBadge.astro';
+import { useTranslations } from '../../i18n/utils';
+
+const currentLocale = Astro.url.pathname.match(/\/find-later\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en';
+const t = useTranslations(currentLocale);
+const base = import.meta.env.BASE_URL;
+const ipadImagePrefix = currentLocale === 'en' ? 'ipad' : `ipad/${currentLocale}/ipad-collections`;
+---
+
+<Base
+  title={t.meta.title}
+  description={t.meta.description}
+>
+  <Hero />
+
+  <Showcase
+    eyebrow={t.showcaseQuickSave.eyebrow}
+    headline={t.showcaseQuickSave.headline}
+    headlineAccent={t.showcaseQuickSave.headlineAccent}
+    image="bookmark-cards"
+    alt={t.showcaseQuickSave.imageAlt}
+    body={t.showcaseQuickSave.body}
+    device="right"
+    themeImageMode="dark"
+  />
+
+  {/* New "Cards" showcase. Sits inside the dark stretch (before the
+      theme sentinel flips the page to light) so it keeps the same dark
+      tone as Bookmarks above it, with the device on the opposite side
+      to create visual rhythm. */}
+  <Showcase
+    eyebrow={t.showcaseLibrary.eyebrow}
+    headline={t.showcaseLibrary.headline}
+    headlineAccent={t.showcaseLibrary.headlineAccent}
+    image="card-screens"
+    alt={t.showcaseLibrary.imageAlt}
+    body={t.showcaseLibrary.body}
+    device="left"
+    themeImageMode="dark"
+  />
+
+  {/* Tablet moment. The `#theme-sentinel` sits at the vertical midpoint
+      of the iPad image so the page-wide theme flip and the iPad screen
+      cross-fade land in the same beat. */}
+  <TabletShowcase
+    eyebrow={t.showcaseIpad.eyebrow}
+    headline={t.showcaseIpad.headline}
+    headlineAccent={t.showcaseIpad.headlineAccent}
+    body={t.showcaseIpad.body}
+    imageDark={`${ipadImagePrefix}-dark`}
+    imageLight={`${ipadImagePrefix}-light`}
+    altDark={t.showcaseIpad.imageAltDark}
+    altLight={t.showcaseIpad.imageAltLight}
+  />
+
+  <Showcase
+    eyebrow={t.showcaseCollections.eyebrow}
+    headline={t.showcaseCollections.headline}
+    headlineAccent={t.showcaseCollections.headlineAccent}
+    image="collection-cards"
+    alt={t.showcaseCollections.imageAlt}
+    body={t.showcaseCollections.body}
+    device="right"
+    themeImageMode="light"
+  />
+
+  <SplitHeadline
+    eyebrow={t.splitHeadlinePrivacy.eyebrow}
+    first={t.splitHeadlinePrivacy.first}
+    second={t.splitHeadlinePrivacy.second}
+    body={t.splitHeadlinePrivacy.body}
+  />
+
+  <BentoGrid />
+
+  <PartOfIphone />
+
+  {/* Practical questions, drawn from the support page. */}
+  <section class="find-questions bg-pouch-ink text-pouch-text">
+    <div class="mx-auto max-w-6xl px-6 sm:px-8 lg:px-10 find-questions__grid">
+      <div>
+        <h2 class="display-section">{t.supportPage.faqTitle}</h2>
+        <a class="find-questions__more" href={base + 'apps/find-later/' + (currentLocale === 'en' ? '' : currentLocale + '/') + 'support/'}>{t.footer.support} →</a>
+      </div>
+      <div>
+        {[t.supportPage.faqs[0], t.supportPage.faqs[3], t.supportPage.faqs[4]].map(faq => (
+          <details class="border-theme-soft"><summary>{faq.q}</summary><p class="text-pouch-textSoft">{faq.a}</p></details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* The original site's closing tagline, which lived in its footer. */}
+  <section class="relative bg-pouch-ink text-pouch-text border-t border-theme-soft">
+    <div class="mx-auto max-w-6xl px-6 sm:px-8 lg:px-10 pt-24 sm:pt-32 pb-24 sm:pb-28">
+      <p class="reveal-eyebrow text-[12px] uppercase tracking-[0.24em] text-pouch-textMuted">{t.footer.taglineEyebrow}</p>
+      <h2 class="reveal-lines mt-6 sm:mt-7 display-section text-[clamp(2.25rem,6vw,5rem)] text-balance">
+        <span class="reveal-line"><span><span class="whitespace-nowrap">{t.footer.taglineHeadline}</span> <span class="text-dim whitespace-nowrap">{t.footer.taglineHeadlineDim}</span></span></span>
+      </h2>
+      <div class="reveal reveal-delay-2 mt-12 sm:mt-16 flex flex-wrap items-center gap-x-5 gap-y-3">
+        <AppStoreBadge height={56} />
+        <span class="text-[13px] text-pouch-textMuted">{t.hero.badgeLabel}</span>
+      </div>
+    </div>
+  </section>
+
+
+  {/* Scroll-triggered global theme inversion. Toggles `is-light` on
+      <html> when #theme-sentinel above crosses the viewport midline.
+      Lives inside <Base> so the script is rendered inside <body>. */}
+  <script is:inline>
+    (() => {
+      const root = document.documentElement;
+      root.classList.add('boot');
+
+      const init = () => {
+        const sentinel = document.getElementById('theme-sentinel');
+        if (!sentinel) {
+          root.classList.remove('boot');
+          return;
+        }
+
+        const update = () => {
+          const trigger = window.innerHeight * 0.5;
+          const y = sentinel.getBoundingClientRect().top;
+          root.classList.toggle('is-light', y < trigger);
+
+          const header = document.getElementById('site-header');
+          if (header) {
+            const sampleY = Math.min(header.getBoundingClientRect().bottom + 2, window.innerHeight - 1);
+            const surface = document.elementFromPoint(window.innerWidth / 2, sampleY)?.closest('section, footer');
+            const surfaceIsLight = root.classList.contains('is-light')
+              && surface?.classList.contains('bg-pouch-ink');
+            root.classList.toggle('header-on-light', Boolean(surfaceIsLight));
+            root.classList.toggle('header-on-dark', !surfaceIsLight);
+          }
+        };
+
+        update();
+        // Clear the boot guard on the next frame so subsequent flips animate.
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => root.classList.remove('boot'));
+        });
+
+        window.addEventListener('scroll', update, { passive: true });
+        window.addEventListener('resize', update);
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+</Base>
+
+<style>
+  .find-questions { padding: 24px 0 112px; }
+  .find-questions__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 48px 64px; align-items: start; }
+  .find-questions h2 { font-size: clamp(2.25rem, 5vw, 3.75rem); line-height: 1; margin: 0 0 24px; }
+  .find-questions__more { color: #FA3454; font-weight: 500; }
+  .find-questions__more:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .find-questions details { border-top-width: 1px; border-top-style: solid; }
+  .find-questions details:last-child { border-bottom-width: 1px; border-bottom-style: solid; }
+  .find-questions summary { cursor: pointer; font-size: 19px; font-weight: 500; padding: 22px 40px 22px 0; list-style: none; position: relative; }
+  .find-questions summary::-webkit-details-marker { display: none; }
+  .find-questions summary::after { content: '+'; position: absolute; right: 4px; top: 50%; transform: translateY(-50%); font-size: 24px; font-weight: 300; opacity: .6; transition: transform .2s; }
+  .find-questions details[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+  .find-questions details p { font-size: 16px; line-height: 1.65; max-width: 65ch; margin: 0; padding: 0 0 24px; }
+  @media (max-width: 800px) { .find-questions__grid { grid-template-columns: 1fr; gap: 24px; } .find-questions { padding-bottom: 72px; } }
+</style>

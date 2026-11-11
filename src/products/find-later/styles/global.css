@@ -1,0 +1,1117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    background: #000000;
+  }
+  body {
+    @apply font-sans bg-pouch-ink text-pouch-text;
+    font-feature-settings: 'ss01', 'ss02', 'cv11';
+  }
+  ::selection {
+    background: #FA3454;
+    color: #ffffff;
+  }
+
+  /* Display headlines (Dropset-calibrated weights and metrics) */
+  .display {
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+  }
+  .display-section {
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 0.9;
+  }
+  .display-tighter {
+    font-weight: 700;
+    letter-spacing: -0.032em;
+    line-height: 0.92;
+  }
+  /* On phones the display sizes wrap to several lines; the desktop
+     leading is too tight there, so open it up slightly. */
+  @media (max-width: 639px) {
+    .display {
+      line-height: 1.1;
+    }
+    .display-section {
+      line-height: 1.05;
+    }
+    .display-tighter {
+      line-height: 1.08;
+    }
+  }
+  .text-dim {
+    color: #FA3454;
+  }
+
+  /* Opened up from the .display default (0.95): the two brand lines
+     were sitting too close together. */
+  .hero-headline {
+    line-height: 1.02;
+  }
+
+  @media (max-width: 639px) {
+    .hero-inner {
+      padding-left: 1rem;
+      padding-right: 1rem;
+      padding-top: 4.5rem;
+      padding-bottom: 4.5rem;
+    }
+    .hero-headline {
+      font-size: clamp(4rem, 18.1vw, 4.7rem) !important;
+      line-height: 0.92;
+      letter-spacing: -0.055em;
+    }
+    .hero-actions {
+      margin-top: 3.5rem;
+    }
+    .showcase-headline {
+      font-size: clamp(3rem, 13.8vw, 3.8rem);
+      line-height: 0.88;
+    }
+    .showcase-section-inner {
+      padding-top: 5.5rem;
+      padding-bottom: 5.5rem;
+    }
+  }
+
+  /* Backwards-compat alias: `.theme-light` is no longer needed on sections
+     (the whole page handles its own theme), but if any component still
+     carries the class it should be a no-op rather than create a forced
+     light island. */
+  .theme-light { background-color: inherit; color: inherit; }
+}
+
+/* ============================================================
+   Global theme inversion (unlayered so it wins over Tailwind utilities)
+
+   The whole page has one theme state at a time, stored on <html>:
+     <html>                  → dark (default)
+     <html class="is-light"> → light
+
+   A scroll-tracked sentinel (#theme-sentinel) toggles `is-light` when it
+   crosses the viewport's vertical centre, and every themed surface and
+   text colour cross-fades together (~280ms). This is the
+   "scroll-triggered global theme inversion" pattern used by Linear,
+   Apple's experience pages and most premium product launch sites.
+
+   These rules live OUTSIDE @layer so they take cascade priority over
+   Tailwind's utility-layer colour classes regardless of specificity.
+   ============================================================ */
+
+html, body {
+  transition:
+    background-color 280ms cubic-bezier(0.4, 0.0, 0.2, 1),
+    color 280ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+.bg-pouch-ink,
+.bg-pouch-text,
+.text-pouch-text,
+.text-pouch-textSoft,
+.text-pouch-textMuted,
+.text-pouch-textDim,
+.text-pouch-ink {
+  transition:
+    background-color 280ms cubic-bezier(0.4, 0.0, 0.2, 1),
+    color 280ms cubic-bezier(0.4, 0.0, 0.2, 1),
+    border-color 280ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+:root.is-light body {
+  background-color: #F3F2F7;
+  color: #1A1816;
+}
+/* Page surfaces */
+:root.is-light .bg-pouch-ink { background-color: #F3F2F7; }
+/* Text */
+:root.is-light .text-pouch-text { color: #1A1816; }
+:root.is-light .text-pouch-textSoft { color: #4A4742; }
+:root.is-light .text-pouch-textMuted { color: #6E6862; }
+:root.is-light .text-pouch-textDim { color: #8C857E; }
+/* Buttons that invert (Hero "Download" pill) */
+:root.is-light .bg-pouch-text { background-color: #1A1816; }
+:root.is-light .text-pouch-ink { color: #F3F2F7; }
+/* text-dim (coral) reads on both palettes; no override needed. */
+
+/* Suppress only theme-related transitions during the first paint, so
+   users who land deep in the page (e.g. a hash link) don't see a flash
+   from dark→light. Reveal animations on other elements still run. */
+html.boot,
+html.boot body,
+html.boot .bg-pouch-ink,
+html.boot .bg-pouch-text,
+html.boot .text-pouch-text,
+html.boot .text-pouch-textSoft,
+html.boot .text-pouch-textMuted,
+html.boot .text-pouch-textDim,
+html.boot .text-pouch-ink,
+html.boot .device-theme-mask,
+html.boot .border-theme-soft,
+html.boot .bento-tile,
+html.boot .site-header-chrome {
+  transition-property: none !important;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .grid-noise {
+    background-image:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(250, 52, 84, 0.10), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 30%, rgba(247, 224, 223, 0.06), transparent 70%);
+  }
+
+  .ring-soft {
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+      0 1px 0 rgba(255, 255, 255, 0.03);
+  }
+
+  .glass-card {
+    background: rgba(20, 20, 23, 0.7);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+      0 30px 80px -30px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Scroll-triggered reveals.
+     Initial hidden state only applies once JS has confirmed it can drive the animation
+     (the inline boot script adds .js-ready to <html> immediately on document parse).
+     This guarantees content is visible if JS fails to load. */
+  .js-ready .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 900ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+  .js-ready .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 80ms; }
+  .reveal-delay-2 { transition-delay: 160ms; }
+  .reveal-delay-3 { transition-delay: 240ms; }
+  .reveal-delay-4 { transition-delay: 320ms; }
+  .reveal-delay-5 { transition-delay: 400ms; }
+
+  .reveal-lines .reveal-line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.18em;
+    margin-bottom: -0.14em;
+  }
+  .js-ready .reveal-lines .reveal-line > span {
+    display: inline-block;
+    transform: translateY(110%);
+    transition: transform 1100ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+  }
+  .js-ready .reveal-lines.is-visible .reveal-line > span {
+    transform: translateY(0);
+  }
+  .reveal-lines .reveal-line:nth-child(1) > span { transition-delay: 60ms; }
+  .reveal-lines .reveal-line:nth-child(2) > span { transition-delay: 160ms; }
+  .reveal-lines .reveal-line:nth-child(3) > span { transition-delay: 260ms; }
+  .reveal-lines .reveal-line:nth-child(4) > span { transition-delay: 360ms; }
+
+  .js-ready .reveal-eyebrow {
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .js-ready .reveal-eyebrow.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .js-ready .reveal-image {
+    overflow: visible;
+    opacity: 0;
+    transform: scale(0.97);
+    filter: blur(8px);
+    transition:
+      opacity 1100ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 1100ms cubic-bezier(0.16, 1, 0.3, 1),
+      filter 1100ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: 220ms;
+  }
+  .js-ready .reveal-image.is-visible {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+
+  /* Device mockups with baked-in halftone — clip so dots don't bleed into copy.
+     Assets may be exported @3x (3072px); HTML width/height stay at the 1x
+     layout size (1024×906) while these CSS widths control what actually
+     renders. Sizes are ~10% larger than the original 47.8125rem / 68rem
+     baselines (now 52.625rem / 74.8rem) so devices feel hero-scale on
+     desktop without pushing into copy. Parent slot is overflow-hidden so
+     any clip happens on the outer edge. */
+  .js-ready .reveal-image.showcase-device {
+    overflow: hidden;
+  }
+  .showcase-device {
+    width: min(100%, 52.625rem);
+  }
+  .showcase-device img {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+  }
+  @media (min-width: 768px) {
+    .showcase-device[data-side] {
+      width: 52.625rem;
+      max-width: none;
+    }
+  }
+
+  .js-ready .reveal-line-draw {
+    transform: scaleX(0);
+    transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .js-ready .reveal-line-draw.is-visible {
+    transform: scaleX(1);
+  }
+
+  /* ---- Device theme mask -----------------------------------------------
+     Wraps a device screenshot so it cross-fades when the global theme
+     flips. The dark Bookmarks shot is marked `.show-on-dark` (visible
+     when <html> is dark, invisible when light), the light Collections
+     shot is marked `.show-on-light` (the inverse). Combined with the
+     `.reveal-image` outer wrapper, the image's entrance animation is
+     gated on the theme so the wrong-mode shot is never visible. */
+  .device-theme-mask {
+    transition: opacity 280ms cubic-bezier(0.4, 0.0, 0.2, 1);
+    will-change: opacity;
+  }
+  .device-theme-mask.show-on-dark { opacity: 1; }
+  :root.is-light .device-theme-mask.show-on-dark { opacity: 0; }
+  .device-theme-mask.show-on-light { opacity: 0; }
+  :root.is-light .device-theme-mask.show-on-light { opacity: 1; }
+
+  /* Soft border that cross-fades with theme (used on footer dividers) */
+  .border-theme-soft {
+    border-color: rgba(255, 255, 255, 0.06);
+    transition: border-color 280ms cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+  :root.is-light .border-theme-soft {
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+
+  /* Dual-mode bento tile surface. Default (dark) reads as a quiet glass
+     tile on the dark canvas; in light mode it lifts to a soft white card. */
+  .bento-tile {
+    background-color: rgba(255, 255, 255, 0.04);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition:
+      background-color 280ms cubic-bezier(0.4, 0.0, 0.2, 1),
+      box-shadow 280ms cubic-bezier(0.4, 0.0, 0.2, 1),
+      transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  :root.is-light .bento-tile {
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+  }
+
+  /* "Part of your iPhone" tiles — coral glyph chip + shortcut-action
+     pills, both theme-aware like the bento surface they sit on. */
+  .system-glyph {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    color: #FA3454;
+    background-color: rgba(250, 52, 84, 0.12);
+    box-shadow: inset 0 0 0 1px rgba(250, 52, 84, 0.18);
+    transition: background-color 280ms cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+  :root.is-light .system-glyph {
+    background-color: rgba(250, 52, 84, 0.1);
+  }
+  .system-action-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px 7px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 500;
+    line-height: 1;
+    color: #B6B6BA;
+    background-color: rgba(255, 255, 255, 0.06);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    transition:
+      color 280ms cubic-bezier(0.4, 0.0, 0.2, 1),
+      background-color 280ms cubic-bezier(0.4, 0.0, 0.2, 1),
+      box-shadow 280ms cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+  :root.is-light .system-action-pill {
+    color: #4A4742;
+    background-color: rgba(0, 0, 0, 0.045);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.07);
+  }
+
+  /* Bento card hover lift (applies to both default and accent tiles) */
+  .bento-card {
+    transition:
+      transform 600ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 600ms cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 400ms ease-out;
+  }
+  .bento-card:hover {
+    transform: translateY(-4px);
+  }
+
+  /* Tiny internal cascade inside each bento tile so the visual feels
+     a beat behind the copy when the card enters view. Builds on the
+     parent .reveal entrance state and only runs after the tile is
+     visible. */
+  .js-ready .bento-card .bento-visual {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 700ms cubic-bezier(0.16, 1, 0.3, 1) 220ms,
+      transform 700ms cubic-bezier(0.16, 1, 0.3, 1) 220ms;
+    will-change: transform, opacity;
+  }
+  .js-ready .bento-card.is-visible .bento-visual {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .js-ready .bento-card .bento-visual {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal-eyebrow,
+    .reveal-image,
+    .reveal-line-draw,
+    .device-theme-mask {
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
+      transition: none !important;
+    }
+    .reveal-lines .reveal-line > span {
+      transform: none !important;
+      transition: none !important;
+    }
+    .bento-card { transition: none !important; }
+    .bento-card:hover { transform: none !important; }
+  }
+
+  /* Used by Hero stacked-card icon */
+  .icon-card {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+  }
+
+  .scroll-mask-fade {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  /* ---- Converge headline ---------------------------------------------
+     The single dramatic, hero-sized headline animation on the page.
+     Used by `SplitHeadline.astro` for the Privacy moment.
+
+     Two words slide in from opposite edges of the viewport and meet
+     at their natural inline positions in a single centred line. Once
+     they’ve landed, the supporting paragraph fades in beneath.
+
+     Implementation gotchas:
+       1. .converge-word MUST be `display: inline-block` — CSS
+          transforms are silently ignored on inline elements.
+       2. The outer .converge-statement section MUST clip horizontal
+          overflow, otherwise the -100vw / +100vw starting transforms
+          create a horizontal page scroll on first paint.
+       3. The headline allows wrapping below the `md` breakpoint, so
+          on phones each line slides in from its own side rather than
+          forcing a single very-wide nowrap row.
+       4. Timing budget (after the section reaches `is-visible`):
+            t=0       words start sliding in
+            t=0–800   words fade in to full opacity
+            t=0–1300  transform completes (the "click" together)
+            t=1100    body paragraph begins fading in (small overlap
+                      with the tail of the word slide, so it feels
+                      like it materialises *as* the words settle)
+            t=~1900   body fully resolved.
+  --------------------------------------------------------------------- */
+  .converge-headline {
+    /* Centred, wraps below md, single line on md+. */
+    line-height: 0.95;
+  }
+  @media (min-width: 768px) {
+    .converge-headline {
+      white-space: nowrap;
+    }
+  }
+  .converge-word {
+    /* REQUIRED: inline-block so translateX actually applies. */
+    display: inline-block;
+    will-change: transform, opacity;
+  }
+  .js-ready .converge-word--left {
+    opacity: 0;
+    transform: translateX(-100vw);
+    transition:
+      opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 1300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .js-ready .converge-word--right {
+    opacity: 0;
+    transform: translateX(100vw);
+    transition:
+      opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 1300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .converge-statement.is-visible .converge-word--left,
+  .converge-statement.is-visible .converge-word--right {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Body materialises just as the words settle. Long delay so it
+     reads as a beat *after* the headline lands, not concurrent. */
+  .js-ready .converge-body {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 800ms cubic-bezier(0.22, 1, 0.36, 1) 1100ms,
+      transform 800ms cubic-bezier(0.22, 1, 0.36, 1) 1100ms;
+  }
+  .converge-statement.is-visible .converge-body {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Smaller slide distance on phones — at <768px the words wrap to
+     two lines, so we don't need the full 100vw runway. Shorter
+     distance also keeps the animation snappy at small sizes. */
+  @media (max-width: 767px) {
+    .js-ready .converge-word--left {
+      transform: translateX(-60vw);
+    }
+    .js-ready .converge-word--right {
+      transform: translateX(60vw);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .js-ready .converge-word--left,
+    .js-ready .converge-word--right,
+    .js-ready .converge-body {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+
+  /* ---- Testimonials -------------------------------------------------
+     Dropset-style magazine reviews. No card chrome — just stars, a
+     bold title, body copy, and a quiet date byline. The whole block
+     reads as a clean review column rather than three slabs of glass. */
+  .testimonial {
+    /* Column-level breathing only. No background, no ring. */
+    position: relative;
+  }
+  .testimonial-stars {
+    display: inline-flex;
+    gap: 4px;
+    color: #FA3454;
+  }
+  :root.is-light .testimonial-stars {
+    color: #FA3454;
+  }
+}
+
+/* ============================================================
+   Modern Floating Cards Stack
+   ============================================================ */
+
+.pouch-cards-stack-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pouch-ambient-glow {
+  position: absolute;
+  /* Sizing keeps the blur inside the section's padding, and the mask
+     fades the glow to nothing before its own box edge — so wherever
+     the section's overflow-hidden lands, there's no hard line. */
+  width: 150%;
+  height: 130%;
+  top: -15%;
+  left: -25%;
+  background:
+    radial-gradient(circle at 40% 42%, rgba(250, 52, 84, 0.3) 0%, transparent 55%),
+    radial-gradient(circle at 64% 68%, rgba(255, 255, 255, 0.06) 0%, transparent 58%);
+  filter: blur(60px);
+  -webkit-mask-image: radial-gradient(ellipse 72% 62% at 50% 46%, #000 40%, transparent 78%);
+  mask-image: radial-gradient(ellipse 72% 62% at 50% 46%, #000 40%, transparent 78%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.pouch-cards-stack {
+  position: relative;
+  width: 100%;
+  z-index: 1;
+  perspective: 1200px;
+  height: 440px;
+}
+
+/* Outer layer: stack position + hover fan only. The card chrome lives
+   on .pouch-card-tilt so the pointer-driven 3D rotation carries the
+   whole card (frame, shadow and glare) with it. */
+.pouch-card-item {
+  position: absolute;
+  width: 100%;
+  max-width: 420px;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: center center;
+  transform-style: preserve-3d;
+}
+
+/* Middle layer: idle float so the cards read as alive, not frozen
+   screenshots. Travel and a whisper of rotation are deliberately
+   perceptible; the two cards drift out of phase and in opposite
+   rotational directions so the stack feels loosely suspended. */
+.pouch-card-float {
+  transform-style: preserve-3d;
+  animation: pouchCardFloat 7s ease-in-out infinite;
+}
+.pouch-card-float--alt {
+  animation-name: pouchCardFloatAlt;
+  animation-duration: 8.5s;
+  animation-delay: -3.5s;
+}
+@keyframes pouchCardFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(-0.7deg); }
+}
+@keyframes pouchCardFloatAlt {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-16px) rotate(0.6deg); }
+}
+
+/* Inner layer: the visual card. Pointer tilt is driven by --tilt-x /
+   --tilt-y from motion.ts (lerped in JS, so no CSS transition here). */
+.pouch-card-tilt {
+  position: relative;
+  border-radius: 39px;
+  overflow: hidden;
+  /* Lifted a step above the page ink (#141416 was vanishing into the
+     near-black canvas) plus a brighter rim and deeper shadow so the
+     cards separate from the background instead of dissolving.
+     Translucent surface + backdrop blur: where the front card overlaps
+     the back one, the photo beneath glows through the glass. */
+  background: linear-gradient(160deg, rgba(42, 42, 48, 0.7) 0%, rgba(28, 28, 32, 0.82) 55%, rgba(24, 24, 28, 0.87) 100%);
+  -webkit-backdrop-filter: blur(22px) saturate(1.35);
+  backdrop-filter: blur(22px) saturate(1.35);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.4),
+    0 28px 70px -14px rgba(0, 0, 0, 0.85),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* Opaque-surface fallback for browsers without backdrop-filter, where
+   the translucent gradient would show unblurred content through. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .pouch-card-tilt {
+    background: linear-gradient(160deg, #232329 0%, #1b1b1f 55%, #18181c 100%);
+  }
+}
+
+.pouch-card-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Cursor-tracked specular highlight. Position (--gx/--gy) follows the
+   pointer so the glass reflection finally behaves like a reflection. */
+.pouch-card-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* Resting sheen sells the glass even before the pointer arrives; the
+     default --gx/--gy put the highlight at the card's upper area.
+     Dialled back from 0.45 / 0.16 — it was washing the artwork out. */
+  opacity: 0.3;
+  transition: opacity 450ms ease-out;
+  background: radial-gradient(
+    130% 90% at var(--gx, 50%) var(--gy, 35%),
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.035) 32%,
+    transparent 62%
+  );
+  mix-blend-mode: screen;
+}
+.pouch-cards-stack-wrapper:hover .pouch-card-glare {
+  opacity: 1;
+}
+
+/* The save card itself — HTML/CSS mirror of the app's CardLarge
+   (liquid-glass container, inset cover, title, tag pills, ellipsis)
+   so the type renders crisp instead of as a scaled screenshot. */
+.save-card {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 10px 18px;
+}
+.save-card__cover {
+  display: block;
+  border-radius: 26px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+}
+.save-card__cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.save-card__title {
+  margin: 14px 10px 0;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.96);
+}
+.save-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 16px 10px 0;
+}
+.save-card__tag {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.82);
+  padding: 7px 13px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.save-card__more {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+  margin-left: 4px;
+}
+.save-card__ellipsis {
+  margin-left: auto;
+  display: inline-flex;
+  gap: 3.5px;
+  padding-right: 6px;
+}
+.save-card__ellipsis i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+/* Base staggered stack layout */
+.pouch-card-item--1 {
+  z-index: 1;
+  transform: rotate(-2.5deg) translateY(0) translateX(-10px);
+}
+
+.pouch-card-item--2 {
+  top: 90px;
+  left: 30px;
+  z-index: 2;
+  transform: rotate(3deg) translateY(0) translateX(15px);
+}
+
+/* Hover reveal effect */
+.pouch-cards-stack-wrapper:hover .pouch-card-item--1 {
+  transform: rotate(-1.5deg) translateY(-15px) translateX(-25px) scale(0.99);
+}
+.pouch-cards-stack-wrapper:hover .pouch-card-item--1 .pouch-card-tilt {
+  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.7);
+}
+
+.pouch-cards-stack-wrapper:hover .pouch-card-item--2 {
+  transform: rotate(1.5deg) translateY(25px) translateX(35px) scale(1.025);
+}
+.pouch-cards-stack-wrapper:hover .pouch-card-item--2 .pouch-card-tilt {
+  box-shadow: 0 45px 90px -20px rgba(0, 0, 0, 0.85);
+}
+
+@media (hover: none), (pointer: coarse) {
+  .pouch-cards-stack-wrapper.is-fanned .pouch-card-item--1 {
+    transform: rotate(-4deg) translateY(-10px) translateX(-12px) scale(0.96);
+  }
+  .pouch-cards-stack-wrapper.is-fanned .pouch-card-item--2 {
+    transform: rotate(3deg) translateY(18px) translateX(18px) scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pouch-card-float {
+    animation: none !important;
+  }
+  .pouch-card-tilt {
+    transform: none !important;
+  }
+  .pouch-card-glare {
+    opacity: 0 !important;
+  }
+}
+
+
+/* ============================================================
+   Collection Share Cards Stack
+   ============================================================ */
+
+.collection-cards-stack-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 462px;
+  margin: 0 auto;
+  min-height: 483px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.collection-ambient-glow {
+  position: absolute;
+  width: 160%;
+  height: 160%;
+  top: -30%;
+  left: -30%;
+  background: radial-gradient(circle, rgba(33, 150, 243, 0.12) 0%, rgba(224, 68, 102, 0.08) 50%, transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.85;
+}
+
+.collection-cards-stack {
+  position: relative;
+  width: 100%;
+  z-index: 1;
+  perspective: 1200px;
+  height: 441px;
+}
+
+/* Individual collection card */
+.collection-card {
+  position: absolute;
+  width: 100%;
+  max-width: 357px;
+  border-radius: 22px;
+  overflow: hidden !important;
+  box-shadow:
+    0 20px 50px -12px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition:
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: center center;
+}
+
+.collection-card__body {
+  background: var(--card-bg);
+  padding: 24px 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.collection-card__icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+  opacity: 0.95;
+}
+
+.collection-card__title {
+  font-size: 21px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.collection-card__meta {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 6px;
+  padding-bottom: 18px;
+}
+
+.collection-card__footer {
+  background: var(--card-bg-dark);
+  padding: 12px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.collection-card__footer-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.collection-card__footer-source {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* Base staggered stack layout — 3 cards */
+.collection-card--3 {
+  z-index: 1;
+  transform: rotate(-3deg) translateY(0) translateX(-5px) scale(0.94);
+}
+
+.collection-card--2 {
+  top: 52px;
+  left: 21px;
+  z-index: 2;
+  transform: rotate(2deg) translateY(0) translateX(10px) scale(0.97);
+}
+
+.collection-card--1 {
+  top: 105px;
+  left: 42px;
+  z-index: 3;
+  transform: rotate(3.5deg) translateY(0) translateX(15px);
+}
+
+/* Hover reveal effect — fan out */
+.collection-cards-stack-wrapper:hover .collection-card--3 {
+  transform: rotate(-4deg) translateY(-25px) translateX(-30px) scale(0.93);
+}
+
+.collection-cards-stack-wrapper:hover .collection-card--2 {
+  transform: rotate(0.5deg) translateY(10px) translateX(15px) scale(0.97);
+}
+
+.collection-cards-stack-wrapper:hover .collection-card--1 {
+  transform: rotate(2deg) translateY(35px) translateX(45px) scale(1.02);
+}
+
+@media (hover: none), (pointer: coarse) {
+  .collection-cards-stack-wrapper.is-fanned .collection-card--3 {
+    transform: rotate(-4deg) translateY(-16px) translateX(-18px) scale(0.91);
+  }
+  .collection-cards-stack-wrapper.is-fanned .collection-card--2 {
+    transform: rotate(0.5deg) translateY(6px) translateX(8px) scale(0.94);
+  }
+  .collection-cards-stack-wrapper.is-fanned .collection-card--1 {
+    transform: rotate(2deg) translateY(24px) translateX(20px) scale(0.97);
+  }
+}
+
+@media (max-width: 639px) {
+  .pouch-cards-stack-wrapper {
+    width: calc(100% - 1rem);
+    min-height: 340px;
+    max-width: 340px;
+  }
+  .pouch-cards-stack {
+    height: 315px;
+  }
+  .pouch-card-item {
+    max-width: 300px;
+  }
+  .pouch-card-tilt {
+    border-radius: 28px;
+  }
+  .save-card {
+    padding: 8px 8px 14px;
+  }
+  .save-card__cover {
+    border-radius: 19px;
+  }
+  .save-card__title {
+    margin: 11px 8px 0;
+    font-size: 15.5px;
+  }
+  .save-card__meta {
+    margin: 12px 8px 0;
+  }
+  .save-card__tag {
+    font-size: 11.5px;
+    padding: 6px 11px 7px;
+  }
+  .save-card__more {
+    font-size: 11.5px;
+  }
+  .pouch-card-item--1 {
+    left: 4px;
+  }
+  .pouch-card-item--2 {
+    top: 62px;
+    left: 14px;
+  }
+
+  .collection-cards-stack-wrapper {
+    width: calc(100% - 1.5rem);
+    max-width: 330px;
+    min-height: 350px;
+  }
+  .collection-cards-stack {
+    height: 325px;
+  }
+  .collection-card {
+    max-width: 285px;
+  }
+  .collection-card--2 {
+    top: 42px;
+    left: 10px;
+  }
+  .collection-card--1 {
+    top: 84px;
+    left: 20px;
+  }
+  .collection-card__body {
+    padding: 19px 19px 0;
+  }
+  .collection-card__title {
+    font-size: 17px;
+  }
+  .collection-card__meta {
+    padding-bottom: 14px;
+  }
+  .collection-card__footer {
+    padding: 10px 19px;
+  }
+
+  .card-screens-showcase {
+    width: 100%;
+    overflow: visible;
+  }
+
+  .bento-img--search {
+    width: 76%;
+    right: -8px;
+    bottom: -8px;
+    opacity: 0.84;
+  }
+  .bento-img--lock {
+    width: min(82%, 260px);
+  }
+}
+
+/* ============================================================
+   Cycling Screens Showcase
+   ============================================================ */
+
+.card-screens-showcase {
+  position: relative;
+  width: min(100%, 52.625rem);
+}
+
+/* Sized down a notch for laptop-class viewports so the full device fits
+   on screen comfortably; very wide displays (large externals / 16"+)
+   get the original hero scale back. Mobile is handled below. */
+.card-screen-phone {
+  width: min(68%, 20.5rem);
+  aspect-ratio: 1033 / 2245;
+  border-radius: 10.54% / 4.97%;
+}
+@media (min-width: 1728px) {
+  .card-screen-phone {
+    width: min(68%, 24rem);
+  }
+}
+
+/* Unlike the framed device shots (which deliberately bleed and clip at
+   the column edge), the raw phone must never be cut off. Track the grid
+   column's width at every viewport and let the phone scale inside it —
+   the higher-specificity selector beats `.showcase-device[data-side]`,
+   which would otherwise force the fixed 52.625rem hero width and clip
+   the phone at in-between viewports. */
+@media (min-width: 768px) {
+  .showcase-device.card-screens-showcase[data-side] {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 639px) {
+  .card-screen-phone {
+    width: min(76vw, 19rem);
+  }
+}
+
+.screens-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Base layout for each cycling screen. The crossfade animation itself
+   (name `card-screen-crossfade`, duration and per-screen delay) is set
+   inline by CardScreensShowcase.astro, which generates the keyframe to
+   match the current screen count. */
+.cycling-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  backface-visibility: hidden;
+  will-change: opacity;
+}

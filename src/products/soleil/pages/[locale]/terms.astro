@@ -1,0 +1,9 @@
+---
+import { getLocalePaths } from '../../i18n/utils';
+import TermsPage from '../../components/pages/TermsPage.astro';
+
+export function getStaticPaths() {
+  return getLocalePaths();
+}
+---
+<TermsPage />

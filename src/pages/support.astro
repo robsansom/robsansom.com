@@ -1,0 +1,22 @@
+---
+import Studio from '../layouts/Studio.astro';
+import { apps } from '../data/apps';
+const base = import.meta.env.BASE_URL;
+---
+<Studio title="Support — Rob Sansom" current="support">
+  <section class="text-page">
+    <p class="label">Support</p>
+    <h1 class="display">A little help</h1>
+    <p>Choose your app to find answers to common questions and how to get in touch.</p>
+    <ul class="directory" role="list">
+      {apps.map(app => (
+        <li>
+          <img class="app-icon" src={base + 'studio/' + app.icon} alt="" width="44" height="44" loading="lazy" />
+          <div><h2><a href={app.href}>{app.name}</a></h2><p>{app.tagline}</p></div>
+          <nav aria-label={app.name + ' help'}><a href={app.support}>Get support</a></nav>
+        </li>
+      ))}
+    </ul>
+    <p class="note">Looking for a privacy policy or terms? See <a href={base + 'legal/'}>privacy &amp; terms</a>.</p>
+  </section>
+</Studio>

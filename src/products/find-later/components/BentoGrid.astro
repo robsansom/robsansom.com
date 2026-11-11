@@ -1,0 +1,525 @@
+---
+/**
+ * Feature bento grid.
+ *
+ * Six product moments matching the Figma bento (Pouch / node 490-1687).
+ * Each tile pairs short copy with an image exported straight from the
+ * design file, so the visuals are the real app moments.
+ */
+import { useTranslations } from '../i18n/utils';
+
+const t = useTranslations((Astro.url.pathname.match(/\/find-later\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+
+const base = (import.meta.env.BASE_URL + 'apps/find-later/').endsWith('/')
+  ? (import.meta.env.BASE_URL + 'apps/find-later/')
+  : `${(import.meta.env.BASE_URL + 'apps/find-later/')}/`;
+
+const bentoLayouts = [
+  {
+    span: 'md:col-span-3',
+    key: 'shareExtension' as const,
+    layout: 'visual-top' as const,
+    image: {
+      src: `${base}images/bento-share-sheet.png`,
+      width: 445,
+      height: 297,
+      class: 'bento-img bento-img--share',
+    },
+  },
+  {
+    span: 'md:col-span-3',
+    key: 'collections' as const,
+    layout: 'stacked' as const,
+    mock: 'collections' as const,
+  },
+  {
+    span: 'md:col-span-3',
+    key: 'find' as const,
+    accent: true,
+    largeTitle: true,
+    layout: 'overlay' as const,
+    image: {
+      src: `${base}images/bento-search-glass.png`,
+      width: 460,
+      height: 392,
+      class: 'bento-img bento-img--search',
+    },
+  },
+  {
+    span: 'md:col-span-3',
+    key: 'makeItYours' as const,
+    layout: 'stacked' as const,
+    mock: 'editMenu' as const,
+  },
+  {
+    mobileOrder: 'order-6 md:order-none',
+    span: 'md:col-span-2',
+    key: 'privacy' as const,
+    layout: 'bottom-flush' as const,
+    image: {
+      src: `${base}images/bento-privacy-lock.png`,
+      width: 346,
+      height: 224,
+      class: 'bento-img bento-img--lock',
+    },
+  },
+  {
+    mobileOrder: 'order-5 md:order-none',
+    span: 'md:col-span-4',
+    key: 'export' as const,
+    layout: 'split' as const,
+    mock: 'export' as const,
+  },
+];
+---
+
+<span id="features/" aria-hidden="true"></span>
+<section id="features" class="relative bg-pouch-ink text-pouch-text overflow-hidden">
+  {/* Contained Dropset-style bento container. Sits in a narrower
+      max-width (72rem) than the rest of the page (88rem) so the grid
+      reads as a tight, well-proportioned poster of features rather
+      than sprawling edge-to-edge. */}
+  <div class="mx-auto max-w-6xl px-6 sm:px-8 lg:px-10 pt-24 sm:pt-32 pb-24 sm:pb-32">
+    <p class="reveal-eyebrow text-[12px] uppercase tracking-[0.24em] text-pouch-textMuted">
+      {t.bento.eyebrow}
+    </p>
+
+    <h2 class="mt-6 sm:mt-7 display-section text-[clamp(2.25rem,6vw,5rem)] text-balance max-w-[22ch]">
+      {t.bento.headline}&nbsp;<span class="text-dim">{t.bento.headlineAccent}</span>
+    </h2>
+
+    <p class="reveal reveal-delay-2 mt-6 max-w-xl text-[16px] sm:text-[17px] 2xl:text-[19px] leading-[1.55] text-pouch-textSoft">
+      {t.bento.body}
+    </p>
+
+    <div class="mt-12 sm:mt-14 grid grid-cols-1 md:grid-cols-6 gap-3.5 sm:gap-4">
+      {bentoLayouts.map((item, i) => {
+        const translation = t.bento[item.key];
+        const isSplit = item.layout === 'split';
+        const image = 'image' in item ? item.image : undefined;
+        return (
+          <article
+            class={[
+              'reveal',
+              `reveal-delay-${(i % 4) + 1}`,
+              'bento-card relative rounded-[24px] p-6 sm:p-7 overflow-hidden min-h-[320px] sm:min-h-[360px]',
+              `bento-card--${item.key}`,
+              isSplit
+                ? 'flex flex-col md:flex-row md:items-center md:gap-8 lg:gap-10'
+                : 'flex flex-col',
+              item.accent ? 'bg-pouch-red text-white' : 'bento-tile',
+              item.mobileOrder ?? '',
+              item.span,
+            ].join(' ')}
+          >
+            <div
+              class={[
+                isSplit ? 'order-2 md:order-1 md:flex-1 md:min-w-0' : '',
+                item.layout === 'visual-top' ? 'mt-auto pt-8' : '',
+                item.layout === 'overlay' ? 'relative z-10 max-w-[38ch]' : '',
+              ].join(' ')}
+            >
+              <p
+                class={[
+                  'text-[12px] uppercase tracking-[0.18em]',
+                  item.accent ? 'text-white/75' : 'text-pouch-textMuted',
+                ].join(' ')}
+              >
+                {translation.eyebrow}
+              </p>
+              <h3
+                class={[
+                  'mt-4 font-semibold tracking-tight leading-[1.18]',
+                  isSplit || ('largeTitle' in item && item.largeTitle)
+                    ? 'text-[clamp(1.65rem,3.2vw,2.4rem)] max-w-[18ch]'
+                    : 'text-[clamp(1.25rem,2.2vw,1.55rem)]',
+                  item.accent ? 'text-white' : 'text-pouch-text',
+                ].join(' ')}
+              >
+                {translation.title}
+              </h3>
+              <p
+                class={[
+                  'mt-3 leading-[1.55]',
+                  isSplit ? 'text-[15.5px] sm:text-[16px] max-w-[40ch]' : 'text-[14.5px] max-w-[40ch]',
+                  item.layout === 'visual-top' ? 'text-[15px] max-w-[52ch] text-pretty' : '',
+                  item.accent ? 'text-white/85' : 'text-pouch-textSoft',
+                ].join(' ')}
+              >
+                {translation.body}
+              </p>
+            </div>
+
+            <div
+              class={[
+                'bento-visual',
+                item.layout === 'visual-top' && 'order-first flex justify-center',
+                item.layout === 'stacked' && 'mt-6 sm:mt-7 flex-1 flex items-end justify-center',
+                item.layout === 'overlay' && 'absolute inset-0',
+                item.layout === 'bottom-flush' && 'mt-8 flex-1 flex items-end justify-center -mb-6 sm:-mb-7',
+                item.layout === 'split' && 'order-1 md:order-2 mb-8 md:mb-0 md:flex-1 md:min-w-0 md:flex md:justify-end',
+              ]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              {'mock' in item && item.mock === 'collections' && (
+                <div class="bento-mock bento-mock-collections" role="img" aria-label={translation.alt}>
+                  <div class="bmk-collection bmk-collection--back">
+                    <div class="collection-card__body" style="--card-bg: #2196F3; --card-bg-dark: #1565C0;">
+                      <div class="collection-card__icon">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                          <path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z" fill="white"/>
+                        </svg>
+                      </div>
+                      <h4 class="collection-card__title">{t.mockCollectionCards.home.title}</h4>
+                      <p class="collection-card__meta">{t.mockCollectionCards.home.meta}</p>
+                    </div>
+                    <div class="collection-card__footer" style="--card-bg-dark: #1565C0;">
+                      <span class="collection-card__footer-title">{t.mockCollectionCards.home.title}</span>
+                      <span class="collection-card__footer-source">icloud.com</span>
+                    </div>
+                  </div>
+                  <div class="bmk-collection bmk-collection--front">
+                    <div class="collection-card__body" style="--card-bg: #E04466; --card-bg-dark: #B8354F;">
+                      <div class="collection-card__icon">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                          <path d="M8.1 13.34l2.83-2.83L3.91 3.5a4.008 4.008 0 0 0 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z" fill="white"/>
+                        </svg>
+                      </div>
+                      <h4 class="collection-card__title">{t.mockCollectionCards.recipes.title}</h4>
+                      <p class="collection-card__meta">{t.mockCollectionCards.recipes.meta}</p>
+                    </div>
+                    <div class="collection-card__footer" style="--card-bg-dark: #B8354F;">
+                      <span class="collection-card__footer-title">{t.mockCollectionCards.recipes.title}</span>
+                      <span class="collection-card__footer-source">icloud.com</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {'mock' in item && item.mock === 'editMenu' && (
+                <div class="bento-mock bento-mock-editmenu" role="img" aria-label={translation.alt}>
+                  <ul class="bmk-menu">
+                    <li class="bmk-menu__row">
+                      <span class="bmk-menu__icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FA3454" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="3" y="6" width="15" height="12" rx="2.5" />
+                          <path d="M21 8.5v7" />
+                          <circle cx="7.5" cy="10" r="1.1" fill="#FA3454" stroke="none" />
+                          <path d="M3.5 16l4-3.5 3 2.5 4-3.5 3.5 3" />
+                        </svg>
+                      </span>
+                      <span class="bmk-menu__label">{t.bentoMocks.editMenu.cover}</span>
+                    </li>
+                    <li class="bmk-menu__row">
+                      <span class="bmk-menu__icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FA3454" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M12.6 3.6h6.3a1.5 1.5 0 0 1 1.5 1.5v6.3a1.5 1.5 0 0 1-.44 1.06l-7.8 7.8a1.5 1.5 0 0 1-2.12 0l-6.3-6.3a1.5 1.5 0 0 1 0-2.12l7.8-7.8a1.5 1.5 0 0 1 1.06-.44Z" />
+                          <circle cx="16.2" cy="7.8" r="1.2" fill="#FA3454" stroke="none" />
+                        </svg>
+                      </span>
+                      <span class="bmk-menu__label">{t.bentoMocks.editMenu.tags}</span>
+                    </li>
+                    <li class="bmk-menu__row">
+                      <span class="bmk-menu__icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FA3454" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M5 19l1.2-4.2L16.4 4.6a1.8 1.8 0 0 1 2.55 0l.45.45a1.8 1.8 0 0 1 0 2.55L9.2 17.8 5 19Z" />
+                        </svg>
+                      </span>
+                      <span class="bmk-menu__label">{t.bentoMocks.editMenu.title}</span>
+                    </li>
+                    <li class="bmk-menu__row">
+                      <span class="bmk-menu__icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FA3454" stroke-width="1.9" stroke-linecap="round">
+                          <path d="M4 7h12M4 12h16M4 17h9" />
+                        </svg>
+                      </span>
+                      <span class="bmk-menu__label">{t.bentoMocks.editMenu.description}</span>
+                    </li>
+                  </ul>
+                </div>
+              )}
+              {'mock' in item && item.mock === 'export' && (
+                <div class="bento-mock bento-mock-export" role="img" aria-label={translation.alt}>
+                  <p class="bmk-export__header">{t.bentoMocks.export.title}</p>
+                  <div class="bmk-export__panel">
+                    <div class="bmk-export__row">
+                      <span class="bmk-export__icon">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3A3A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M7.5 9.5H6a2 2 0 0 0-2 2V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.5a2 2 0 0 0-2-2h-1.5" />
+                          <path d="M12 3v11" />
+                          <path d="M8.5 10.5 12 14l3.5-3.5" />
+                        </svg>
+                      </span>
+                      <span class="bmk-export__text">
+                        <strong>{t.bentoMocks.export.importTitle}</strong>
+                        <span>{t.bentoMocks.export.importBody}</span>
+                      </span>
+                    </div>
+                    <div class="bmk-export__divider"></div>
+                    <div class="bmk-export__row">
+                      <span class="bmk-export__icon">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3A3A3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M7.5 9.5H6a2 2 0 0 0-2 2V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.5a2 2 0 0 0-2-2h-1.5" />
+                          <path d="M12 14V3" />
+                          <path d="M8.5 6.5 12 3l3.5 3.5" />
+                        </svg>
+                      </span>
+                      <span class="bmk-export__text">
+                        <strong>{t.bentoMocks.export.exportTitle}</strong>
+                        <span>{t.bentoMocks.export.exportBody}</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {image && (
+                <picture class="contents">
+                  <source srcset={image.src.replace(/\.png$/, '.webp')} type="image/webp" />
+                  <img
+                    src={image.src}
+                    alt={translation.alt}
+                    class={image.class}
+                    width={image.width}
+                    height={image.height}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              )}
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .bento-visual {
+    width: auto;
+  }
+
+  .bento-card--shareExtension,
+  .bento-card--collections {
+    min-height: 300px;
+  }
+
+  @media (min-width: 640px) {
+    .bento-card--shareExtension,
+    .bento-card--collections {
+      min-height: 340px;
+    }
+  }
+
+  .bento-img {
+    height: auto;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .bento-card:hover .bento-img {
+    transform: translateY(-6px);
+  }
+
+  /* Share extension art. Keep the cropped top flush with the tile, but
+     inset the sides slightly so the device has a little breathing room. */
+  .bento-img--share {
+    width: 88%;
+    max-width: none;
+    margin: -1.5rem auto 0;
+    filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.10));
+  }
+  @media (min-width: 640px) {
+    .bento-img--share {
+      margin-top: -1.75rem;
+    }
+  }
+
+  /* Live HTML/CSS recreations of the old bento PNGs (collections stack,
+     edit context menu, import/export card) so the copy inside them
+     localises with the rest of the page. */
+  .bento-mock {
+    transform: scale(var(--mock-scale, 1));
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .bento-card:hover .bento-mock {
+    transform: translateY(-6px) scale(var(--mock-scale, 1));
+  }
+
+  /* Two overlapping collection share cards, reusing the global
+     .collection-card__* inner styles from the showcase stack. */
+  .bento-mock-collections {
+    --mock-scale: 0.91;
+    position: relative;
+    transform-origin: center bottom;
+    width: min(100%, 380px);
+    height: 232px;
+    margin-bottom: 16px;
+  }
+  .bmk-collection {
+    position: absolute;
+    width: 76%;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow:
+      0 16px 34px -16px rgba(0, 0, 0, 0.38),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  .bmk-collection .collection-card__title {
+    font-size: 18px;
+  }
+  .bmk-collection .collection-card__body {
+    padding: 18px 20px 0;
+  }
+  .bmk-collection .collection-card__meta {
+    padding-bottom: 14px;
+  }
+  .bmk-collection .collection-card__footer {
+    padding: 10px 20px;
+  }
+  .bmk-collection--back {
+    top: 0;
+    left: 2%;
+  }
+  .bmk-collection--front {
+    top: 42px;
+    left: 22%;
+    z-index: 2;
+    box-shadow:
+      0 20px 42px -18px rgba(0, 0, 0, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  /* Glass magnifier bleeding off the bottom-right corner of the red
+     search tile, matching the Figma crop. */
+  .bento-img--search {
+    position: absolute;
+    right: -16px;
+    bottom: -16px;
+    width: min(92%, 460px);
+    max-width: none;
+  }
+  .bento-card:hover .bento-img--search {
+    transform: translateY(-6px) scale(1.02);
+  }
+
+  /* Bottom slice of the white context-menu sheet, cropped at the top
+     like the original export. */
+  .bento-mock-editmenu {
+    width: min(88%, 270px);
+    margin-bottom: 24px;
+    background: #ffffff;
+    border-radius: 10px 10px 42px 42px;
+    padding: 12px 27px 40px 27px;
+    box-shadow: 0 18px 42px -20px rgba(0, 0, 0, 0.38);
+  }
+  .bmk-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .bmk-menu__row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 0;
+  }
+  .bmk-menu__icon {
+    flex: none;
+    display: inline-flex;
+    width: 24px;
+    justify-content: center;
+  }
+  .bmk-menu__label {
+    font-size: 15.5px;
+    font-weight: 450;
+    letter-spacing: -0.01em;
+    color: #1d1d1f;
+    white-space: nowrap;
+  }
+
+  /* Lock sits flush against the tile's bottom edge (the export is
+     already cropped at the shackle's keyhole glow). */
+  .bento-img--lock {
+    width: min(100%, 320px);
+  }
+  .bento-card:hover .bento-img--lock {
+    transform: translateY(-4px);
+  }
+
+  /* Red Import & Export settings card. */
+  .bento-mock-export {
+    width: min(100%, 380px);
+    background: #fa3454;
+    border-radius: 26px;
+    padding: 12px;
+    box-shadow: 0 24px 50px -30px rgba(0, 0, 0, 0.5);
+  }
+  .bmk-export__header {
+    margin: 4px 8px 12px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: #ffffff;
+  }
+  .bmk-export__panel {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 18px 16px;
+  }
+  .bmk-export__row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .bmk-export__icon {
+    flex: none;
+    display: inline-flex;
+    width: 30px;
+    justify-content: center;
+    padding-top: 2px;
+  }
+  .bmk-export__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .bmk-export__text strong {
+    font-size: 16.5px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #111113;
+  }
+  .bmk-export__text span {
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: #74747a;
+  }
+  .bmk-export__divider {
+    height: 1px;
+    background: #e8e8ec;
+    margin: 14px 0 14px 44px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bento-img,
+    .bento-card:hover .bento-img {
+      transition: none !important;
+      transform: none !important;
+    }
+    .bento-mock,
+    .bento-card:hover .bento-mock {
+      transition: none !important;
+      transform: scale(var(--mock-scale, 1)) !important;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .bento-mock-collections {
+      --mock-scale: 0.92;
+      height: 220px;
+    }
+    .bmk-collection--front {
+      top: 40px;
+    }
+  }
+</style>

@@ -1,0 +1,107 @@
+/**
+ * Design tokens. Colour roles are fixed on purpose — see DESIGN_SYSTEM.md.
+ * Yellow is the connective tissue, pink is action, cyan is "now",
+ * violet is history/evening/Watch, orange is active sun.
+ */
+
+:root {
+  /* Ink + paper */
+  --ink: #17120e;
+  --ink-soft: #4a3f36;
+  --ink-faint: #6c6055;
+  --paper: #fffdf7;
+  --paper-warm: #fdf6e6;
+
+  /* Solar */
+  --solar-yellow: #ffd84d;
+  --solar-pale: #fff09a;
+  --solar-deep: #f5b820;
+  --solar-orange: #ff9b2f;
+
+  /* Sunset */
+  --sunset-pink: #f43d98;
+  --sunset-deep: #b70f61;
+  --sunset-pale: #ffd9ec;
+
+  /* Sky — live conditions, data, "now" */
+  --sky-cyan: #73e2e5;
+  --sky-mid: #35c9cd;
+  --sky-pale: #dff9f8;
+
+  /* Twilight — history, evening, Apple Watch, Real Sun */
+  --twilight: #6d5bc7;
+  --twilight-deep: #37286f;
+  --twilight-night: #1f1746;
+  --twilight-pale: #d9d1f4;
+
+  --wine: #61213b;
+
+  /* Semantic defaults, overridden per scene by .scene[data-tone] */
+  --scene-bg: var(--paper);
+  --scene-fg: var(--ink);
+  --scene-muted: var(--ink-soft);
+  --scene-rule: rgb(23 18 14 / 0.14);
+
+  /* Type */
+  --font-display: 'Bricolage Grotesque', 'Hiragino Sans', 'Noto Sans JP',
+    system-ui, sans-serif;
+  --font-body: 'Instrument Sans', 'Hiragino Sans', 'Noto Sans JP', system-ui,
+    sans-serif;
+  --font-hand: 'Gochi Hand', 'Bricolage Grotesque', cursive;
+
+  /* Radii — one family, no stray values */
+  --r-xs: 8px;
+  --r-sm: 14px;
+  --r-md: 22px;
+  --r-lg: 34px;
+  --r-scene: clamp(24px, 3.2vw, 48px);
+  --r-pill: 999px;
+
+  /* Spacing rhythm */
+  --gutter: clamp(1.25rem, 4vw, 4.5rem);
+  --scene-pad-y: clamp(4.5rem, 9vw, 9rem);
+  --stack: clamp(1rem, 1.6vw, 1.5rem);
+  --measure: 34ch;
+
+  /* Elevation — printed, not glassy */
+  --lift-sm: 0 2px 0 rgb(23 18 14 / 0.16);
+  --lift-md: 0 14px 30px -18px rgb(23 18 14 / 0.55);
+  --lift-lg: 0 40px 70px -40px rgb(23 18 14 / 0.6);
+
+  /* Motion */
+  --ease-weight: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-plop: cubic-bezier(0.22, 1.4, 0.36, 1);
+
+  --header-h: 68px;
+  --max-w: 1440px;
+}
+
+/* Scene tones. Each sets background + a coherent foreground family so a
+   scene can be re-toned without touching the components inside it. */
+.scene[data-tone='paper'] {
+  --scene-bg: var(--paper);
+}
+.scene[data-tone='solar'] {
+  --scene-bg: var(--solar-yellow);
+  --scene-rule: rgb(23 18 14 / 0.2);
+}
+.scene[data-tone='solar-pale'] {
+  --scene-bg: var(--solar-pale);
+}
+.scene[data-tone='sky'] {
+  --scene-bg: var(--sky-pale);
+}
+.scene[data-tone='sky-deep'] {
+  --scene-bg: var(--sky-cyan);
+}
+.scene[data-tone='pink'] {
+  --scene-bg: var(--sunset-pink);
+  --scene-fg: var(--ink);
+  --scene-muted: rgb(23 18 14 / 0.72);
+}
+.scene[data-tone='twilight'] {
+  --scene-bg: var(--twilight-deep);
+  --scene-fg: #fff;
+  --scene-muted: rgb(255 255 255 / 0.78);
+  --scene-rule: rgb(255 255 255 / 0.24);
+}

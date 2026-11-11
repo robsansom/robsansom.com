@@ -1,0 +1,60 @@
+---
+/**
+ * Converge headline — the single dramatic, hero-sized anchor moment
+ * on the homepage body.
+ *
+ * Behaviour: when the section scrolls into view, the first word slides
+ * in from the left edge of the screen and the second (coral) word
+ * slides in from the right. They meet at their natural inline
+ * positions, reading as one centred line: e.g. "Private, by default."
+ * Once they’ve landed, the supporting strapline materialises beneath.
+ *
+ * Implementation notes (read before re-styling this):
+ *  - This is the ONLY place on the homepage that uses the hero text
+ *    scale (`clamp(2.75rem, 9vw, 7rem)`). Reserved for impact moments.
+ *  - The outer `<section>` is `overflow-hidden` so words sliding in
+ *    from -100vw / +100vw can’t cause a horizontal page scroll.
+ *  - Each `.converge-word` is `display: inline-block` — CSS transforms
+ *    are silently ignored on inline elements, which is what bit the
+ *    previous animation. See `global.css → .converge-word`.
+ *  - On smaller screens the words allow line-wrap and slide a shorter
+ *    distance so the effect still reads without overflow.
+ *  - Triggered by an IntersectionObserver in `scripts/motion.ts` that
+ *    fires `is-visible` once the section is ~30% on screen.
+ *  - Reduced-motion users see the headline fully resolved with no
+ *    transitions (CSS fallback).
+ */
+
+export interface Props {
+  /** Small uppercase label sitting above the headline. */
+  eyebrow?: string;
+  /** First, neutral word/phrase. Enters from the left. */
+  first: string;
+  /** Second, coral-accent word/phrase. Enters from the right. */
+  second: string;
+  /** Supporting paragraph, fades in after the words meet. */
+  body?: string;
+}
+
+const { eyebrow, first, second, body } = Astro.props;
+---
+
+<section class="converge-statement relative bg-pouch-ink text-pouch-text overflow-hidden">
+  <div class="mx-auto max-w-8xl px-6 sm:px-8 lg:px-10 py-32 sm:py-40 lg:py-48 text-center">
+    {eyebrow && (
+      <p class="reveal-eyebrow text-[12px] uppercase tracking-[0.24em] text-pouch-textMuted">
+        {eyebrow}
+      </p>
+    )}
+
+    <h2 class="converge-headline mt-7 sm:mt-9 display text-[clamp(2.75rem,9vw,7rem)]">
+      <span class="converge-word converge-word--left">{first}</span>{' '}<span class="converge-word converge-word--right text-dim">{second}</span>
+    </h2>
+
+    {body && (
+      <p class="converge-body mt-6 sm:mt-8 mx-auto max-w-xl text-[16px] sm:text-[17px] 2xl:text-[19px] leading-[1.55] text-pouch-textSoft">
+        {body}
+      </p>
+    )}
+  </div>
+</section>

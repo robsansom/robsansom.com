@@ -1,0 +1,60 @@
+---
+/** Header for the calm pages: legal, support, guides. Same typography
+ *  and colour as the homepage, none of the spectacle. */
+export interface Props {
+  eyebrow: string;
+  title: string;
+  titleDim?: string;
+  meta?: string;
+  intro?: string;
+  tone?: 'solar-pale' | 'sky' | 'paper';
+}
+
+const { eyebrow, title, titleDim, meta, intro, tone = 'solar-pale' } = Astro.props;
+---
+
+<section class="scene pagehero" data-tone={tone}>
+  <div class="wrap pagehero__inner">
+    <p class="eyebrow pagehero__eyebrow">{eyebrow}</p>
+    <h1 class="display-xl pagehero__title">
+      {title}{titleDim && <> <span class="pagehero__dim">{titleDim}</span></>}
+    </h1>
+    {meta && <p class="pagehero__meta">{meta}</p>}
+    {intro && <p class="lede pagehero__intro">{intro}</p>}
+  </div>
+</section>
+
+<style>
+  .pagehero {
+    padding-block: calc(var(--header-h) + clamp(3rem, 6vw, 5rem)) clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .pagehero__inner {
+    max-width: 62rem;
+  }
+
+  .pagehero__eyebrow {
+    color: var(--sunset-deep);
+    margin-bottom: 1rem;
+  }
+
+  .pagehero__title {
+    max-width: 16ch;
+  }
+
+  .pagehero__dim {
+    color: rgb(23 18 14 / 0.45);
+  }
+
+  .pagehero__meta {
+    margin-top: 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  .pagehero__intro {
+    margin-top: 1.5rem;
+    max-width: 52ch;
+  }
+</style>

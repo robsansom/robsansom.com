@@ -1,0 +1,315 @@
+/**
+ * Shared shell for the hand-built app-UI recreations in
+ * src/components/app/. These are HTML/CSS, not screenshots, so they stay
+ * crisp at any size and translate into all five locales.
+ *
+ * Since the September 2026 re-skin the app is drawn in this site's own
+ * palette and faces, so the recreations are built from the app's own
+ * parts rather than approximations of iOS:
+ *
+ *   - saturated cards on a paper ground, each colour fixed to a feature
+ *     (SunkindDesignTokens.Card in the app);
+ *   - a paper sticker as a card's heading, an ink sticker as a section's
+ *     (SunkindSticker.swift);
+ *   - Bricolage for figures, Instrument Sans for text, Gochi Hand for the
+ *     one handwritten line under a screen title.
+ *
+ * Sizes are the app's point sizes over its 16pt body: 1em here is 16pt
+ * there, so `--ui-size` scales a whole surface and every proportion holds.
+ * A 402pt iPhone screen is 25.125em wide. Keep it in step with the app;
+ * the sample values are plausible, not live.
+ *
+ * `.app-ui` surfaces animate in when revealed; `.app-screen` (the hero's
+ * phone) takes the same styling and is simply there.
+ */
+
+.app-ui,
+.app-screen {
+  --ui-ink: var(--ink);
+  --ui-muted: rgb(23 18 14 / 0.72);
+  --ui-rule: rgb(23 18 14 / 0.14);
+  --ui-ground: var(--paper);
+
+  position: relative;
+  width: 100%;
+  font-size: var(--ui-size, 15px);
+  font-family: var(--font-body);
+  font-weight: 500;
+  color: var(--ui-ink);
+  text-align: left;
+}
+
+/* A slice of an app screen: the paper ground the cards sit on. It is what
+   lets a cyan card read as cyan inside a cyan scene. */
+.ui-screen {
+  /* Concentric corners: the slice's radius is the card's radius plus the
+     gap around it, so the two curves run parallel instead of the card's
+     corner bulging toward the slice's. */
+  --pad: 1em;
+  --inner: 2.125em;
+  display: grid;
+  gap: 0.75em;
+  padding: var(--pad);
+  border-radius: calc(var(--inner) + var(--pad));
+  background: var(--ui-ground);
+  box-shadow:
+    0 0 0 1px rgb(23 18 14 / 0.06),
+    0 1.2em 2.4em -1.4em rgb(23 18 14 / 0.5);
+}
+
+/* Tiles carry the smaller 22pt radius, and they are what sits in the
+   slice's corners when it holds the "Right now" grid. */
+.ui-screen:has(.ui-card--tile) {
+  --inner: 1.375em;
+}
+
+/* Cards --------------------------------------------------------------- */
+
+/* The big saturated card. 34pt radius and a hairline, as in the app. */
+.ui-card {
+  --card: var(--paper-warm);
+  --card-fg: var(--ink);
+  --card-muted: rgb(23 18 14 / 0.72);
+  --card-rule: rgb(23 18 14 / 0.14);
+
+  position: relative;
+  padding: 1em 1.0625em 1.125em;
+  border-radius: 2.125em;
+  background: var(--card);
+  color: var(--card-fg);
+  box-shadow: inset 0 0 0 1px rgb(23 18 14 / 0.14);
+  transform: rotate(var(--lean, 0deg));
+}
+
+/* Smaller surfaces take the 22pt radius. */
+.ui-card--tile {
+  padding: 0.75em 0.8125em 0.875em;
+  border-radius: 1.375em;
+}
+
+/* One colour per feature, fixed — SunkindDesignTokens.Card. */
+.ui-card--cyan { --card: var(--sky-cyan); }
+.ui-card--sky { --card: var(--sky-pale); }
+.ui-card--solar { --card: var(--solar-yellow); }
+.ui-card--pink { --card: var(--sunset-pink); }
+.ui-card--orange { --card: var(--solar-orange); }
+.ui-card--violet { --card: var(--twilight-pale); }
+
+/* Real Sun: the one dark card, and the only one with paper type. */
+.ui-card--twilight {
+  --card: var(--twilight-deep);
+  --card-fg: var(--paper);
+  --card-muted: rgb(255 253 247 / 0.78);
+  --card-rule: rgb(255 253 247 / 0.2);
+}
+
+.ui-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6em;
+}
+
+.ui-meta {
+  font-size: 0.8125em;
+  font-weight: 500;
+  color: var(--card-muted, var(--ui-muted));
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Stickers ------------------------------------------------------------ */
+
+/* A card's heading: paper on the card's colour, tilted like a label. */
+.ui-sticker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.4em 0.85em;
+  border-radius: var(--r-pill);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 0.8125em;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+  white-space: nowrap;
+  transform: rotate(var(--st, -1.5deg));
+}
+
+.ui-sticker svg {
+  width: 0.95em;
+  height: 0.95em;
+  flex: none;
+}
+
+/* A section's heading: ink on the paper ground. */
+.ui-sticker--ink {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* A status pill in a card's other corner. */
+.ui-sticker--state {
+  --st: 1.5deg;
+}
+
+.ui-sticker--solar {
+  background: var(--solar-yellow);
+}
+
+.ui-sticker--deep {
+  background: var(--sunset-deep);
+  color: var(--paper);
+}
+
+/* Type ---------------------------------------------------------------- */
+
+.ui-reading {
+  font-family: var(--font-display);
+  font-size: 4.75em;
+  font-weight: 800;
+  letter-spacing: -0.052em;
+  line-height: 0.82;
+  font-variant-numeric: tabular-nums;
+}
+
+.ui-clock {
+  font-family: var(--font-display);
+  font-size: 4.75em;
+  font-weight: 800;
+  letter-spacing: 0.012em;
+  line-height: 0.9;
+  font-variant-numeric: tabular-nums;
+}
+
+.ui-display {
+  font-family: var(--font-display);
+  font-size: 1.75em;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+}
+
+.ui-title {
+  font-family: var(--font-display);
+  font-size: 1.3125em;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+}
+
+.ui-body {
+  font-size: 0.875em;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.ui-label {
+  font-size: 0.6875em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.ui-hand {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  font-family: var(--font-hand);
+  font-size: 1.0625em;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+}
+
+.ui-hand svg {
+  width: 1em;
+  height: 1em;
+  flex: none;
+}
+
+/* Rows inside a card ------------------------------------------------- */
+
+.ui-rows {
+  display: grid;
+}
+
+.ui-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75em;
+  padding: 0.6em 0;
+  border-top: 1px solid var(--card-rule, var(--ui-rule));
+}
+
+.ui-row:first-child {
+  border-top: 0;
+}
+
+.ui-row__label {
+  font-size: 0.875em;
+  color: var(--card-muted, var(--ui-muted));
+}
+
+.ui-row__value {
+  font-size: 0.9375em;
+  font-weight: 700;
+}
+
+/* The UV curve, drawn once when its scene arrives. The height follows the
+   viewBox rather than being pinned, because forcing it squashed the "now"
+   dot into an ellipse. */
+.ui-curve {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ui-axis {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.4em;
+  margin-top: 0.3em;
+  font-size: 0.6875em;
+  font-weight: 600;
+  color: var(--card-muted, var(--ui-muted));
+  font-variant-numeric: tabular-nums;
+}
+
+/* Every part of a recreated surface arrives in sequence rather than the
+   whole card appearing at once. The running order is assigned in
+   motion.ts so it follows document order across nested groups. */
+.motion-on .app-ui [data-pop] {
+  opacity: 0;
+  transform: translateY(10px) scale(0.972);
+}
+
+.motion-on .app-ui.is-in [data-pop] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.36s linear,
+    transform 0.62s var(--ease-plop);
+  transition-delay: calc(var(--pop, 0) * 1ms);
+}
+
+.motion-on .app-ui [data-draw] {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.motion-on .app-ui.is-in [data-draw] {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1.1s var(--ease-weight) 0.45s;
+}
+
+.motion-on .app-ui [data-grow] {
+  opacity: 0;
+}
+
+.motion-on .app-ui.is-in [data-grow] {
+  opacity: 1;
+  transition: opacity 0.6s linear 0.6s;
+}

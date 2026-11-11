@@ -1,0 +1,172 @@
+---
+import { productPath, localizeHtml } from '../../paths';
+/**
+ * Scene 8a — the five most useful questions, then out to the full set.
+ * English gets the SEO guide answers (each links to its guide); the
+ * other locales get their own translated support answers, so no locale
+ * is left reading English.
+ */
+import { homeFaqs } from '../../data/homeFaq';
+import { useTranslations, toLocale, localePath } from '../../i18n/utils';
+
+const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const locale = toLocale((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const isEnglish = locale === 'en';
+
+const items = isEnglish
+  ? homeFaqs.slice(0, 5).map((f) => ({ q: f.q, a: f.a, guide: f.guide }))
+  : t.supportPage.faqs.slice(0, 5).map((f) => ({ q: f.q, a: f.a, guide: undefined }));
+
+const moreHref = isEnglish ? productPath('/guides') : localePath(locale, '/support');
+---
+
+<section class="scene faq" data-tone="paper" id="faq">
+  <div class="wrap faq__inner">
+    <div class="faq__head">
+      <p class="eyebrow" data-reveal="up">{t.home.faq.eyebrow}</p>
+      <h2 class="display-xl" data-reveal="up">{t.home.faq.headline}</h2>
+    </div>
+
+    <div class="faq__list">
+      {
+        items.map((item) => (
+          <details class="qa">
+            <summary>
+              <span>{item.q}</span>
+              <span class="qa__icon" aria-hidden="true" />
+            </summary>
+            <div class="qa__body">
+              <p>{item.a}</p>
+              {item.guide && (
+                <a class="qa__link" href={productPath(`/guides/${item.guide}`)}>
+                  {t.home.faq.more}
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                </a>
+              )}
+            </div>
+          </details>
+        ))
+      }
+
+      <a class="btn faq__more" href={moreHref}>
+        <span>{t.home.faq.more}</span>
+        <span class="btn__arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 12h15M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq__inner {
+    display: grid;
+    gap: clamp(1.75rem, 3vw, 3rem);
+  }
+
+  .faq__head .eyebrow {
+    color: var(--sunset-deep);
+    margin-bottom: 0.9rem;
+  }
+
+  .faq__head h2 {
+    max-width: 12ch;
+  }
+
+  .faq__list {
+    display: grid;
+    gap: 0.6rem;
+    justify-items: start;
+  }
+
+  .qa {
+    width: 100%;
+    border-radius: var(--r-md);
+    background: var(--sky-pale);
+    transition: background-color 0.2s linear;
+  }
+
+  .qa[open] {
+    background: var(--solar-pale);
+  }
+
+  .qa summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 64px;
+    padding: 1rem 1.25rem;
+    font-size: clamp(1.0625rem, 1.4vw, 1.1875rem);
+    font-weight: 600;
+    line-height: 1.35;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .qa summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .qa__icon {
+    position: relative;
+    flex: none;
+    width: 22px;
+    height: 22px;
+  }
+
+  .qa__icon::before,
+  .qa__icon::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--ink);
+    transform: translateY(-50%);
+    transition: transform 0.3s var(--ease-plop);
+  }
+
+  .qa__icon::after {
+    transform: translateY(-50%) rotate(90deg);
+  }
+
+  .qa[open] .qa__icon::after {
+    transform: translateY(-50%) rotate(0deg);
+  }
+
+  .qa__body {
+    padding: 0 1.25rem 1.35rem;
+    font-size: 1.0313rem;
+    line-height: 1.6;
+    max-width: 68ch;
+    color: var(--ink-soft);
+  }
+
+  .qa__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 44px;
+    margin-top: 0.5rem;
+    font-weight: 700;
+    color: var(--sunset-deep);
+    text-underline-offset: 4px;
+  }
+
+  .qa__link svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .faq__more {
+    margin-top: 0.75rem;
+  }
+
+  @media (min-width: 900px) {
+    .faq__inner {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      align-items: start;
+    }
+  }
+</style>

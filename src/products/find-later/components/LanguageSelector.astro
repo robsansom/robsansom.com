@@ -1,0 +1,38 @@
+---
+import { languages } from '../i18n/ui';
+import { getLocalizedPath, useTranslations } from '../i18n/utils';
+
+const { pathname } = Astro.url;
+const currentLocale = (Astro.url.pathname.match(/\/find-later\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en') || 'en';
+const t = useTranslations(currentLocale);
+---
+
+<div class="relative inline-flex items-center group">
+  <span class="text-pouch-textMuted select-none pointer-events-none mr-1.5" aria-hidden="true">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="opacity-60 group-hover:opacity-100 transition-opacity">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="2" y1="12" x2="22" y2="12" />
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+    </svg>
+  </span>
+  <select
+    aria-label={t.a11y.selectLanguage}
+    class="appearance-none bg-transparent text-pouch-textSoft font-medium text-[13.5px] pl-0 pr-4 py-1.5 focus:outline-none cursor-pointer hover:text-pouch-red transition-colors"
+    onchange="window.location.href = this.value"
+  >
+    {Object.entries(languages).map(([code, label]) => (
+      <option
+        value={getLocalizedPath(code, pathname)}
+        selected={code === currentLocale}
+        class="bg-pouch-ink text-pouch-text font-sans"
+      >
+        {label}
+      </option>
+    ))}
+  </select>
+  <span class="absolute right-0 text-pouch-textMuted select-none pointer-events-none" aria-hidden="true">
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="opacity-60 group-hover:opacity-100 transition-opacity">
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
+  </span>
+</div>

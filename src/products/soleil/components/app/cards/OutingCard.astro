@@ -1,0 +1,52 @@
+---
+/**
+ * The Sun timer's live outing. Orange, as in the app (Card.sessions).
+ *
+ * The clock is time already spent outside. It is never a countdown toward
+ * a limit, it says so on the card, and reapplying sunscreen does not
+ * reset it.
+ */
+import Glyph from '../Glyph.astro';
+import { useTranslations } from '../../../i18n/utils';
+
+export interface Props {
+  lean?: number;
+}
+
+const { lean = 0 } = Astro.props;
+const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const ui = t.appUi.outing;
+---
+
+<article class="ui-card ui-card--orange oc" style={`--lean:${lean}deg`}>
+  <header class="ui-head">
+    <span class="ui-sticker"><Glyph name="timer" />{ui.label}</span>
+    <span class="ui-meta">{t.appUi.uvNow.location}</span>
+  </header>
+
+  <p class="ui-label oc__for">{ui.outsideFor}</p>
+  <p class="ui-clock oc__clock">{ui.elapsed}</p>
+  <p class="oc__uv">{ui.uvLine}</p>
+  <p class="ui-meta oc__note">{ui.footnote}</p>
+</article>
+
+<style>
+  .oc__for {
+    margin-top: 1em;
+  }
+
+  .oc__clock {
+    margin-top: 0.12em;
+  }
+
+  .oc__uv {
+    margin-top: 0.55em;
+    font-size: 1em;
+    font-weight: 700;
+  }
+
+  .oc__note {
+    margin-top: 0.35em;
+    white-space: normal;
+  }
+</style>

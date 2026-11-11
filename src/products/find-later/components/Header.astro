@@ -1,0 +1,159 @@
+---
+import { site } from '../config/site';
+import { getRelativeLocaleUrl } from '../i18n/utils';
+import { getLocalizedHashPath, useTranslations } from '../i18n/utils';
+import LanguageSelector from './LanguageSelector.astro';
+
+const currentLocale = (Astro.url.pathname.match(/\/find-later\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en') || 'en';
+const t = useTranslations(currentLocale);
+
+const base = (import.meta.env.BASE_URL + 'apps/find-later/').endsWith('/')
+  ? (import.meta.env.BASE_URL + 'apps/find-later/')
+  : `${(import.meta.env.BASE_URL + 'apps/find-later/')}/`;
+const isExternalAppStoreUrl = site.appStoreUrl.startsWith('http');
+const featuresHref = getLocalizedHashPath(currentLocale, '/', 'features');
+---
+
+<header
+  id="site-header"
+  class="fixed top-0 inset-x-0 z-50 backdrop-blur-xl site-header-chrome"
+>
+  <div class="mx-auto max-w-8xl px-6 sm:px-8 lg:px-10 h-14 flex items-center justify-between">
+    <a class="studio-return" href={import.meta.env.BASE_URL} aria-label="Rob Sansom — all apps">All apps</a>
+    <a href={getRelativeLocaleUrl(currentLocale, '/')} class="flex items-center gap-2.5 group" aria-label={t.a11y.homeLink}>
+      {/* Dark + light app icons stacked. Both render at the same spot;
+          the theme-aware mask fades the wrong one out as <html> flips. */}
+      <span class="header-icon relative inline-block w-[30px] h-[30px]">
+        <img
+          src={`${base}images/icon-192.png`}
+          alt=""
+          width="30"
+          height="30"
+          class="header-icon-img show-on-dark absolute inset-0 w-[30px] h-[30px] rounded-[7px]"
+        />
+        <img
+          src={`${base}images/icon-192-light.png`}
+          alt=""
+          width="30"
+          height="30"
+          class="header-icon-img show-on-light absolute inset-0 w-[30px] h-[30px] rounded-[7px]"
+          aria-hidden="true"
+        />
+      </span>
+      <span class="header-wordmark text-[17px] font-semibold tracking-[-0.015em] text-pouch-text group-hover:text-pouch-red transition-colors">
+        Find Later
+      </span>
+    </a>
+    <nav class="flex items-center gap-1.5 text-[13.5px]">
+      <a href={featuresHref} class="header-link hidden sm:inline-flex px-3 py-2 text-pouch-textSoft hover:text-pouch-text">{t.header.features}</a>
+      <a href={getRelativeLocaleUrl(currentLocale, '/support')} class="header-link hidden md:inline-flex px-3 py-2 text-pouch-textSoft hover:text-pouch-text">{t.header.support}</a>
+      <span class="inline-flex mr-1 sm:mr-2">
+        <LanguageSelector />
+      </span>
+      {isExternalAppStoreUrl ? (
+        <a
+          href={site.appStoreUrl}
+          target="_blank"
+          rel="noopener"
+          class="header-cta ml-1 inline-flex items-center gap-1.5 rounded-full bg-pouch-card ring-1 ring-white/10 px-4 py-2 text-[13.5px] font-medium text-white hover:bg-pouch-cardHover transition-colors"
+        >
+          {t.header.download}
+        </a>
+      ) : (
+        <span
+          class="header-cta header-cta--soon ml-1 inline-flex items-center gap-1.5 rounded-full bg-pouch-card ring-1 ring-white/10 px-4 py-2 text-[13.5px] font-medium text-pouch-textSoft cursor-default select-none"
+        >
+          <span class="header-cta__dot" aria-hidden="true"></span>
+          {t.cta.comingSoonShort}
+        </span>
+      )}
+    </nav>
+  </div>
+</header>
+
+<div aria-hidden="true" class="h-14"></div>
+
+<style is:global>
+  /* Header chrome cross-fades with the global theme (the same way every
+     other themed surface does). The blurred bar reads as the same surface
+     as the page beneath it in both modes. */
+  .site-header-chrome {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    transition:
+      background-color 280ms cubic-bezier(0.4, 0.0, 0.2, 1),
+      border-bottom-color 280ms cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+  :root.is-light .site-header-chrome,
+  :root.header-on-light .site-header-chrome {
+    background-color: rgba(243, 242, 247, 0.7);
+    border-bottom-color: rgba(0, 0, 0, 0.06);
+  }
+  :root.header-on-dark .site-header-chrome {
+    background-color: rgba(0, 0, 0, 0.72);
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+  }
+  :root.header-on-light .header-wordmark,
+  :root.header-on-light .header-link {
+    color: #1A1816;
+  }
+  :root.header-on-dark .header-wordmark {
+    color: #F8F7FA;
+  }
+  :root.header-on-dark .header-link {
+    color: #C8C5CC;
+  }
+
+  /* The CTA pill floats over both dark and light sections, so it tracks
+     the same `header-on-light` signal as the wordmark and nav links
+     instead of staying permanently dark. Covers both states: the live
+     "Download" link and the non-clickable "Coming soon" span. */
+  .header-cta {
+    transition:
+      background-color 280ms cubic-bezier(0.4, 0.0, 0.2, 1),
+      box-shadow 280ms cubic-bezier(0.4, 0.0, 0.2, 1),
+      color 280ms cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+  :root.header-on-light .header-cta {
+    background-color: rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+    color: #1A1816;
+  }
+  :root.header-on-light a.header-cta:hover {
+    background-color: rgba(0, 0, 0, 0.09);
+  }
+
+  /* Theme-aware app icon crossfade in the header. Both icons sit in the
+     same absolute box; only one is visible per theme. The transition
+     duration matches the rest of the global theme flip so the icon
+     swap feels like part of the same gesture. */
+  .header-icon-img {
+    transition: opacity 280ms cubic-bezier(0.4, 0.0, 0.2, 1);
+    will-change: opacity;
+  }
+  .header-icon-img.show-on-dark { opacity: 1; }
+  .header-icon-img.show-on-light { opacity: 0; }
+  :root.is-light .header-icon-img.show-on-dark,
+  :root.header-on-light .header-icon-img.show-on-dark { opacity: 0; }
+  :root.is-light .header-icon-img.show-on-light,
+  :root.header-on-light .header-icon-img.show-on-light { opacity: 1; }
+  :root.header-on-dark .header-icon-img.show-on-dark { opacity: 1; }
+  :root.header-on-dark .header-icon-img.show-on-light { opacity: 0; }
+
+  /* Suppress the icon swap during the boot guard so a deep-link to a
+     light section doesn't visibly flip the icon on first paint. */
+  html.boot .header-icon-img { transition: none !important; }
+
+  /* Non-clickable "Coming soon" pill in the nav (shown until the App
+     Store URL is live). The pill keeps its dark `bg-pouch-card` surface
+     in both themes (like the live download pill did), so the label
+     stays light for contrast; the coral status dot ties it to brand. */
+  .header-cta__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #FA3454;
+  }
+</style>
+
+<style> .studio-return { font: 500 13px/1.2 system-ui,sans-serif; color: inherit; opacity:.8; margin-right:16px; padding:12px 0; white-space:nowrap; border-bottom:1px solid currentColor; } .studio-return:hover {opacity:1;} .studio-return:focus-visible{outline:2px solid #8f86ff;outline-offset:4px;} #site-header nav {margin-left:auto;} @media(max-width:480px){.header-wordmark{display:none}.studio-return{font-size:12px;margin-right:12px;} #site-header>div{padding-inline:16px;} } </style>

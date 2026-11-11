@@ -1,0 +1,70 @@
+---
+import { apps } from '../../data/apps';
+const { slug } = Astro.props;
+const app = apps.find(a => a.slug === slug)!;
+const base = import.meta.env.BASE_URL;
+const locale = Astro.url.pathname.match(new RegExp('/' + slug + '/(fr|es|de|ja)(?:/|$)'))?.[1];
+const home = app.href + (locale ? locale + '/' : '');
+---
+<footer class="product-footer">
+  <div class="product-footer__inner">
+    <div class="product-footer__help">
+      <div class="product-footer__app">
+        <img src={base + 'studio/' + app.icon} alt="" width="48" height="48" loading="lazy" />
+        <div><p>{app.name}</p><span>Questions, privacy and the details.</span></div>
+      </div>
+      <nav aria-label={app.name + ' help and policies'}>
+        <a href={home + 'support/'}>Support</a>
+        <a href={home + 'privacy/'}>Privacy policy</a>
+        {app.terms && <a href={home + 'terms/'}>Terms of use</a>}
+      </nav>
+    </div>
+    <div class="product-footer__more">
+      <p>More from Rob Sansom</p>
+      <nav aria-label="More apps">
+        {apps.filter(a => a.slug !== slug).map(a => (
+          <a href={a.href}>
+            <img src={base + 'studio/' + a.icon} alt="" width="44" height="44" loading="lazy" />
+            <span><strong>{a.name}</strong><span>{a.tagline}</span></span>
+          </a>
+        ))}
+      </nav>
+    </div>
+    <div class="product-footer__credit">
+      <a href={base}>← All apps</a>
+      <span>Independent apps by Rob Sansom.</span>
+      <a href={base + 'legal/'}>All app policies</a>
+    </div>
+    <p class="product-footer__trademarks">Apple, iPhone, iPad and Apple Watch are trademarks of Apple Inc. App Store is a service mark of Apple Inc.</p>
+  </div>
+</footer>
+<style is:global>
+.product-footer{background:#f7f7f7;color:#111;-webkit-font-smoothing:antialiased;font:500 15px/1.5 'Studio Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding:56px clamp(16px,4vw,48px) 36px;border-top:1px solid #e6e8eb;text-align:left}
+.product-footer *{box-sizing:border-box}
+.product-footer a{color:inherit;text-decoration:none;font:inherit;letter-spacing:0}
+.product-footer p{margin:0;font:600 17px/1.2 'Studio Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;letter-spacing:-.17px;text-transform:none;color:#111}
+.product-footer img{display:block;border-radius:23%;box-shadow:0 0 0 1px rgba(0,0,0,.06);flex:none}
+.product-footer__inner{max-width:1320px;margin:auto}
+.product-footer__help{display:flex;justify-content:space-between;align-items:center;gap:20px 32px;flex-wrap:wrap;padding-bottom:36px}
+.product-footer__app{display:flex;align-items:center;gap:14px}
+.product-footer__app img{width:48px;height:48px}
+.product-footer__app span{color:#63686e}
+.product-footer__help nav{display:flex;gap:8px;flex-wrap:wrap}
+.product-footer__help nav a{padding:8px 16px;border-radius:999px;background:#f0f2f5;font-weight:600;font-size:14px;transition:background .15s,color .15s}
+.product-footer__help nav a:hover{background:#111;color:#fff}
+.product-footer__more{padding-block:32px;border-block:1px solid #e6e8eb}
+.product-footer__more>p{display:inline-flex;padding:5px 12px;border-radius:999px;background:#ddddf7;color:#2b2a78!important;font-size:14px!important;font-weight:600!important}
+.product-footer__more>nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px;margin-top:16px}
+.product-footer__more a{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:16px;background:#f0f2f5;transition:background .2s}
+.product-footer__more a:hover{background:#e8ebef}
+.product-footer__more a img{width:44px;height:44px}
+.product-footer__more a>span{min-width:0}
+.product-footer__more strong{display:block;font-weight:600;font-size:17px;letter-spacing:-.17px}
+.product-footer__more a>span>span{display:block;color:#63686e;font-size:15px;line-height:1.4}
+.product-footer__credit{display:flex;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;margin-top:24px;color:#63686e;font-size:14px}
+.product-footer__credit a{font-weight:600;color:#111}
+.product-footer__credit a:hover{text-decoration:underline;text-underline-offset:3px}
+.product-footer__trademarks{font:400 12px/1.5 'Studio Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;color:#8e949a!important;margin-top:16px!important}
+.product-footer a:focus-visible{outline:2px solid #111;outline-offset:3px;border-radius:8px}
+@media(max-width:600px){.product-footer{padding-top:40px}.product-footer__credit{flex-direction:column}}
+</style>

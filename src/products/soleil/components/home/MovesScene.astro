@@ -1,0 +1,206 @@
+---
+import { productPath, localizeHtml } from '../../paths';
+/** Scene 3 — four crooked process cards. One designed cluster on
+ *  desktop, a peeking snap strip on mobile. */
+import RailArrows from '../site/RailArrows.astro';
+import { useTranslations } from '../../i18n/utils';
+
+const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const { moves } = t.home;
+
+/** Commissioned ink drawings, one per move. Derived to WebP by
+ *  `npm run illustrations` — the 1800px masters stay in assets/. */
+const looks = [
+  { tone: 'cyan', art: 'soleil-step-check-sky', tilt: -3.5 },
+  { tone: 'solar', art: 'soleil-step-choose-cover', tilt: 2.5 },
+  { tone: 'pink', art: 'soleil-step-start-day', tilt: -2 },
+  { tone: 'violet', art: 'soleil-step-real-sun', tilt: 4 },
+];
+---
+
+<section class="scene moves" data-tone="paper" id="how">
+  <div class="moves__panel scene--panel">
+    <div class="wrap moves__head">
+      <p class="eyebrow" data-reveal="up">{moves.eyebrow}</p>
+      <h2 class="display-xl" data-reveal="up">{moves.headline}</h2>
+      {/* Only while the cards are a strip (below 900px). */}
+      <RailArrows class="moves__arrows" />
+    </div>
+
+    <ol class="moves__cluster" data-rail tabindex="0" aria-label={moves.headline}>
+      {
+        moves.steps.map((step, i) => (
+          <li
+            class="mcard"
+            data-rail-item
+            data-tone={looks[i].tone}
+            style={`--tilt:${looks[i].tilt}deg; --i:${i}`}
+            data-reveal="plop"
+          >
+            <span class="mcard__num" aria-hidden="true">{i + 1}</span>
+            <img
+              class="mcard__art"
+              src={productPath(`/images/illustrations/${looks[i].art}.webp`)}
+              alt=""
+              width="600"
+              height="600"
+              loading="lazy"
+              decoding="async"
+            />
+            <h3 class="display-sm mcard__title">{step.title}</h3>
+            <p class="mcard__body">{step.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .moves {
+    padding-block: clamp(2rem, 4vw, 3rem);
+  }
+
+  .moves__panel {
+    background: var(--sunset-pale);
+    border-radius: var(--r-scene);
+    padding-block: var(--scene-pad-y);
+    overflow: clip;
+  }
+
+  .moves__head {
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .moves__head .eyebrow {
+    color: var(--sunset-deep);
+    margin-bottom: 0.9rem;
+  }
+
+  .moves__head h2 {
+    max-width: 14ch;
+  }
+
+  /* Room for the headline's descenders: at 0.86 leading the "y" of "day"
+     hangs into this gap, so 1.25rem read as touching. Matches the toolkit. */
+  .moves__head :global(.moves__arrows) {
+    margin-top: 1.75rem;
+  }
+
+  .moves__cluster {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-inline: var(--gutter);
+    padding-block: 1rem 2rem;
+  }
+
+  .moves__cluster::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mcard {
+    scroll-snap-align: center;
+    flex: none;
+    width: min(72vw, 300px);
+    padding: 1.4rem 1.4rem 1.8rem;
+    border-radius: var(--r-lg);
+    background: var(--card-bg);
+    color: var(--ink);
+    box-shadow: var(--lift-md);
+    transform: rotate(var(--tilt));
+    transition:
+      transform 0.55s var(--ease-plop),
+      box-shadow 0.45s var(--ease-weight);
+  }
+
+  @media (hover: hover) {
+    .mcard:hover,
+    .mcard:focus-within {
+      transform: translateY(-9px) rotate(calc(var(--tilt) * -0.75)) scale(1.015);
+      box-shadow: var(--lift-lg);
+      /* Deliberately no z-index change: the cluster keeps its designed
+         overlap and the card simply lifts within it. Reordering on hover
+         made the stack rearrange itself under the cursor. */
+    }
+  }
+
+  .mcard[data-tone='cyan'] {
+    --card-bg: var(--sky-cyan);
+  }
+  .mcard[data-tone='solar'] {
+    --card-bg: var(--solar-yellow);
+  }
+  .mcard[data-tone='pink'] {
+    --card-bg: var(--sunset-pink);
+  }
+  .mcard[data-tone='violet'] {
+    --card-bg: var(--twilight-pale);
+  }
+
+  .mcard__num {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    opacity: 0.62;
+  }
+
+  .mcard__art {
+    width: clamp(116px, 13vw, 152px);
+    height: auto;
+    margin: 0.35rem 0 0.75rem -0.5rem;
+  }
+
+  .mcard__body {
+    margin-top: 0.5rem;
+    font-size: 0.9875rem;
+    line-height: 1.5;
+  }
+
+  @media (min-width: 900px) {
+    .moves__head :global(.moves__arrows) {
+      display: none;
+    }
+
+    .moves__cluster {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: start;
+      gap: 0;
+      overflow: visible;
+      width: min(100% - (2 * var(--gutter)), var(--max-w));
+      margin-inline: auto;
+      padding-inline: 0;
+      padding-block: 1rem 1.5rem;
+    }
+
+    .mcard {
+      width: auto;
+      /* The cluster overlaps: each card sits on the one before it, and
+         the one beneath keeps clear space so no copy is covered. */
+      margin-left: -2rem;
+      margin-top: calc(var(--i) * 1.35rem);
+      z-index: calc(var(--i) + 1);
+    }
+
+    .mcard:not(:last-child) {
+      padding-right: 3rem;
+    }
+
+    .mcard:first-child {
+      margin-left: 0;
+    }
+
+    .mcard:nth-child(even) {
+      margin-top: calc(var(--i) * 0.6rem - 1.4rem);
+    }
+  }
+</style>
+
+<script>
+  import { initRail } from '../../scripts/rail';
+  initRail();
+</script>

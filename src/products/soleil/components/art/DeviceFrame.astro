@@ -1,0 +1,98 @@
+---
+/**
+ * An iPhone-proportioned frame around a screen.
+ *
+ * The screen is either a real capture from the app (pass `src`) or a
+ * recreated one passed as a slot — see app/PhoneScreen.astro, which the
+ * hero uses so its screen localises instead of baking English into an
+ * image.
+ */
+import { dimsFor } from '../../data/screens';
+
+export interface Props {
+  /** Omit when passing a recreated screen through the default slot. */
+  src?: string;
+  alt?: string;
+  /** Degrees of tilt. The protagonist is never perfectly upright. */
+  tilt?: number;
+  /** Only the hero image should be eager/high priority. */
+  priority?: boolean;
+  /** Crop the frame at the bottom so it reads as a fragment. */
+  crop?: boolean;
+  class?: string;
+}
+
+const { src, alt = '', tilt = 0, priority = false, crop = false, class: className = '' } = Astro.props;
+// A slotted screen has no intrinsic size, so it takes the stock ratio.
+const { w, h } = src ? dimsFor(src) : { w: 1206, h: 2622 };
+---
+
+<div class={`device ${crop ? 'device--crop' : ''} ${className}`} style={`--tilt:${tilt}deg; --ratio:${w} / ${h}`}>
+  <div class="device__frame">
+    {
+      src ? (
+        <img
+          src={src}
+          alt={alt}
+          width={w}
+          height={h}
+          loading={priority ? 'eager' : 'lazy'}
+          decoding={priority ? 'sync' : 'async'}
+          fetchpriority={priority ? 'high' : 'auto'}
+        />
+      ) : (
+        <div class="device__screen"><slot /></div>
+      )
+    }
+    <span class="device__island" aria-hidden="true"></span>
+  </div>
+</div>
+
+<style>
+  .device {
+    transform: rotate(var(--tilt));
+    filter: drop-shadow(0 42px 60px rgb(23 18 14 / 0.42));
+  }
+
+  .device__frame {
+    position: relative;
+    aspect-ratio: var(--ratio);
+    /* A real iPhone bezel is nearer 3% of the body width; 1.9% left the
+       screen content crowding the frame. */
+    padding: 3.1%;
+    border-radius: 12.5% / 6.1%;
+    background: #0d0b09;
+    box-shadow:
+      inset 0 0 0 1px rgb(255 255 255 / 0.14),
+      0 0 0 1px rgb(23 18 14 / 0.35);
+  }
+
+  .device__frame img,
+  .device__screen {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Concentric with the bezel: the frame's 12.5% / 6.1% less the 3.1%
+       padding, re-expressed against the screen's own (smaller) box for an
+       iPhone's ~0.46 aspect. */
+    border-radius: 10% / 4.8%;
+    overflow: hidden;
+  }
+
+  .device__island {
+    position: absolute;
+    top: 3.1%;
+    left: 50%;
+    width: 26%;
+    height: 3.1%;
+    border-radius: var(--r-pill);
+    background: #0d0b09;
+    transform: translateX(-50%);
+  }
+
+  /* A cropped fragment: the object continues past the edge of its scene. */
+  .device--crop .device__frame {
+    border-end-start-radius: 0;
+    border-end-end-radius: 0;
+  }
+</style>

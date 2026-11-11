@@ -1,0 +1,150 @@
+---
+/**
+ * Hero backdrop: a few soft organic masses, a sun and a dotted sun path,
+ * drawn for this site.
+ *
+ * Each shape is positioned independently in percentages rather than
+ * baked into one fixed viewBox, because a single landscape composition
+ * `slice`-cropped to about a third of itself on a narrow screen — the
+ * sun and the path fell outside the crop and the hero went flat. The
+ * masses stretch (they are abstract, so distortion reads as intent); the
+ * sun stays a true circle.
+ */
+---
+
+<div class="sunart" aria-hidden="true" data-reveal="art">
+  <svg class="sunart__mass sunart__mass--a" viewBox="0 0 600 600" preserveAspectRatio="none">
+    <path d="M520 60c80 100 70 262-20 362s-250 150-350 90S10 300 60 190 260 10 360 20c70 7 120-10 160 40Z" />
+  </svg>
+
+  <svg class="sunart__mass sunart__mass--b" viewBox="0 0 600 600" preserveAspectRatio="none">
+    <path d="M40 120C120 30 300 10 420 70s180 210 120 320-240 170-360 120S-20 260 40 120Z" />
+  </svg>
+
+  <svg class="sunart__dune" viewBox="0 0 1200 300" preserveAspectRatio="none">
+    <path d="M0 180c180-60 320 40 520 20s320-110 500-90c100 11 150 40 180 30v160H0Z" />
+  </svg>
+
+  <svg class="sunart__path" viewBox="0 0 600 300" preserveAspectRatio="none">
+    <path d="M10 270C140 120 330 30 590 60" fill="none" stroke-linecap="round" />
+  </svg>
+
+  <span class="sunart__sun"></span>
+</div>
+
+<style>
+  .sunart {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: clip;
+    pointer-events: none;
+  }
+
+  .sunart__mass,
+  .sunart__dune,
+  .sunart__path {
+    position: absolute;
+    display: block;
+    /* The global `svg { max-width: 100% }` reset clamps any shape authored
+       wider than its parent, which stopped the dune short of the edge. */
+    max-width: none;
+  }
+
+  .sunart__mass path {
+    fill: var(--solar-pale);
+  }
+
+  .sunart__mass--a {
+    top: -22%;
+    right: -16%;
+    width: 66%;
+    height: 118%;
+  }
+
+  .sunart__mass--b {
+    left: -18%;
+    bottom: -26%;
+    width: 58%;
+    height: 92%;
+    opacity: 0.6;
+  }
+
+  .sunart__dune path {
+    fill: var(--solar-orange);
+    opacity: 0.92;
+  }
+
+  .sunart__dune {
+    left: -4%;
+    bottom: -1px;
+    width: 108%;
+    height: 30%;
+  }
+
+  /* The path climbs out of the empty middle of the composition and
+     lands on the sun, rather than running behind the device. */
+  .sunart__path {
+    top: 16%;
+    right: 30%;
+    width: 48%;
+    height: 44%;
+  }
+
+  .sunart__path path {
+    stroke: var(--solar-deep);
+    stroke-width: 8;
+    stroke-dasharray: 2 24;
+    opacity: 0.9;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .sunart__sun {
+    position: absolute;
+    top: 13%;
+    right: 30%;
+    width: clamp(88px, 9vw, 150px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--solar-orange);
+  }
+
+  /* Portrait: the masses are recomposed rather than cropped, so the sun
+     and the path stay in frame at every width. */
+  @media (max-width: 799px) {
+    .sunart__mass--a {
+      top: -6%;
+      right: -30%;
+      width: 118%;
+      height: 62%;
+    }
+
+    .sunart__mass--b {
+      left: -40%;
+      bottom: 6%;
+      width: 105%;
+      height: 46%;
+    }
+
+    .sunart__dune {
+      left: -10%;
+      width: 124%;
+      height: 20%;
+    }
+
+    .sunart__path {
+      top: 8%;
+      right: -6%;
+      width: 86%;
+      height: 26%;
+    }
+
+    /* Half a sun at the edge, clear of the headline it would otherwise
+       sit behind. */
+    .sunart__sun {
+      top: 5%;
+      right: -7%;
+      width: clamp(72px, 20vw, 104px);
+    }
+  }
+</style>

@@ -1,0 +1,125 @@
+---
+/**
+ * UV now — the top card of Your Day, and the hero fact: the live index and
+ * its category first, the day's curve beside it, what to do underneath.
+ * Never a countdown; the guidance says what to do now.
+ *
+ * Cyan, as in the app (SunkindDesignTokens.Card.liveUV): an ink curve on a
+ * paler fill, and a pink dot for now.
+ */
+import Glyph from '../Glyph.astro';
+import { useTranslations } from '../../../i18n/utils';
+
+export interface Props {
+  /** Drop the guidance line where the card is shown small. */
+  compact?: boolean;
+  /** Show the day's peak in the corner instead of the reading's time. */
+  peak?: boolean;
+  lean?: number;
+}
+
+const { compact = false, peak = false, lean = 0 } = Astro.props;
+const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const ui = t.appUi.uvNow;
+
+/**
+ * The day's UV as a bell, sampled rather than hand-drawn so the "now" dot
+ * is guaranteed to sit on the line. Domain 7:00–17:00; peak at 13:00.
+ */
+const W = 160;
+const BASE = 86;
+const HOURS = [7, 17] as const;
+const xAt = (hour: number) => ((hour - HOURS[0]) / (HOURS[1] - HOURS[0])) * W;
+const yAt = (hour: number) => BASE - 74 * Math.exp(-((hour - 13) ** 2) / (2 * 2.15 ** 2));
+
+const points = Array.from({ length: 41 }, (_, i) => {
+  const hour = HOURS[0] + (i / 40) * (HOURS[1] - HOURS[0]);
+  return [xAt(hour), yAt(hour)];
+});
+const line = points.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(1)} ${y.toFixed(1)}`).join(' ');
+const fill = `${line} L ${W} ${BASE} L 0 ${BASE} Z`;
+
+const NOW = 12 + 32 / 60;
+/** Three ticks, three hours apart: room for a translated label on a phone. */
+const ticks = [9, 12, 15];
+---
+
+<article class="ui-card ui-card--cyan uv" style={`--lean:${lean}deg`}>
+  <header class="ui-head">
+    <span class="ui-sticker"><Glyph name="sun" />{ui.label}</span>
+    <span class="ui-meta uv__time">
+      {peak ? ui.peak : ui.time}
+      {!peak && <Glyph name="chevron" />}
+    </span>
+  </header>
+
+  <div class="uv__main">
+    <div class="uv__reading">
+      <p class="ui-reading">{ui.value}</p>
+      <p class="ui-title uv__category">{ui.category}</p>
+    </div>
+
+    <div class="uv__chart">
+      <svg class="ui-curve" viewBox={`0 0 ${W} ${BASE + 2}`} fill="none">
+        <path d={fill} fill="rgb(255 253 247 / 0.42)" data-grow />
+        <path d={line} stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" pathLength="1" data-draw />
+        <circle cx={xAt(NOW).toFixed(1)} cy={yAt(NOW).toFixed(1)} r="5.4" fill="var(--sunset-pink)" stroke="var(--ink)" stroke-width="2" data-grow />
+      </svg>
+      <p class="ui-axis uv__axis">
+        {ui.axis.map((label, i) => <span style={`left:${((xAt(ticks[i]) / W) * 100).toFixed(1)}%`}>{label}</span>)}
+      </p>
+    </div>
+  </div>
+
+  <span class="ui-sticker ui-sticker--solar uv__live"><Glyph name="live" />{ui.livePill}</span>
+
+  {!compact && <p class="ui-body uv__guidance">{ui.guidance}</p>}
+</article>
+
+<style>
+  .uv__time {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25em;
+  }
+
+  .uv__time :global(svg) {
+    width: 0.7em;
+    height: 0.7em;
+  }
+
+  .uv__main {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 1em;
+    margin-top: 0.9em;
+  }
+
+  .uv__category {
+    margin-top: 0.3em;
+    white-space: nowrap;
+  }
+
+  .uv__axis {
+    position: relative;
+    height: 1.3em;
+    display: block;
+  }
+
+  .uv__axis span {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+
+  .uv__live {
+    --st: -2deg;
+    margin-top: 0.85em;
+  }
+
+  .uv__guidance {
+    margin-top: 0.8em;
+  }
+</style>

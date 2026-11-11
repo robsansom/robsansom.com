@@ -1,0 +1,226 @@
+---
+/**
+ * Scene 4 — the signature sequence, built around Your Day's UV now card.
+ * On a wide screen with motion enabled the stage pins, the object starts
+ * large and settles smaller as you scroll, and the surface itself changes:
+ * the card opens, the reading arrives, the day's numbers separate out, and
+ * the protection check resolves it. The scroll distance is bounded and
+ * never hijacked.
+ *
+ * Everywhere else the same content is a plain, readable list with the
+ * four surfaces stacked beneath it.
+ */
+import AppSlice from '../app/AppSlice.astro';
+import UvNowCard from '../app/cards/UvNowCard.astro';
+import ConditionTiles from '../app/cards/ConditionTiles.astro';
+import ProtectionCard from '../app/cards/ProtectionCard.astro';
+import Cta from '../site/Cta.astro';
+import { useTranslations } from '../../i18n/utils';
+
+const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const { uvNow } = t.home;
+---
+
+<section class="scene sunwin" data-tone="sky-deep" id="uv-now" data-sequence>
+  <div class="sunwin__stage">
+    <div class="wrap sunwin__inner">
+      <div class="sunwin__copy">
+        <p class="eyebrow" data-reveal="up">{uvNow.eyebrow}</p>
+        <h2 class="display-lg sunwin__headline" data-reveal="up">{uvNow.headline}</h2>
+
+        <ol class="sunwin__steps">
+          {
+            uvNow.steps.map((step, i) => (
+              <li class="swstep" data-step={i}>
+                <span class="sticker swstep__label">{step.label}</span>
+                <h3 class="display-sm swstep__title">{step.title}</h3>
+                <p class="swstep__body">{step.body}</p>
+              </li>
+            ))
+          }
+        </ol>
+
+        <ol class="sunwin__dots" aria-hidden="true">
+          {uvNow.steps.map((_, i) => <li data-dot={i} class={i === 0 ? 'is-on' : ''} />)}
+        </ol>
+
+        <div class="sunwin__cta" data-reveal="up"><Cta variant="ink" /></div>
+      </div>
+
+      <div class="sunwin__object">
+        <div class="sunwin__objectInner" data-sequence-object>
+          <div class="swobj" data-obj="0"><AppSlice label={uvNow.imageAlt}><UvNowCard compact /></AppSlice></div>
+          <div class="swobj" data-obj="1"><AppSlice label={uvNow.imageAlt}><UvNowCard peak /></AppSlice></div>
+          <div class="swobj" data-obj="2"><AppSlice label={uvNow.imageAlt}><ConditionTiles /></AppSlice></div>
+          <div class="swobj" data-obj="3"><AppSlice label={t.appUi.protection.label}><ProtectionCard /></AppSlice></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sunwin {
+    margin-inline: clamp(0px, 1.4vw, 20px);
+    border-radius: var(--r-scene);
+    padding: 0;
+    overflow: clip;
+  }
+
+  .sunwin__stage {
+    padding-block: var(--scene-pad-y);
+  }
+
+  .sunwin__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(2rem, 4vw, 3.5rem);
+    align-items: center;
+  }
+
+  .sunwin__copy .eyebrow {
+    color: var(--sunset-deep);
+    margin-bottom: 0.9rem;
+  }
+
+  .sunwin__headline {
+    max-width: 12ch;
+    margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
+  }
+
+  .sunwin__steps {
+    display: grid;
+    gap: 1.6rem;
+    max-width: 46ch;
+  }
+
+  .swstep__label {
+    background: var(--ink);
+    color: var(--paper);
+    transform: rotate(-1.5deg);
+  }
+
+  .swstep__title {
+    margin-top: 0.8rem;
+  }
+
+  .swstep__body {
+    margin-top: 0.4rem;
+    font-size: 1.0625rem;
+    line-height: 1.5;
+    max-width: 40ch;
+  }
+
+  .sunwin__cta {
+    margin-top: clamp(1.75rem, 3vw, 2.5rem);
+  }
+
+  .sunwin__dots {
+    display: none;
+    gap: 0.4rem;
+    margin-top: 1.75rem;
+  }
+
+  .sunwin__dots li {
+    width: 30px;
+    height: 5px;
+    border-radius: var(--r-pill);
+    background: rgb(23 18 14 / 0.22);
+    transition: background-color 0.3s linear;
+  }
+
+  .sunwin__dots li.is-on {
+    background: var(--ink);
+  }
+
+  .sunwin__object {
+    justify-self: center;
+    width: min(100%, 26rem);
+  }
+
+  .sunwin__objectInner {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 1000px) {
+    .sunwin__inner {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+    }
+
+    /* The object is the subject of this scene, so it fills the column it
+       is given rather than floating in the middle of it. */
+    .sunwin__object {
+      width: 100%;
+      max-width: 30rem;
+    }
+
+    /* Bigger surface, bigger type inside it. */
+    .sunwin__object :global(.app-ui) {
+      --ui-size: 19px;
+    }
+  }
+
+  /* Pinned sequence — only when JS is running and motion is welcome. */
+  @media (min-width: 1000px) {
+    :global(html.motion-on) .sunwin {
+      height: 320vh;
+    }
+
+    :global(html.motion-on) .sunwin__stage {
+      position: sticky;
+      top: 0;
+      display: flex;
+      align-items: center;
+      height: 100svh;
+      padding-block: calc(var(--header-h) + 2rem) 2rem;
+    }
+
+    :global(html.motion-on) .sunwin__steps {
+      position: relative;
+      min-height: 15rem;
+      display: block;
+    }
+
+    :global(html.motion-on) .swstep {
+      position: absolute;
+      inset: 0 auto auto 0;
+      opacity: 0;
+      transform: translateY(18px);
+      transition:
+        opacity 0.4s linear,
+        transform 0.5s var(--ease-weight);
+    }
+
+    :global(html.motion-on) .swstep.is-on {
+      opacity: 1;
+      transform: none;
+    }
+
+    :global(html.motion-on) .sunwin__dots {
+      display: flex;
+    }
+
+    /* The four surfaces occupy one slot and cross-fade in place while the
+       whole object scales down through the sequence. */
+    :global(html.motion-on) .sunwin__objectInner {
+      display: grid;
+      transform-origin: center;
+    }
+
+    :global(html.motion-on) .swobj {
+      grid-area: 1 / 1;
+      opacity: 0;
+      transform: translateY(14px) scale(0.98);
+      transition:
+        opacity 0.45s linear,
+        transform 0.6s var(--ease-weight);
+      pointer-events: none;
+    }
+
+    :global(html.motion-on) .swobj.is-on {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>

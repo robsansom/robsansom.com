@@ -1,0 +1,177 @@
+---
+import CollectionCards from './CollectionCards.astro';
+import CardScreensShowcase from './CardScreensShowcase.astro';
+import { useTranslations } from '../i18n/utils';
+/**
+ * Showcase section — pre-framed device mockup with baked-in background
+ * pattern, next to an editorial headline + body.
+ */
+
+const t = useTranslations((Astro.url.pathname.match(/\/find-later\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+
+const base = (import.meta.env.BASE_URL + 'apps/find-later/').endsWith('/')
+  ? (import.meta.env.BASE_URL + 'apps/find-later/')
+  : `${(import.meta.env.BASE_URL + 'apps/find-later/')}/`;
+
+export interface Props {
+  eyebrow: string;
+  headline: string;
+  headlineAccent?: string;
+  image: string;
+  alt: string;
+  body?: string;
+  device?: 'left' | 'right';
+  themeImageMode?: 'dark' | 'light';
+  imageWidth?: number;
+  imageHeight?: number;
+}
+
+const {
+  eyebrow,
+  headline,
+  headlineAccent,
+  image,
+  alt,
+  body,
+  device = 'right',
+  themeImageMode = 'dark',
+  imageWidth = 1024,
+  imageHeight = 906,
+} = Astro.props;
+
+const deviceOrder = device === 'right' ? 'md:order-2' : 'md:order-1';
+const copyOrder = device === 'right' ? 'md:order-1' : 'md:order-2';
+const deviceAlign = device === 'right' ? 'md:ml-auto md:mr-0' : 'md:mr-auto md:ml-0';
+const deviceSide = device;
+const maskClass =
+  themeImageMode === 'light' ? 'show-on-light' : 'show-on-dark';
+
+// Mirror text alignment around the device so each pair feels balanced:
+//   device on the right → text in left column, RIGHT-aligned, body
+//                          paragraph pushed to the right edge.
+//   device on the left  → text in right column, LEFT-aligned (default).
+// On mobile both layouts stack and stay left-aligned for readability.
+const textAlignClass = device === 'right' ? 'md:text-right' : 'md:text-left';
+const bodyAlignClass = device === 'right' ? 'md:ml-auto' : '';
+---
+
+<section class="relative overflow-hidden bg-pouch-ink text-pouch-text">
+  <div class="showcase-section-inner relative mx-auto max-w-8xl px-6 sm:px-8 lg:px-10 pt-24 sm:pt-32 pb-24 sm:pb-32">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-10 sm:gap-12 md:gap-16 lg:gap-20 items-center">
+      <div class={`md:col-span-5 lg:col-span-5 relative z-10 ${copyOrder} ${textAlignClass}`}>
+        <p class="reveal-eyebrow text-[12px] uppercase tracking-[0.24em] text-pouch-textMuted">
+          {eyebrow}
+        </p>
+
+        {/* Static heading — the dramatic line-mask reveal is reserved
+            for the single pinned anchor moment + the footer sign-off. */}
+        <h2 class="showcase-headline mt-6 sm:mt-7 display-section text-[clamp(2.25rem,6vw,5rem)] text-balance">
+          <span class="block">{headline}</span>
+          {headlineAccent && (
+            <span class="block text-dim">{headlineAccent}</span>
+          )}
+        </h2>
+
+        {body && (
+          <p class={`reveal reveal-delay-2 mt-6 max-w-md 2xl:max-w-lg text-[16px] sm:text-[17px] 2xl:text-[19px] leading-[1.55] text-pouch-textSoft ${bodyAlignClass}`}>
+            {body}
+          </p>
+        )}
+      </div>
+
+      <div class={`md:col-span-7 lg:col-span-7 min-w-0 ${(image === 'bookmark-cards' || image === 'collection-cards') ? 'overflow-visible' : 'overflow-hidden'} ${deviceOrder}`}>
+        {image === 'bookmark-cards' ? (
+          <div class="pouch-cards-stack-wrapper mx-auto">
+            <div class="pouch-ambient-glow"></div>
+            {/* data-tilt: pointer-tracked 3D tilt + glass glare (motion.ts).
+                Layer order per card: item (stack position + hover fan) >
+                float (idle bob) > tilt (3D rotation + card chrome + glare). */}
+            {/* Cards are built in HTML/CSS (mirroring the app's CardLarge
+                liquid-glass spec) so type and pills stay crisp at every
+                size — only the cover photos are images. */}
+            <div class="pouch-cards-stack" data-tilt>
+              <div class="pouch-card-item pouch-card-item--1 reveal-image">
+                <div class="pouch-card-float">
+                  <div class="pouch-card-tilt" data-tilt-depth="0.55">
+                    <article class="save-card" aria-label={t.mockSaveCards.restaurant.aria}>
+                      <picture class="save-card__cover">
+                        <source srcset={`${base}images/save-cover-restaurant.webp`} type="image/webp" />
+                        <img
+                          src={`${base}images/save-cover-restaurant.jpg`}
+                          alt={t.mockSaveCards.restaurant.coverAlt}
+                          loading="lazy"
+                          decoding="async"
+                          width="936"
+                          height="512"
+                        />
+                      </picture>
+                      <p class="save-card__title">{t.mockSaveCards.restaurant.title}</p>
+                      <div class="save-card__meta">
+                        <span class="save-card__tag">{t.mockSaveCards.restaurant.tag1}</span>
+                        <span class="save-card__tag">{t.mockSaveCards.restaurant.tag2}</span>
+                        <span class="save-card__more">+1</span>
+                        <span class="save-card__ellipsis" aria-hidden="true"><i></i><i></i><i></i></span>
+                      </div>
+                    </article>
+                    <div class="pouch-card-glare" aria-hidden="true"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="pouch-card-item pouch-card-item--2 reveal-image">
+                <div class="pouch-card-float pouch-card-float--alt">
+                  <div class="pouch-card-tilt" data-tilt-depth="1">
+                    <article class="save-card" aria-label={t.mockSaveCards.livingRoom.aria}>
+                      <picture class="save-card__cover">
+                        <source srcset={`${base}images/save-cover-living-room.webp`} type="image/webp" />
+                        <img
+                          src={`${base}images/save-cover-living-room.jpg`}
+                          alt={t.mockSaveCards.livingRoom.coverAlt}
+                          loading="lazy"
+                          decoding="async"
+                          width="936"
+                          height="512"
+                        />
+                      </picture>
+                      <p class="save-card__title">{t.mockSaveCards.livingRoom.title}</p>
+                      <div class="save-card__meta">
+                        <span class="save-card__tag">{t.mockSaveCards.livingRoom.tag1}</span>
+                        <span class="save-card__tag">{t.mockSaveCards.livingRoom.tag2}</span>
+                        <span class="save-card__more">+1</span>
+                        <span class="save-card__ellipsis" aria-hidden="true"><i></i><i></i><i></i></span>
+                      </div>
+                    </article>
+                    <div class="pouch-card-glare" aria-hidden="true"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : image === 'collection-cards' ? (
+          <CollectionCards />
+        ) : image === 'card-screens' ? (
+          <CardScreensShowcase />
+        ) : (
+          <div
+            class={`reveal-image showcase-device relative mx-auto md:mx-0 ${deviceAlign}`}
+            data-side={deviceSide}
+          >
+            <div class={`relative device-theme-mask ${maskClass}`}>
+              <picture class="block">
+                <source srcset={`${base}images/${image}.webp`} type="image/webp" />
+                <img
+                  src={`${base}images/${image}.png`}
+                  alt={alt}
+                  loading="lazy"
+                  decoding="async"
+                  class="w-full h-auto block"
+                  width={imageWidth}
+                  height={imageHeight}
+                />
+              </picture>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

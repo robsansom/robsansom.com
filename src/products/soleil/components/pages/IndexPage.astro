@@ -1,0 +1,64 @@
+---
+import Base from '../../layouts/Base.astro';
+import HeroScene from '../home/HeroScene.astro';
+import ToolkitScene from '../home/ToolkitScene.astro';
+import MovesScene from '../home/MovesScene.astro';
+import UvNowScene from '../home/UvNowScene.astro';
+import MomentsScene from '../home/MomentsScene.astro';
+import WhyScene from '../home/WhyScene.astro';
+import RealSunScene from '../home/RealSunScene.astro';
+import FaqScene from '../home/FaqScene.astro';
+import ClosingScene from '../home/ClosingScene.astro';
+import { homeFaqs } from '../../data/homeFaq';
+import { useTranslations, toLocale } from '../../i18n/utils';
+import { site } from '../../config/site';
+
+const locale = toLocale((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const t = useTranslations(locale);
+const isEnglish = locale === 'en';
+const siteUrl = Astro.site?.toString();
+
+// The FAQ schema mirrors exactly the five questions the page renders.
+const jsonLd = isEnglish
+  ? [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'MobileApplication',
+        name: 'Soleil',
+        operatingSystem: 'iOS, watchOS',
+        applicationCategory: 'HealthApplication',
+        description: t.meta.description,
+        installUrl: site.appStoreUrl,
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+        author: { '@type': 'Organization', name: 'Soleil', url: siteUrl },
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: homeFaqs.slice(0, 5).map((f) => ({
+          '@type': 'Question',
+          name: f.q,
+          acceptedAnswer: { '@type': 'Answer', text: f.a },
+        })),
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: 'Soleil',
+        url: siteUrl,
+      },
+    ]
+  : [];
+---
+
+<Base title={t.meta.title} description={t.meta.description} jsonLd={jsonLd}>
+  <HeroScene />
+  <ToolkitScene />
+  <MovesScene />
+  <UvNowScene />
+  <MomentsScene />
+  <WhyScene />
+  <RealSunScene />
+  <FaqScene />
+  <ClosingScene />
+</Base>

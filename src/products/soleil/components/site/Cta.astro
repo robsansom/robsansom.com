@@ -1,0 +1,60 @@
+---
+import { productPath, localizeHtml } from '../../paths';
+/**
+ * The one download call to action, linking to the App Store listing in
+ * src/config/site.ts.
+ *
+ * Full-size instances show Apple's official "Download on the App Store"
+ * badge in the page's language (public/images/app-store/badge-<locale>.svg,
+ * from Apple's marketing tools; it may not be redrawn). If a locale's badge
+ * file is missing, the site's own pink button stands in. The compact header
+ * instance is always the button: a badge crowds the pill nav.
+ */
+import fs from 'node:fs';
+import path from 'node:path';
+import { site } from '../../config/site';
+import { useTranslations, toLocale } from '../../i18n/utils';
+
+export interface Props {
+  /** Visual weight of the fallback button — 'pink' is the primary action colour. */
+  variant?: 'pink' | 'ink' | 'paper' | 'solar';
+  /** Header uses a short text button rather than the badge. */
+  compact?: boolean;
+  class?: string;
+}
+
+const { variant = 'pink', compact = false, class: className = '' } = Astro.props;
+const locale = toLocale((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const t = useTranslations(locale);
+const variantClass = variant === 'pink' ? '' : ` btn--${variant}`;
+
+/** Badge path and intrinsic size, read from the SVG so the box never shifts. */
+function readBadge() {
+  const src = productPath(`/images/app-store/badge-${locale}.svg`);
+  const file = path.join(process.cwd(), 'public', src);
+  if (!fs.existsSync(file)) return null;
+  const svg = fs.readFileSync(file, 'utf8');
+  const box = svg.match(/viewBox="[\d.]+[\s,]+[\d.]+[\s,]+([\d.]+)[\s,]+([\d.]+)"/);
+  if (!box) return null;
+  return { src, width: Math.round(Number(box[1])), height: Math.round(Number(box[2])) };
+}
+
+const badge = compact ? null : readBadge();
+---
+
+{
+  badge ? (
+    <a class={`store-badge ${className}`} href={site.appStoreUrl} aria-label={t.a11y.appStoreLinkLabel}>
+      <img src={badge.src} width={badge.width} height={badge.height} alt={t.a11y.appStoreBadgeAlt} />
+    </a>
+  ) : (
+    <a class={`btn${variantClass} ${className}`} href={site.appStoreUrl} aria-label={t.a11y.appStoreLinkLabel}>
+      <span>{compact ? t.header.download : t.a11y.appStoreBadgeAlt}</span>
+      <span class="btn__arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M4 12h15M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </span>
+    </a>
+  )
+}

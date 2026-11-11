@@ -1,0 +1,177 @@
+---
+import { productPath, localizeHtml } from '../../paths';
+import SunMark from './SunMark.astro';
+import LanguageSelector from './LanguageSelector.astro';
+import { site } from '../../config/site';
+import { useTranslations, toLocale, localePath, localeHash } from '../../i18n/utils';
+
+const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const locale = toLocale((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const year = new Date().getFullYear();
+
+const columns = [
+  {
+    title: t.footer.product,
+    links: [
+      { href: localeHash(locale, productPath('/'), '#toolkit'), label: t.footer.features },
+      { href: localeHash(locale, productPath('/'), '#real-sun'), label: t.nav.realSun },
+      ...(locale === 'en' ? [{ href: productPath('/guides'), label: t.nav.guides }] : []),
+    ],
+  },
+  {
+    title: t.footer.company,
+    links: [
+      { href: localePath(locale, '/support'), label: t.footer.support },
+      { href: `mailto:${site.supportEmail}`, label: t.footer.contact },
+    ],
+  },
+  {
+    title: t.footer.legal,
+    links: [
+      { href: localePath(locale, '/privacy'), label: t.footer.privacy },
+      { href: localePath(locale, '/terms'), label: t.footer.terms },
+    ],
+  },
+];
+---
+
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr__top">
+      <div>
+        <p class="eyebrow ftr__eyebrow">{t.footer.taglineEyebrow}</p>
+        <p class="display-lg ftr__tagline">
+          {t.footer.taglineHeadline}<br />
+          <span class="ftr__dim">{t.footer.taglineHeadlineDim}</span>
+        </p>
+      </div>
+      <SunMark size={96} class="ftr__mark" />
+    </div>
+
+    <div class="ftr__cols">
+      {
+        columns.map((col) => (
+          <nav class="ftr__col" aria-label={col.title}>
+            <h2 class="eyebrow ftr__eyebrow">{col.title}</h2>
+            <ul>
+              {col.links.map((l) => (
+                <li><a href={l.href}>{l.label}</a></li>
+              ))}
+            </ul>
+          </nav>
+        ))
+      }
+      <div class="ftr__col">
+        <h2 class="eyebrow ftr__eyebrow">{t.a11y.selectLanguage}</h2>
+        <LanguageSelector layout="row" />
+      </div>
+    </div>
+
+    <div class="ftr__fine">
+      <p>© {year} {site.appName}. {t.footer.copyright}</p>
+      <p>{t.footer.medicalDisclaimer}</p>
+      <p>{t.footer.appleAffiliation}</p>
+      <p class="ftr__trademarks">{t.footer.appleTrademarks}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .ftr {
+    background: var(--ink);
+    color: var(--paper);
+    padding-block: clamp(3rem, 6vw, 5rem) 2.5rem;
+  }
+
+  .ftr :global(:focus-visible) {
+    outline-color: var(--solar-yellow);
+  }
+
+  .ftr__top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-bottom: clamp(2rem, 4vw, 3.5rem);
+    border-bottom: 1px solid rgb(255 253 247 / 0.16);
+  }
+
+  .ftr__eyebrow {
+    color: var(--solar-yellow);
+    margin-bottom: 0.85rem;
+  }
+
+  .ftr__tagline {
+    letter-spacing: -0.04em;
+  }
+
+  .ftr__dim {
+    color: rgb(255 253 247 / 0.5);
+  }
+
+  .ftr__mark {
+    color: var(--solar-yellow);
+    flex: none;
+    display: none;
+  }
+
+  .ftr__cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 2rem;
+    padding-block: clamp(2rem, 4vw, 3rem);
+  }
+
+  .ftr__col ul {
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .ftr__col a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: rgb(255 253 247 / 0.86);
+    text-decoration: none;
+  }
+
+  .ftr__col a:hover {
+    color: var(--solar-yellow);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .ftr__col :global(.lang-row a) {
+    background: rgb(255 253 247 / 0.1);
+    color: rgb(255 253 247 / 0.86);
+  }
+
+  .ftr__col :global(.lang-row a[aria-current]) {
+    background: var(--solar-yellow);
+    color: var(--ink);
+  }
+
+  .ftr__fine {
+    display: grid;
+    gap: 0.6rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid rgb(255 253 247 / 0.16);
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: rgb(255 253 247 / 0.66);
+    max-width: 90ch;
+  }
+
+  .ftr__trademarks {
+    font-size: 0.75rem;
+    color: rgb(255 253 247 / 0.5);
+  }
+
+  @media (min-width: 800px) {
+    .ftr__mark {
+      display: block;
+    }
+  }
+</style>

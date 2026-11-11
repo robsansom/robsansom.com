@@ -1,0 +1,135 @@
+---
+/**
+ * Tablet showcase — centred, theme-morphing iPad moment.
+ */
+
+const base = (import.meta.env.BASE_URL + 'apps/find-later/').endsWith('/')
+  ? (import.meta.env.BASE_URL + 'apps/find-later/')
+  : `${(import.meta.env.BASE_URL + 'apps/find-later/')}/`;
+
+export interface Props {
+  eyebrow: string;
+  headline: string;
+  headlineAccent?: string;
+  body?: string;
+  imageDark: string;
+  imageLight: string;
+  altDark: string;
+  altLight: string;
+}
+
+const {
+  eyebrow,
+  headline,
+  headlineAccent,
+  body,
+  imageDark,
+  imageLight,
+  altDark,
+  altLight,
+} = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-pouch-ink text-pouch-text">
+  <div class="relative mx-auto max-w-8xl px-6 sm:px-8 lg:px-10 pt-24 sm:pt-32 pb-24 sm:pb-32">
+    {/* The iPad moment is the second "hero-sized" beat on the page,
+        matched in scale to the Privacy converge headline so the two
+        flagship sections sit at the same typographic weight. Headline
+        container widened to max-w-4xl so the larger text has room to
+        breathe on a single line at desktop sizes. */}
+    <div class="text-center max-w-4xl mx-auto">
+      <p class="reveal-eyebrow text-[12px] uppercase tracking-[0.24em] text-pouch-textMuted">
+        {eyebrow}
+      </p>
+
+      <h2 class="mt-7 sm:mt-9 display text-[clamp(2.75rem,9vw,7rem)] text-balance">
+        <span class="block">{headline}</span>
+        {headlineAccent && (
+          <span class="block text-dim">{headlineAccent}</span>
+        )}
+      </h2>
+
+      {body && (
+        <p class="reveal reveal-delay-2 mt-6 sm:mt-8 mx-auto max-w-md 2xl:max-w-lg text-[16px] sm:text-[17px] 2xl:text-[19px] leading-[1.55] text-pouch-textSoft">
+          {body}
+        </p>
+      )}
+    </div>
+
+    <div class="showcase-device--tablet reveal-image relative mt-16 sm:mt-20 mx-auto">
+      <div class="tablet-device relative w-full">
+        <div class="relative device-theme-mask show-on-dark">
+          <picture class="block w-full">
+            <source srcset={`${base}images/${imageDark}.webp`} type="image/webp" />
+            <img
+              src={`${base}images/${imageDark}.png`}
+              alt={altDark}
+              loading="lazy"
+              decoding="async"
+              class="w-full h-auto block"
+              width="1348"
+              height="1761"
+            />
+          </picture>
+        </div>
+        <div class="absolute inset-0 device-theme-mask show-on-light">
+          <picture class="block w-full">
+            <source srcset={`${base}images/${imageLight}.webp`} type="image/webp" />
+            <img
+              src={`${base}images/${imageLight}.png`}
+              alt={altLight}
+              loading="lazy"
+              decoding="async"
+              class="w-full h-auto block"
+              width="1348"
+              height="1761"
+            />
+          </picture>
+        </div>
+
+        {/* Page theme flips when this line hits the viewport centre —
+            aligned to the vertical midpoint of the iPad so dark/light
+            cross-fades in sync with the global theme transition. */}
+        <div
+          id="theme-sentinel"
+          aria-hidden="true"
+          class="absolute left-0 right-0 top-1/2 h-px -translate-y-1/2 pointer-events-none"
+        ></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  /* iPad device, cropped to the bezel (no baked background). Full-width
+     on phones so the device stays legible, capped at a hero-ish scale on
+     larger screens. */
+  .showcase-device--tablet {
+    width: min(100%, 24rem);
+  }
+  @media (min-width: 640px) {
+    .showcase-device--tablet {
+      width: min(100%, 30rem);
+    }
+  }
+  @media (min-width: 1024px) {
+    .showcase-device--tablet {
+      width: min(100%, 40rem);
+    }
+  }
+
+  /* Rounded mask matches the alpha-cropped bezel (84px radius at the
+     1348x1761 natural size), so the ring and shadow hug the device. */
+  .tablet-device {
+    border-radius: 6.23% / 4.77%;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.08),
+      0 50px 100px -30px rgba(0, 0, 0, 0.65);
+    transition: box-shadow 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  :root.is-light .tablet-device {
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.05),
+      0 50px 100px -35px rgba(31, 35, 60, 0.35);
+  }
+</style>

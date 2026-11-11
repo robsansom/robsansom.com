@@ -1,0 +1,218 @@
+---
+/**
+ * The feature rail. Native CSS scroll-snap does the heavy lifting: real
+ * touch drag, real keyboard scrolling, real momentum, and it works with
+ * no JavaScript. The script only adds the arrow buttons' behaviour and
+ * the slight lift each card takes as it passes the centre.
+ *
+ * Each card carries a hand-built recreation of the matching app surface
+ * (src/components/app/), not a screenshot — so it stays crisp and
+ * localises with the rest of the page. The six colours are the app's own
+ * feature colours (SunkindDesignTokens.Card), which the app took from
+ * these cards, so a card and the surface it holds share one colour.
+ */
+import AppSlice from '../app/AppSlice.astro';
+import UvNowCard from '../app/cards/UvNowCard.astro';
+import ProtectionCard from '../app/cards/ProtectionCard.astro';
+import RemindersCard from '../app/cards/RemindersCard.astro';
+import OutingCard from '../app/cards/OutingCard.astro';
+import PeopleCard from '../app/cards/PeopleCard.astro';
+import DaylightCard from '../app/cards/DaylightCard.astro';
+import RailArrows from '../site/RailArrows.astro';
+import { useTranslations } from '../../i18n/utils';
+
+const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const { toolkit } = t.home;
+
+/** Visual treatment per card, in the order the copy declares them. */
+const looks = [
+  { tone: 'cyan', tilt: -1.4 },
+  { tone: 'solar', tilt: 1.1 },
+  { tone: 'pink', tilt: -1 },
+  { tone: 'orange', tilt: 1.5 },
+  { tone: 'violet', tilt: -1.2 },
+  { tone: 'twilight', tilt: 1.2 },
+];
+
+const cards = toolkit.cards.map((card, i) => ({ ...card, ...looks[i] }));
+---
+
+<section class="scene toolkit" data-tone="paper" id="toolkit">
+  <div class="wrap toolkit__head">
+    <div>
+      <p class="eyebrow" data-reveal="up">{toolkit.eyebrow}</p>
+      <h2 class="display-xl" data-reveal="up">{toolkit.headline}</h2>
+    </div>
+    <RailArrows class="toolkit__arrows" />
+  </div>
+
+  <div class="rail" data-rail tabindex="0" role="group" aria-label={toolkit.railLabel}>
+    <ul class="rail__track">
+      {
+        cards.map((card, i) => (
+          <li class="tcard" data-tone={card.tone} style={`--tilt:${card.tilt}deg`} data-rail-item>
+            <div class="tcard__inner">
+              <span class="sticker tcard__tag">{card.tag}</span>
+              <h3 class="display-md tcard__title">{card.title}</h3>
+              <p class="tcard__body">{card.body}</p>
+              <div class="tcard__figure">
+                <AppSlice label={card.title}>
+                  {i === 0 && <UvNowCard peak compact />}
+                  {i === 1 && <ProtectionCard />}
+                  {i === 2 && <RemindersCard />}
+                  {i === 3 && <OutingCard />}
+                  {i === 4 && <PeopleCard />}
+                  {i === 5 && <DaylightCard />}
+                </AppSlice>
+              </div>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .toolkit {
+    overflow: clip;
+  }
+
+  /* On a phone the arrows drop under the headline rather than squeezing
+     it; from 900px they sit level with its last line. */
+  .toolkit__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.75rem 2rem;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+  }
+
+  .toolkit__head .eyebrow {
+    color: var(--sunset-deep);
+    margin-bottom: 0.9rem;
+  }
+
+  .toolkit__head h2 {
+    max-width: 16ch;
+  }
+
+  .toolkit__head :global(.toolkit__arrows) {
+    padding-bottom: 0.5rem;
+  }
+
+  .rail {
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    /* The rail bleeds to both edges; cards peek in from off-screen. */
+    padding-inline: max(var(--gutter), calc((100vw - var(--max-w)) / 2));
+    padding-block: 1.5rem 2.5rem;
+  }
+
+  .rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  .rail__track {
+    display: flex;
+    gap: clamp(1rem, 1.6vw, 1.5rem);
+    width: max-content;
+  }
+
+  .tcard {
+    scroll-snap-align: center;
+    width: min(80vw, 350px);
+    flex: none;
+    transform: rotate(var(--tilt)) translateY(var(--drift, 0px));
+    transition: transform 0.5s var(--ease-weight);
+  }
+
+  .tcard__inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.5rem 1.5rem 0;
+    border-radius: var(--r-lg);
+    background: var(--card-bg, var(--paper));
+    color: var(--card-fg, var(--ink));
+    box-shadow: var(--lift-md);
+    overflow: clip;
+    transition:
+      transform 0.55s var(--ease-plop),
+      box-shadow 0.45s var(--ease-weight);
+  }
+
+  /* A card straightens up and lifts under the cursor — the tilt it was
+     resting at unwinds, which reads as picking it off the pile. */
+  @media (hover: hover) {
+    .tcard:hover .tcard__inner,
+    .tcard:focus-within .tcard__inner {
+      transform: translateY(-10px) rotate(calc(var(--tilt) * -0.9)) scale(1.012);
+      box-shadow: var(--lift-lg);
+    }
+  }
+
+  .tcard[data-tone='cyan'] .tcard__inner {
+    --card-bg: var(--sky-cyan);
+  }
+  .tcard[data-tone='solar'] .tcard__inner {
+    --card-bg: var(--solar-yellow);
+  }
+  .tcard[data-tone='pink'] .tcard__inner {
+    --card-bg: var(--sunset-pink);
+  }
+  .tcard[data-tone='orange'] .tcard__inner {
+    --card-bg: var(--solar-orange);
+  }
+  .tcard[data-tone='violet'] .tcard__inner {
+    --card-bg: var(--twilight-pale);
+  }
+  .tcard[data-tone='twilight'] .tcard__inner {
+    --card-bg: var(--twilight-deep);
+    --card-fg: #fff;
+  }
+
+  .tcard__tag {
+    align-self: flex-start;
+    background: var(--paper);
+    color: var(--ink);
+    transform: rotate(-2deg);
+  }
+
+  .tcard__title {
+    margin-top: 1.1rem;
+  }
+
+  .tcard__body {
+    margin-top: 0.7rem;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  /* The app surface sits at the foot of the card and runs past its edge,
+     so the card reads as a window onto the product. */
+  .tcard__figure {
+    margin-top: auto;
+    padding-top: 1.75rem;
+    margin-bottom: -2.5rem;
+    transform: rotate(1.2deg);
+  }
+
+  .tcard:nth-child(even) .tcard__figure {
+    transform: rotate(-1.4deg);
+  }
+
+  @media (min-width: 900px) {
+    .tcard {
+      width: 372px;
+    }
+  }
+</style>
+
+<script>
+  import { initRail } from '../../scripts/rail';
+  initRail();
+</script>

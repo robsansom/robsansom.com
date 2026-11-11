@@ -1,0 +1,83 @@
+---
+/**
+ * "Right now" on Your Day: an ink section sticker, then peak UV, UV level,
+ * cloud cover and humidity as four coloured tiles — solar, pink, sky-pale,
+ * twilight-pale, the order SunkindDesignTokens.Card assigns them.
+ */
+import Glyph from '../Glyph.astro';
+import { useTranslations } from '../../../i18n/utils';
+
+export interface Props {
+  /** Hide the section sticker when the host already titles the tiles. */
+  heading?: boolean;
+}
+
+const { heading = true } = Astro.props;
+const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const tiles = t.appUi.uvNow.tiles;
+const tones = ['solar', 'pink', 'sky', 'violet'];
+const glyphs = ['arrow', 'drop', 'cloud', 'wind'] as const;
+---
+
+<div class="ct">
+  {heading && <h4 class="ui-sticker ui-sticker--ink ct__heading">{t.appUi.phoneScreen.rightNow}</h4>}
+  <div class="ct__grid">
+    {
+      tiles.map((tile, i) => (
+        <div class={`ui-card ui-card--tile ui-card--${tones[i]} ct__tile`}>
+          <span class="ui-sticker ct__label"><Glyph name={glyphs[i]} />{tile.label}</span>
+          <p class="ct__value">
+            <span class="ui-display">{tile.value}</span>
+            {tile.caption && <span class="ui-meta">{tile.caption}</span>}
+          </p>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .ct {
+    display: grid;
+    gap: 0.75em;
+    justify-items: start;
+  }
+
+  .ct__heading {
+    margin-left: 0.1em;
+  }
+
+  /* minmax(0, …): a long label (German "Luftfeuchtigkeit") ellipsizes
+     inside its tile rather than widening the grid, which on a 320px
+     phone pushed the whole scene past the screen edge. */
+  .ct__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.625em;
+    width: 100%;
+  }
+
+  .ct__tile {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.1em;
+    min-height: 6.4em;
+  }
+
+  /* Four labels side by side: sized down so a long translation fits. */
+  .ct__label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.75em;
+  }
+
+  .ct__value {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.2em 0.45em;
+    margin-top: auto;
+  }
+</style>

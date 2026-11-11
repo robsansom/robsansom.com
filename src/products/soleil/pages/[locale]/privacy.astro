@@ -1,0 +1,9 @@
+---
+import { getLocalePaths } from '../../i18n/utils';
+import PrivacyPage from '../../components/pages/PrivacyPage.astro';
+
+export function getStaticPaths() {
+  return getLocalePaths();
+}
+---
+<PrivacyPage />
