@@ -1,0 +1,39 @@
+---
+/**
+ * Soleil was renamed Hi Sunshine! (November 2026) and its pages moved to
+ * /apps/hi-sunshine/. Every old address forwards to its match there, so links
+ * in old app builds, the App Store and search results keep working.
+ * GitHub Pages cannot send server redirects, so each page is an instant
+ * meta refresh with a canonical link (search engines treat it as moved).
+ */
+import { guides } from '../../../products/soleil/data/guides';
+
+export function getStaticPaths() {
+  const pages = ['', 'support/', 'privacy/', 'terms/'];
+  const locales = ['', 'fr/', 'es/', 'de/', 'ja/'];
+  const paths = locales.flatMap((locale) => pages.map((page) => locale + page));
+  paths.push('guides/', ...guides.map((guide) => `guides/${guide.slug}/`));
+  return paths.map((path) => ({
+    params: { path: path.replace(/\/$/, '') || undefined },
+    props: { path },
+  }));
+}
+
+const { path } = Astro.props as { path: string };
+const target = import.meta.env.BASE_URL + 'apps/hi-sunshine/' + path;
+const absolute = new URL(target, Astro.site ?? 'https://robsansom.com').href;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Soleil is now Hi Sunshine!</title>
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={absolute} />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <script is:inline define:vars={{ target }}>location.replace(target + location.hash);</script>
+  </head>
+  <body>
+    <p>Soleil is now Hi Sunshine! <a href={target}>Continue to the new page</a>.</p>
+  </body>
+</html>

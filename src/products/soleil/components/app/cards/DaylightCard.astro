@@ -14,7 +14,7 @@ export interface Props {
 }
 
 const { lean = 0, tone = 'twilight' } = Astro.props;
-const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const t = useTranslations((Astro.url.pathname.match(/\/hi-sunshine\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
 const ui = t.appUi.daylight;
 
 const bars = [18, 30, 26, 44, 62, 70, 52, 38, 24, 14];

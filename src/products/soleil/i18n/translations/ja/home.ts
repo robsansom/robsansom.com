@@ -26,10 +26,10 @@ export const home: HomeCopy = {
 
   toolkit: {
     eyebrow: '機能',
-    headline: 'Soleilが得意な6つのこと',
+    headline: 'Hi\u00a0Sunshineが得意な6つのこと',
     prev: '前のカード',
     next: '次のカード',
-    railLabel: 'Soleilの機能',
+    railLabel: 'Hi\u00a0Sunshineの機能',
     cards: [
       {
         tag: 'いま',
@@ -93,7 +93,7 @@ export const home: HomeCopy = {
     steps: [
       {
         label: '1枚のカード',
-        title: 'Soleilを開くと、まず空が答えます。',
+        title: 'Hi\u00a0Sunshineを開くと、まず空が答えます。',
         body: '読み解く必要はありません。「あなたの一日」は、いまいる場所のリアルタイムUV指数から始まります。',
       },
       {
@@ -109,11 +109,11 @@ export const home: HomeCopy = {
       {
         label: 'あなたのチェック',
         title: 'いま何をするか。どれだけいられるか、ではありません。',
-        body: '肌タイプとSPFが、数値をタイムリーな保護チェックに変えます。Soleilは時間を「許可」として示すことはありません。',
+        body: '肌タイプとSPFが、数値をタイムリーな保護チェックに変えます。Hi\u00a0Sunshineは時間を「許可」として示すことはありません。',
       },
     ],
     imageAlt:
-      'iPhoneのSoleil「あなたの一日」画面：リアルタイムUV、今日のピーク、現在の気象条件',
+      'iPhoneのHi\u00a0Sunshine「あなたの一日」画面：リアルタイムUV、今日のピーク、現在の気象条件',
   },
 
   moments: {
@@ -134,9 +134,9 @@ export const home: HomeCopy = {
   },
 
   why: {
-    eyebrow: 'Soleilを選ぶ理由',
+    eyebrow: 'Hi\u00a0Sunshineを選ぶ理由',
     headline: '役に立って、あなたのもの',
-    body: 'Soleilがあなたの日差しについて知ることは、すべてあなたのものです。iPhoneの中、そして同期する場合はあなた専用のiCloudの中に保存されます。アカウント作成なし、解析なし、広告なし、アプリをまたぐトラッキングもありません。',
+    body: 'Hi\u00a0Sunshineがあなたの日差しについて知ることは、すべてあなたのものです。iPhoneの中、そして同期する場合はあなた専用のiCloudの中に保存されます。アカウント作成なし、解析なし、広告なし、アプリをまたぐトラッキングもありません。',
     badges: [
       '現在地のリアルタイムUV',
       '初期設定でプライベート',
@@ -188,7 +188,7 @@ export const home: HomeCopy = {
     ],
     note: 'Real Sunは、あなたの許可を得てApple Watchの「日光を浴びた時間」を読み取ります。ヘルスケアに書き込むことはなく、日光の量を「許容量」として示すこともありません。',
     imageAlt:
-      'SoleilのReal Sunグラフ：その日のUVカーブに重ねた、日光を浴びた時間',
+      'Hi\u00a0SunshineのReal Sunグラフ：その日のUVカーブに重ねた、日光を浴びた時間',
   },
 
   faq: {
@@ -198,11 +198,11 @@ export const home: HomeCopy = {
   },
 
   closing: {
-    headline: 'Soleilを、いっしょに。',
+    headline: 'Hi\u00a0Sunshineを、いっしょに。',
     body: 'リアルタイムUV、あなたの肌のための保護チェック、そして一日に寄り添うリマインダー。',
     note: 'iPhoneとApple Watch',
     privacy:
       'アカウントなし。トラッキングなし。履歴はあなたのデバイスと、あなた自身のiCloudに残ります。',
-    imageAlt: 'Soleilのアプリアイコン：青空に浮かぶ金色の太陽',
+    imageAlt: 'Hi\u00a0Sunshineのアプリアイコン：青空に浮かぶ金色の太陽',
   },
 };

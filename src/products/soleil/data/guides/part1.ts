@@ -5,7 +5,7 @@ export const part1: Guide[] = [
   {
     slug: 'how-long-can-you-stay-in-the-sun',
     title: 'How long can you stay in the sun without burning?',
-    metaTitle: 'How Long Can You Stay in the Sun Without Burning? | Soleil',
+    metaTitle: 'How Long Can You Stay in the Sun Without Burning? | Hi\u00a0Sunshine!',
     metaDescription:
       'How long you can stay in the sun depends on the UV index and your skin type, from ~10 minutes to a few hours. See the table, the maths, and how to track it live.',
     category: 'Sun safety',
@@ -53,14 +53,14 @@ export const part1: Guide[] = [
       },
     ],
     soleil: {
-      heading: 'Let Soleil do this maths, live',
+      heading: 'Let Hi\u00a0Sunshine do this maths, live',
       paragraphs: [
-        'Soleil takes the live UV index for where you are (from Apple WeatherKit), your Fitzpatrick skin type, your SPF and what you’re wearing, and turns them into a personal <strong>protection check</strong>: a reminder to reassess shade and sunscreen before the estimate runs out, with a live ring on your phone and in the Dynamic Island.',
-        'It deliberately frames the number as a check, not permission: reapplying sunscreen never “resets” your time outside. Start a session when you head out and Soleil keeps watch while you enjoy the day.',
+        'Hi\u00a0Sunshine takes the live UV index for where you are (from Apple WeatherKit), your Fitzpatrick skin type, your SPF and what you’re wearing, and turns them into a personal <strong>protection check</strong>: a reminder to reassess shade and sunscreen before the estimate runs out, with a live ring on your phone and in the Dynamic Island.',
+        'It deliberately frames the number as a check, not permission: reapplying sunscreen never “resets” your time outside. Start a session when you head out and Hi\u00a0Sunshine keeps watch while you enjoy the day.',
       ],
       screenshot: {
         src: productPath('/images/app/live-outing.webp'),
-        alt: 'Soleil’s live outing: 18 minutes outside at UV 10, labelled as elapsed time, not a safe-time countdown, with a protection check and sunscreen alerts',
+        alt: 'Hi\u00a0Sunshine’s live outing: 18 minutes outside at UV 10, labelled as elapsed time, not a safe-time countdown, with a protection check and sunscreen alerts',
       },
     },
     faqs: [
@@ -83,7 +83,7 @@ export const part1: Guide[] = [
   {
     slug: 'what-uv-index-is-safe',
     title: 'What UV index is safe? The scale, explained properly',
-    metaTitle: 'What UV Index Is Safe? UV Scale 0–11+ Explained | Soleil',
+    metaTitle: 'What UV Index Is Safe? UV Scale 0–11+ Explained | Hi\u00a0Sunshine!',
     metaDescription:
       'UV index below 3 is low risk for most people; 3 and above calls for protection. Full UV scale table, what each level means for your skin, and when to check it.',
     category: 'UV basics',
@@ -126,12 +126,12 @@ export const part1: Guide[] = [
     soleil: {
       heading: 'Know the UV without thinking about it',
       paragraphs: [
-        'Soleil’s Your Day tab reads the live UV index for your exact location and leads with it in one card, <strong>UV now</strong>, plus the day’s peak time, hourly curve and cloud cover. When UV crosses 3, it says protection is recommended, plainly.',
+        'Hi\u00a0Sunshine’s Your Day tab reads the live UV index for your exact location and leads with it in one card, <strong>UV now</strong>, plus the day’s peak time, hourly curve and cloud cover. When UV crosses 3, it says protection is recommended, plainly.',
         'Home Screen and Apple Watch widgets keep the current UV one glance away, and optional peak-UV alerts warn you before the strongest part of the day.',
       ],
       screenshot: {
         src: productPath('/images/app/uv-index.webp'),
-        alt: 'Soleil’s UV Index sheet: UV 10, Very High, with the day’s curve peaking around midday and the UV scale beneath it',
+        alt: 'Hi\u00a0Sunshine’s UV Index sheet: UV 10, Very High, with the day’s curve peaking around midday and the UV scale beneath it',
       },
     },
     faqs: [
@@ -154,7 +154,7 @@ export const part1: Guide[] = [
   {
     slug: 'best-uv-index-for-tanning',
     title: 'What’s the best UV index for tanning?',
-    metaTitle: 'Best UV Index for Tanning: Honest Answer + Safer Habits | Soleil',
+    metaTitle: 'Best UV Index for Tanning: Honest Answer + Safer Habits | Hi\u00a0Sunshine!',
     metaDescription:
       'Tanning starts from about UV 3. Lower UV means slower colour but lower burn risk; UV 8+ mostly adds damage. The honest dermatology position, plus how to pace exposure.',
     category: 'Tanning',
@@ -187,12 +187,12 @@ export const part1: Guide[] = [
     soleil: {
       heading: 'Pace it with Daily Glow',
       paragraphs: [
-        'Soleil’s <strong>Daily Glow</strong> sessions (Pro) run your sun routine as a guided timer: your products, your steps, your SPF, with protection checks scheduled from the live UV and your skin type. The free sun timer covers simple sessions.',
-        'Because Soleil tracks the sessions you actually did, you can build colour across a week without silently stacking three long days back-to-back, and reapply reminders fire on schedule, sooner after swimming or towel-drying.',
+        'Hi\u00a0Sunshine’s <strong>Daily Glow</strong> sessions (Pro) run your sun routine as a guided timer: your products, your steps, your SPF, with protection checks scheduled from the live UV and your skin type. The free sun timer covers simple sessions.',
+        'Because Hi\u00a0Sunshine tracks the sessions you actually did, you can build colour across a week without silently stacking three long days back-to-back, and reapply reminders fire on schedule, sooner after swimming or towel-drying.',
       ],
       screenshot: {
         src: productPath('/images/app/your-sun.webp'),
-        alt: 'Soleil’s Your Sun tab: start the Sun timer or a Daily Glow routine, with a protection note before you go',
+        alt: 'Hi\u00a0Sunshine’s Your Sun tab: start the Sun timer or a Daily Glow routine, with a protection note before you go',
       },
     },
     faqs: [
@@ -215,7 +215,7 @@ export const part1: Guide[] = [
   {
     slug: 'how-often-reapply-sunscreen',
     title: 'How often should you reapply sunscreen?',
-    metaTitle: 'How Often to Reapply Sunscreen (2-Hour Rule + Exceptions) | Soleil',
+    metaTitle: 'How Often to Reapply Sunscreen (2-Hour Rule + Exceptions) | Hi\u00a0Sunshine!',
     metaDescription:
       'Reapply sunscreen at least every 2 hours, and immediately after swimming, heavy sweating or towel-drying. Why the rule exists, how much to use, and how to never forget.',
     category: 'Sunscreen',
@@ -251,12 +251,12 @@ export const part1: Guide[] = [
     soleil: {
       heading: 'Reminders that survive real life',
       paragraphs: [
-        'Log a sunscreen application in Soleil and it schedules the next reminder: never more than two hours out, and sooner if you record swimming, sweating or towel-drying. On a family outing, each person gets their own reapply reminder, because a toddler’s schedule isn’t yours.',
-        'Crucially, Soleil never treats a reapplication as extra permitted time outside: the session clock keeps running, and protection checks stay honest.',
+        'Log a sunscreen application in Hi\u00a0Sunshine and it schedules the next reminder: never more than two hours out, and sooner if you record swimming, sweating or towel-drying. On a family outing, each person gets their own reapply reminder, because a toddler’s schedule isn’t yours.',
+        'Crucially, Hi\u00a0Sunshine never treats a reapplication as extra permitted time outside: the session clock keeps running, and protection checks stay honest.',
       ],
       screenshot: {
         src: productPath('/images/app/live-outing.webp'),
-        alt: 'Soleil’s live outing: elapsed time outside, a protection check and sunscreen reminder alerts',
+        alt: 'Hi\u00a0Sunshine’s live outing: elapsed time outside, a protection check and sunscreen reminder alerts',
       },
     },
     faqs: [
@@ -279,7 +279,7 @@ export const part1: Guide[] = [
   {
     slug: 'how-much-sun-for-vitamin-d',
     title: 'How much sun do you need for vitamin D?',
-    metaTitle: 'How Much Sun Do You Need for Vitamin D? By Skin Type & Season | Soleil',
+    metaTitle: 'How Much Sun Do You Need for Vitamin D? By Skin Type & Season | Hi\u00a0Sunshine!',
     metaDescription:
       'Around 10–30 minutes of midday sun on forearms a few times a week suffices for lighter skin in summer; darker skin needs longer. Latitude, winter and the honest limits.',
     category: 'Wellbeing',
@@ -313,12 +313,12 @@ export const part1: Guide[] = [
     soleil: {
       heading: 'See the sun you actually got',
       paragraphs: [
-        'Soleil deliberately does not convert sunlight into vitamin D numbers, because turning UV into IU involves so many personal unknowns that a precise figure would be false confidence. What it gives you instead is the honest raw material: your recorded time outside, and the UV that was around while you were out.',
+        'Hi\u00a0Sunshine deliberately does not convert sunlight into vitamin D numbers, because turning UV into IU involves so many personal unknowns that a precise figure would be false confidence. What it gives you instead is the honest raw material: your recorded time outside, and the UV that was around while you were out.',
         'With Pro, <strong>Real Sun</strong> places your Apple Watch Time in Daylight against the day’s UV curve, so you can see whether your outdoor time landed in gentle morning light or the strong midday window that drives synthesis, and answer “did I actually get outside enough this week?” from real data.',
       ],
       screenshot: {
         src: productPath('/images/app/your-sun.webp'),
-        alt: 'The Soleil Your Sun tab: time outside, kept simple, with the Sun timer and Daily Glow',
+        alt: 'The Hi\u00a0Sunshine Your Sun tab: time outside, kept simple, with the Sun timer and Daily Glow',
       },
     },
     faqs: [

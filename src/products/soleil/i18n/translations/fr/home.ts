@@ -27,10 +27,10 @@ export const home: HomeCopy = {
 
   toolkit: {
     eyebrow: 'La boîte à outils',
-    headline: 'Six choses que Soleil fait bien',
+    headline: 'Six choses que Hi\u00a0Sunshine fait bien',
     prev: 'Carte précédente',
     next: 'Carte suivante',
-    railLabel: 'Fonctionnalités de Soleil',
+    railLabel: 'Fonctionnalités de Hi\u00a0Sunshine',
     cards: [
       {
         tag: 'Maintenant',
@@ -50,7 +50,7 @@ export const home: HomeCopy = {
       {
         tag: 'Dehors',
         title: 'Minuteur solaire',
-        body: 'Lancez une sortie : Soleil réunit le temps écoulé, la protection de chacun et ses rappels. Daily Glow ajoute une routine guidée, en option.',
+        body: 'Lancez une sortie : Hi\u00a0Sunshine réunit le temps écoulé, la protection de chacun et ses rappels. Daily Glow ajoute une routine guidée, en option.',
       },
       {
         tag: 'Vos proches',
@@ -94,7 +94,7 @@ export const home: HomeCopy = {
     steps: [
       {
         label: 'Une carte',
-        title: 'Ouvrez Soleil : le ciel répond en premier.',
+        title: 'Ouvrez Hi\u00a0Sunshine : le ciel répond en premier.',
         body: 'Rien à décoder. Votre journée s’ouvre sur l’indice UV en direct là où vous êtes.',
       },
       {
@@ -110,11 +110,11 @@ export const home: HomeCopy = {
       {
         label: 'Votre point',
         title: 'Quoi faire maintenant, pas combien de temps rester.',
-        body: 'Votre type de peau et votre SPF transforment la mesure en point protection. Soleil ne présente jamais le temps comme une permission.',
+        body: 'Votre type de peau et votre SPF transforment la mesure en point protection. Hi\u00a0Sunshine ne présente jamais le temps comme une permission.',
       },
     ],
     imageAlt:
-      'L’écran Votre journée de Soleil sur iPhone : UV en direct, pic du jour et conditions du moment',
+      'L’écran Votre journée de Hi\u00a0Sunshine sur iPhone : UV en direct, pic du jour et conditions du moment',
   },
 
   moments: {
@@ -135,9 +135,9 @@ export const home: HomeCopy = {
   },
 
   why: {
-    eyebrow: 'Pourquoi Soleil',
+    eyebrow: 'Pourquoi Hi\u00a0Sunshine',
     headline: 'Utile, et bien à vous',
-    body: 'Tout ce que Soleil apprend sur votre soleil reste à vous : sur votre iPhone, et dans votre iCloud privé si vous synchronisez. Aucun compte à créer, pas d’analytics, pas de publicité, pas de suivi entre apps.',
+    body: 'Tout ce que Hi\u00a0Sunshine apprend sur votre soleil reste à vous : sur votre iPhone, et dans votre iCloud privé si vous synchronisez. Aucun compte à créer, pas d’analytics, pas de publicité, pas de suivi entre apps.',
     badges: [
       'UV local en direct',
       'Privé par défaut',
@@ -179,7 +179,7 @@ export const home: HomeCopy = {
       {
         label: 'Pic',
         title: 'Les heures les plus fortes',
-        body: 'Vers midi, l’indice atteint son maximum. Soleil montre quelle part de votre lumière s’est passée là.',
+        body: 'Vers midi, l’indice atteint son maximum. Hi\u00a0Sunshine montre quelle part de votre lumière s’est passée là.',
       },
       {
         label: 'Soir',
@@ -187,9 +187,9 @@ export const home: HomeCopy = {
         body: 'La lumière de fin de journée se place sur la partie descendante de la courbe.',
       },
     ],
-    note: 'Real Sun lit le temps à la lumière du jour de l’Apple Watch avec votre permission. Soleil n’écrit jamais dans Santé, et la lumière du jour n’est jamais présentée comme un quota.',
+    note: 'Real Sun lit le temps à la lumière du jour de l’Apple Watch avec votre permission. Hi\u00a0Sunshine n’écrit jamais dans Santé, et la lumière du jour n’est jamais présentée comme un quota.',
     imageAlt:
-      'Le graphique Real Sun de Soleil : temps à la lumière du jour tracé sur la courbe UV du jour',
+      'Le graphique Real Sun de Hi\u00a0Sunshine : temps à la lumière du jour tracé sur la courbe UV du jour',
   },
 
   faq: {
@@ -199,11 +199,11 @@ export const home: HomeCopy = {
   },
 
   closing: {
-    headline: 'Emportez Soleil avec vous.',
+    headline: 'Emportez Hi\u00a0Sunshine avec vous.',
     body: 'L’UV en direct, un point protection pour votre peau et des rappels qui suivent la journée.',
     note: 'iPhone et Apple Watch',
     privacy:
       'Sans compte. Sans suivi. Votre historique reste sur vos appareils et dans votre iCloud.',
-    imageAlt: 'L’icône de l’app Soleil : un soleil doré sur un ciel bleu',
+    imageAlt: 'L’icône de l’app Hi\u00a0Sunshine : un soleil doré sur un ciel bleu',
   },
 };

@@ -23,7 +23,7 @@ import ConditionTiles from './cards/ConditionTiles.astro';
 import DaylightCard from './cards/DaylightCard.astro';
 import { useTranslations } from '../../i18n/utils';
 
-const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const t = useTranslations((Astro.url.pathname.match(/\/hi-sunshine\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
 const ui = t.appUi.phoneScreen;
 const tabIcons = ['calendar', 'sun', 'person'] as const;
 ---

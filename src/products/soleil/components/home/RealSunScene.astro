@@ -16,7 +16,7 @@
  */
 import { useTranslations } from '../../i18n/utils';
 
-const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const t = useTranslations((Astro.url.pathname.match(/\/hi-sunshine\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
 const { realSun } = t.home;
 
 /**

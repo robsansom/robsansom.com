@@ -14,8 +14,8 @@ import Cta from './Cta.astro';
 import LanguageSelector from './LanguageSelector.astro';
 import { useTranslations, toLocale, localePath, localeHash } from '../../i18n/utils';
 
-const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
-const locale = toLocale((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const t = useTranslations((Astro.url.pathname.match(/\/hi-sunshine\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const locale = toLocale((Astro.url.pathname.match(/\/hi-sunshine\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
 const home = localePath(locale, productPath('/'));
 
 const links = [
@@ -37,7 +37,7 @@ const menuLinks = [
     <a class="studio-return" href={import.meta.env.BASE_URL} aria-label="Rob Sansom — all apps">All apps</a>
     <a class="brand" href={home} aria-label={t.a11y.homeLink}>
       <SunMark size={28} />
-      <span>Soleil</span>
+      <span>Hi&nbsp;Sunshine!</span>
     </a>
 
     <nav class="hdr__nav" aria-label={t.nav.primaryLabel}>

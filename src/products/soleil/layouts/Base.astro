@@ -19,8 +19,8 @@ export interface Props {
   localised?: boolean;
 }
 
-const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
-const locale = toLocale((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const t = useTranslations((Astro.url.pathname.match(/\/hi-sunshine\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const locale = toLocale((Astro.url.pathname.match(/\/hi-sunshine\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
 
 const {
   title,
@@ -93,11 +93,11 @@ const alternates = localised
   </head>
   <body>
     <a class="skip-link" href="#main">{t.skipLabel}</a>
-    <Header slug="soleil"><LanguageSelector /></Header>
+    <Header slug="hi-sunshine"><LanguageSelector /></Header>
     <main id="main" class="studio-product">
       <slot />
     </main>
-    <Footer slug="soleil" />
+    <Footer slug="hi-sunshine" />
     <script>
       import '../scripts/motion';
     </script>

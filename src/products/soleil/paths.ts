@@ -1,6 +1,6 @@
 /** Paths inside the copied Soleil experience, including Pages subdirectories. */
 export function productPath(path: string = '/') {
-  const root = import.meta.env.BASE_URL + 'apps/soleil/';
+  const root = import.meta.env.BASE_URL + 'apps/hi-sunshine/';
   const local = path.startsWith(root) ? path : root + path.replace(/^\//, '');
   const [, pathname, suffix] = local.match(/^([^?#]*)(.*)$/s)!;
   const isAsset = /\.[^/]+$/.test(pathname);

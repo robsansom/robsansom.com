@@ -3,13 +3,13 @@ import type { LegalCopy } from '../../types';
 
 export const legal: LegalCopy = {
   privacyPage: {
-    metaTitle: 'Política de privacidad - Soleil',
-    metaDescription: 'Cómo trata Soleil tus datos. Sin cuenta. Sin rastreo. Tu perfil de piel, tus sesiones y tu historial viven en tus dispositivos y en tu iCloud privado.',
+    metaTitle: 'Política de privacidad - Hi\u00a0Sunshine!',
+    metaDescription: 'Cómo trata Hi\u00a0Sunshine tus datos. Sin cuenta. Sin rastreo. Tu perfil de piel, tus sesiones y tu historial viven en tus dispositivos y en tu iCloud privado.',
     eyebrow: 'Legal',
     headline: 'Privacidad.',
     headlineDim: 'Por defecto.',
-    lastUpdated: '28 de septiembre de 2026',
-    intro: 'Esta política explica, en lenguaje claro, qué hace Soleil con tu información. El resumen es breve: no hace gran cosa, a propósito.',
+    lastUpdated: '20 de noviembre de 2026',
+    intro: 'Esta política explica, en lenguaje claro, qué hace Hi\u00a0Sunshine con tu información. El resumen es breve: no hace gran cosa, a propósito.',
     promisesTitle: 'Nuestras promesas',
     promises: [
       'Sin cuenta. No hay nada en lo que tengas que registrarte.',
@@ -22,15 +22,15 @@ export const legal: LegalCopy = {
     sections: [
       {
         title: 'Quiénes somos',
-        body: 'Soleil (la "App") está publicada por un desarrollador independiente con sede en el Reino Unido ("nosotros"). Somos los responsables del tratamiento de la información personal que decidas enviarnos, como un correo de soporte. Para cuestiones de privacidad, escribe a support@getsoleilapp.com.'
+        body: 'Hi\u00a0Sunshine (antes Soleil; la "App") está publicada por un desarrollador independiente con sede en el Reino Unido ("nosotros"). Somos los responsables del tratamiento de la información personal que decidas enviarnos, como un correo de soporte. Para cuestiones de privacidad, escribe a hisunshine@robsansom.com.'
       },
       {
         title: 'La versión corta',
-        body: 'La App no tiene cuenta de Soleil ni servidor de contenidos operado por el desarrollador. Tu perfil de piel, tus sesiones de sol, tu registro de protector solar, los perfiles familiares y el historial de exposición se guardan en tu dispositivo mediante los frameworks de almacenamiento estándar de Apple y, si usas iCloud, se sincronizan entre tus propios dispositivos a través de tu cuenta privada de iCloud. Nosotros no los recibimos ni podemos leerlos. La App no incluye publicidad, rastreo entre apps ni SDK de analítica de terceros. La información que envías a soporte, los registros técnicos del sitio web gestionados por nuestro proveedor de alojamiento y la información que Apple proporciona a los desarrolladores se describen a continuación.'
+        body: 'La App no tiene cuenta de Hi\u00a0Sunshine ni servidor de contenidos operado por el desarrollador. Tu perfil de piel, tus sesiones de sol, tu registro de protector solar, los perfiles familiares y el historial de exposición se guardan en tu dispositivo mediante los frameworks de almacenamiento estándar de Apple y, si usas iCloud, se sincronizan entre tus propios dispositivos a través de tu cuenta privada de iCloud. Nosotros no los recibimos ni podemos leerlos. La App no incluye publicidad, rastreo entre apps ni SDK de analítica de terceros. La información que envías a soporte, los registros técnicos del sitio web gestionados por nuestro proveedor de alojamiento y la información que Apple proporciona a los desarrolladores se describen a continuación.'
       },
       {
         title: 'Qué datos maneja la app y dónde viven',
-        body: 'En tu dispositivo, tu tipo de piel Fitzpatrick, tus elecciones de FPS y ropa, tus sesiones de sol, los perfiles familiares, los lugares guardados, las fotos de progreso y el historial se almacenan mediante el framework SwiftData de Apple. Si iCloud está activado en tu cuenta de Apple, SwiftData también sincroniza estos datos entre tus dispositivos a través de la base de datos privada de tu propia cuenta de iCloud, donde Apple los guarda conforme a sus propios términos. Esa base de datos privada pertenece a tu cuenta de Apple: Soleil no opera una base de datos aparte con esta información, y ni las herramientas de Apple ni la App nos permiten leerla. Puedes desactivar iCloud para Soleil en los Ajustes de iOS para mantener los datos solo en el dispositivo. Los perfiles familiares son simples registros que tú creas - Soleil no contacta ni identifica a las personas que describen.'
+        body: 'En tu dispositivo, tu tipo de piel Fitzpatrick, tus elecciones de FPS y ropa, tus sesiones de sol, los perfiles familiares, los lugares guardados, las fotos de progreso y el historial se almacenan mediante el framework SwiftData de Apple. Si iCloud está activado en tu cuenta de Apple, SwiftData también sincroniza estos datos entre tus dispositivos a través de la base de datos privada de tu propia cuenta de iCloud, donde Apple los guarda conforme a sus propios términos. Esa base de datos privada pertenece a tu cuenta de Apple: Hi\u00a0Sunshine no opera una base de datos aparte con esta información, y ni las herramientas de Apple ni la App nos permiten leerla. Puedes desactivar iCloud para Hi\u00a0Sunshine en los Ajustes de iOS para mantener los datos solo en el dispositivo. Los perfiles familiares son simples registros que tú creas - Hi\u00a0Sunshine no contacta ni identifica a las personas que describen.'
       },
       {
         title: 'Ubicación y meteorología',
@@ -50,7 +50,7 @@ export const legal: LegalCopy = {
       },
       {
         title: 'Compras y suscripciones',
-        body: 'Soleil Pro se vende a través del App Store de Apple mediante StoreKit. Apple procesa los pagos y pone a disposición de la App la información de compra y de derechos de acceso para que pueda desbloquear las funciones de pago. Nosotros no recibimos los datos completos de tu tarjeta. Apple gestiona la facturación, los reembolsos y los impuestos conforme a los Términos de los Servicios Multimedia de Apple.'
+        body: 'Hi\u00a0Sunshine Pro se vende a través del App Store de Apple mediante StoreKit. Apple procesa los pagos y pone a disposición de la App la información de compra y de derechos de acceso para que pueda desbloquear las funciones de pago. Nosotros no recibimos los datos completos de tu tarjeta. Apple gestiona la facturación, los reembolsos y los impuestos conforme a los Términos de los Servicios Multimedia de Apple.'
       },
       {
         title: 'Sitio web y soporte',
@@ -70,11 +70,11 @@ export const legal: LegalCopy = {
       },
       {
         title: 'Menores',
-        body: 'Soleil está pensada para un público general y no se dirige específicamente a menores. Los perfiles familiares de menores los crea y controla el adulto propietario del dispositivo, y permanecen en los dispositivos de ese adulto y en su propio iCloud privado. No pedimos a los usuarios que creen una cuenta ni que indiquen su edad. Si un menor escribe a soporte, usamos el mensaje solo para responder y gestionar la solicitud. Un padre, madre o tutor puede contactarnos en relación con esa correspondencia.'
+        body: 'Hi\u00a0Sunshine está pensada para un público general y no se dirige específicamente a menores. Los perfiles familiares de menores los crea y controla el adulto propietario del dispositivo, y permanecen en los dispositivos de ese adulto y en su propio iCloud privado. No pedimos a los usuarios que creen una cuenta ni que indiquen su edad. Si un menor escribe a soporte, usamos el mensaje solo para responder y gestionar la solicitud. Un padre, madre o tutor puede contactarnos en relación con esa correspondencia.'
       },
       {
         title: 'Tus derechos',
-        body: 'Según dónde vivas, puedes tener derechos sobre la información personal que controlamos, incluidos los derechos de acceso, rectificación, supresión, limitación u oposición a su uso, y el derecho a reclamar ante un regulador. Estos derechos están sujetos a límites legales. Escribe a support@getsoleilapp.com para hacer una solicitud. Los residentes en el Reino Unido pueden reclamar ante la Information Commissioner\u2019s Office en ico.org.uk. El contenido almacenado en tus dispositivos o en tu iCloud privado debe gestionarse desde la App, el propio dispositivo o los ajustes de iCloud, porque nosotros no guardamos ninguna copia.'
+        body: 'Según dónde vivas, puedes tener derechos sobre la información personal que controlamos, incluidos los derechos de acceso, rectificación, supresión, limitación u oposición a su uso, y el derecho a reclamar ante un regulador. Estos derechos están sujetos a límites legales. Escribe a hisunshine@robsansom.com para hacer una solicitud. Los residentes en el Reino Unido pueden reclamar ante la Information Commissioner\u2019s Office en ico.org.uk. El contenido almacenado en tus dispositivos o en tu iCloud privado debe gestionarse desde la App, el propio dispositivo o los ajustes de iCloud, porque nosotros no guardamos ninguna copia.'
       },
       {
         title: 'Cambios en esta política',
@@ -82,13 +82,13 @@ export const legal: LegalCopy = {
       },
       {
         title: 'Contacto',
-        body: 'Las preguntas o solicitudes sobre privacidad pueden enviarse a support@getsoleilapp.com. Hay una dirección postal disponible bajo petición para correspondencia formal.'
+        body: 'Las preguntas o solicitudes sobre privacidad pueden enviarse a hisunshine@robsansom.com. Hay una dirección postal disponible bajo petición para correspondencia formal.'
       }
     ]
   },
   supportPage: {
-    metaTitle: 'Soporte - Soleil',
-    metaDescription: 'Ayuda y respuestas para Soleil. Ama el sol. No las quemaduras.',
+    metaTitle: 'Soporte - Hi\u00a0Sunshine!',
+    metaDescription: 'Ayuda y respuestas para Hi\u00a0Sunshine. Ama el sol. No las quemaduras.',
     eyebrow: 'Soporte',
     headline: 'Estamos aquí',
     headlineDim: 'para ayudarte.',
@@ -98,8 +98,8 @@ export const legal: LegalCopy = {
     faqTitle: 'Preguntas frecuentes',
     faqs: [
       {
-        q: '¿Qué me dice Soleil sobre el UV de hoy?',
-        a: 'Soleil muestra el índice UV en directo de tu ubicación, su categoría, el pico de hoy y la curva horaria con Apple WeatherKit. Tu tipo de piel Fitzpatrick y tu FPS lo convierten en una comprobación de protección a tiempo. A propósito, no presenta una cuenta atrás como tiempo seguro al sol: la sombra, el agua, la altitud y los reflejos también cuentan.'
+        q: '¿Qué me dice Hi\u00a0Sunshine sobre el UV de hoy?',
+        a: 'Hi\u00a0Sunshine muestra el índice UV en directo de tu ubicación, su categoría, el pico de hoy y la curva horaria con Apple WeatherKit. Tu tipo de piel Fitzpatrick y tu FPS lo convierten en una comprobación de protección a tiempo. A propósito, no presenta una cuenta atrás como tiempo seguro al sol: la sombra, el agua, la altitud y los reflejos también cuentan.'
       },
       {
         q: '¿Cómo configuro mi tipo de piel?',
@@ -107,7 +107,7 @@ export const legal: LegalCopy = {
       },
       {
         q: '¿Cómo funcionan los perfiles familiares?',
-        a: 'Los perfiles familiares forman parte de Soleil Pro. Añade a las personas que cuidas en la pestaña Tú y elige quién está fuera al iniciar el temporizador de sol. Cada persona conserva su propio tipo de piel y su registro de protector, y Soleil lleva un recordatorio de reaplicación para cada una. Pro añade también el historial familiar y el widget de estado de Familia. Los datos familiares se quedan en tus dispositivos y en tu propio iCloud privado - no se comparte nada con nosotros. Tu propia protección solar siempre es gratis.'
+        a: 'Los perfiles familiares forman parte de Hi\u00a0Sunshine Pro. Añade a las personas que cuidas en la pestaña Tú y elige quién está fuera al iniciar el temporizador de sol. Cada persona conserva su propio tipo de piel y su registro de protector, y Hi\u00a0Sunshine lleva un recordatorio de reaplicación para cada una. Pro añade también el historial familiar y el widget de estado de Familia. Los datos familiares se quedan en tus dispositivos y en tu propio iCloud privado - no se comparte nada con nosotros. Tu propia protección solar siempre es gratis.'
       },
       {
         q: '¿Qué necesito para las funciones de Apple Watch?',
@@ -115,54 +115,54 @@ export const legal: LegalCopy = {
       },
       {
         q: '¿Reaplicar protector solar reinicia mi exposición al sol?',
-        a: 'No - y es deliberado. Reaplicar renueva tu protección de ahí en adelante, pero el UV que tu piel ya ha recibido hoy sigue contando. Soleil registra ambas cosas por separado, para que tu total diario sea siempre honesto.'
+        a: 'No - y es deliberado. Reaplicar renueva tu protección de ahí en adelante, pero el UV que tu piel ya ha recibido hoy sigue contando. Hi\u00a0Sunshine registra ambas cosas por separado, para que tu total diario sea siempre honesto.'
       },
       {
-        q: '¿Qué incluye Soleil Pro y cuánto cuesta?',
+        q: '¿Qué incluye Hi\u00a0Sunshine Pro y cuánto cuesta?',
         a: 'Gratis cubre tu propio sol, cada día: UV en directo y las condiciones del día, el temporizador de sol y los recordatorios, la Actividad en Vivo, la app de Apple Watch, los widgets, tu perfil de piel (con un escaneo de piel con IA) y cada sesión que registres. Pro añade sesiones Daily Glow guiadas y el editor de rutina, perfiles familiares y salidas con un recordatorio para cada persona, el historial familiar y el widget de Familia, Real Sun (tiempo con luz de día), tendencias mensuales, el mapa de calor del calendario, Viaje al sol y nuevos escaneos de piel con IA. Cuesta 2,49 $/semana, 29,99 $/año con 3 días de prueba gratis, o 79,99 $ en un pago único. Los precios pueden variar según el país - Apple te muestra el tuyo antes de comprar.'
       },
       {
         q: '¿Cómo cancelo una suscripción Pro?',
-        a: 'Las suscripciones las gestiona Apple. Abre los Ajustes de iOS, toca tu nombre, luego Suscripciones, busca Soleil y toca Cancelar. Mantendrás el acceso a Pro hasta el final del período de facturación actual.'
+        a: 'Las suscripciones las gestiona Apple. Abre los Ajustes de iOS, toca tu nombre, luego Suscripciones, busca Hi\u00a0Sunshine y toca Cancelar. Mantendrás el acceso a Pro hasta el final del período de facturación actual.'
       },
       {
         q: '¿Puedo pedir un reembolso?',
-        a: 'Los reembolsos de compras del App Store los gestiona Apple. Visita reportaproblem.apple.com, inicia sesión, busca la compra de Soleil y solicita un reembolso.'
+        a: 'Los reembolsos de compras del App Store los gestiona Apple. Visita reportaproblem.apple.com, inicia sesión, busca la compra de Hi\u00a0Sunshine y solicita un reembolso.'
       },
       {
-        q: '¿Es Soleil consejo médico?',
-        a: 'No. Soleil es orientación de bienestar basada en ciencia UV publicada, y siempre peca de prudente - pero no puede ver tu piel. Si tienes la piel sensible, antecedentes de cáncer de piel o una afección diagnosticada, sigue primero el plan de tu dermatólogo.'
+        q: '¿Es Hi\u00a0Sunshine consejo médico?',
+        a: 'No. Hi\u00a0Sunshine es orientación de bienestar basada en ciencia UV publicada, y siempre peca de prudente - pero no puede ver tu piel. Si tienes la piel sensible, antecedentes de cáncer de piel o una afección diagnosticada, sigue primero el plan de tu dermatólogo.'
       },
       {
         q: 'He encontrado un error. ¿Qué hago?',
-        a: 'Escribe a support@getsoleilapp.com con una breve descripción de lo que estabas haciendo, lo que esperabas y lo que ocurrió en realidad. Una captura de pantalla ayuda mucho.'
+        a: 'Escribe a hisunshine@robsansom.com con una breve descripción de lo que estabas haciendo, lo que esperabas y lo que ocurrió en realidad. Una captura de pantalla ayuda mucho.'
       }
     ]
   },
   termsPage: {
-    metaTitle: 'Términos de uso - Soleil',
-    metaDescription: 'Los términos en lenguaje claro que se aplican cuando descargas o usas la app Soleil para iOS.',
+    metaTitle: 'Términos de uso - Hi\u00a0Sunshine!',
+    metaDescription: 'Los términos en lenguaje claro que se aplican cuando descargas o usas la app Hi\u00a0Sunshine para iOS.',
     eyebrow: 'Legal',
     headline: 'Términos',
     headlineDim: 'de uso.',
-    lastUpdated: '28 de septiembre de 2026',
-    intro: 'Estos términos se aplican cuando descargas o usas la app Soleil para iOS ("Soleil", "nosotros"). Al usar Soleil los aceptas, junto con el EULA estándar de Apple. Están escritos en lenguaje claro a propósito.',
+    lastUpdated: '20 de noviembre de 2026',
+    intro: 'Estos términos se aplican cuando descargas o usas la app Hi\u00a0Sunshine para iOS, antes Soleil ("Hi\u00a0Sunshine", "nosotros"). Al usar Hi\u00a0Sunshine los aceptas, junto con el EULA estándar de Apple. Están escritos en lenguaje claro a propósito.',
     tldrTitle: 'En resumen',
     tldr: [
-      'Soleil se te licencia para uso personal en tus dispositivos Apple.',
+      'Hi\u00a0Sunshine se te licencia para uso personal en tus dispositivos Apple.',
       'Las funciones gratuitas y de pago, los precios y la disponibilidad se muestran en la App antes de comprar.',
       'Apple cobra el pago, gestiona los reembolsos y administra tu suscripción.',
-      'Soleil es orientación de bienestar, no consejo médico - las decisiones sobre el sol siguen siendo tuyas.',
+      'Hi\u00a0Sunshine es orientación de bienestar, no consejo médico - las decisiones sobre el sol siguen siendo tuyas.',
       'Estos términos se rigen por las leyes de Inglaterra y Gales.'
     ],
     sections: [
       {
         title: '1. Sobre estos términos',
-        body: 'Estos términos se aplican cuando descargas o usas la app Soleil para iOS y watchOS ("Soleil", la "App"). La App está publicada por un desarrollador independiente con sede en el Reino Unido ("nosotros"). Al usar Soleil, aceptas estos términos junto con el Acuerdo de Licencia de Aplicación con Licencia para el Usuario Final de Apple (el "EULA de Apple"). Están escritos en lenguaje claro a propósito.'
+        body: 'Estos términos se aplican cuando descargas o usas la app Hi\u00a0Sunshine para iOS y watchOS ("Hi\u00a0Sunshine", la "App"). La App está publicada por un desarrollador independiente con sede en el Reino Unido ("nosotros"). Al usar Hi\u00a0Sunshine, aceptas estos términos junto con el Acuerdo de Licencia de Aplicación con Licencia para el Usuario Final de Apple (el "EULA de Apple"). Están escritos en lenguaje claro a propósito.'
       },
       {
         title: '2. La licencia',
-        body: 'Soleil se te licencia (no se te vende) para uso personal y no comercial en cualquier dispositivo Apple que poseas o controles, conforme a los términos del EULA de Apple. Cuando estos términos añaden algo al EULA de Apple - por ejemplo, sobre nuestra propiedad intelectual, los reembolsos o la ley que rige las disputas entre nosotros - estos términos se aplican junto a él.',
+        body: 'Hi\u00a0Sunshine se te licencia (no se te vende) para uso personal y no comercial en cualquier dispositivo Apple que poseas o controles, conforme a los términos del EULA de Apple. Cuando estos términos añaden algo al EULA de Apple - por ejemplo, sobre nuestra propiedad intelectual, los reembolsos o la ley que rige las disputas entre nosotros - estos términos se aplican junto a él.',
         link: {
           label: 'Leer el EULA estándar de Apple',
           href: 'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/'
@@ -170,11 +170,11 @@ export const legal: LegalCopy = {
       },
       {
         title: '3. No es consejo médico',
-        body: 'Soleil ofrece orientación general de bienestar sobre la exposición al sol basada en ciencia UV publicada, datos meteorológicos y la información que introduces. No es un dispositivo médico, no diagnostica, trata ni previene ninguna afección, y no puede tener en cuenta todos los factores individuales. Las estimaciones como las lecturas de UV, las comprobaciones de protección y el tiempo a la luz del día son aproximaciones. Usa siempre tu propio criterio y sigue los consejos de un profesional sanitario cualificado - especialmente si tienes la piel sensible, antecedentes de cáncer de piel, fotosensibilidad o tomas medicación que afecte a la tolerancia al sol. Tú sigues siendo responsable de tus decisiones sobre el sol y de las de tu familia.'
+        body: 'Hi\u00a0Sunshine ofrece orientación general de bienestar sobre la exposición al sol basada en ciencia UV publicada, datos meteorológicos y la información que introduces. No es un dispositivo médico, no diagnostica, trata ni previene ninguna afección, y no puede tener en cuenta todos los factores individuales. Las estimaciones como las lecturas de UV, las comprobaciones de protección y el tiempo a la luz del día son aproximaciones. Usa siempre tu propio criterio y sigue los consejos de un profesional sanitario cualificado - especialmente si tienes la piel sensible, antecedentes de cáncer de piel, fotosensibilidad o tomas medicación que afecte a la tolerancia al sol. Tú sigues siendo responsable de tus decisiones sobre el sol y de las de tu familia.'
       },
       {
         title: '4. Gratis y Pro',
-        body: 'Soleil puede ofrecer funciones gratuitas y de pago. Los límites y funciones actuales se muestran en la App y en la ficha del App Store. Las funciones de pago pueden incluir sesiones guiadas, la historia de luz de Real Sun y un historial ampliado. Las funciones pueden variar según el dispositivo, la versión del sistema operativo y el territorio; algunas funciones requieren un Apple Watch y/o permisos como la ubicación o el acceso a HealthKit.'
+        body: 'Hi\u00a0Sunshine puede ofrecer funciones gratuitas y de pago. Los límites y funciones actuales se muestran en la App y en la ficha del App Store. Las funciones de pago pueden incluir sesiones guiadas, la historia de luz de Real Sun y un historial ampliado. Las funciones pueden variar según el dispositivo, la versión del sistema operativo y el territorio; algunas funciones requieren un Apple Watch y/o permisos como la ubicación o el acceso a HealthKit.'
       },
       {
         title: '5. Suscripciones y compra única',
@@ -182,7 +182,7 @@ export const legal: LegalCopy = {
       },
       {
         title: '6. Reembolsos',
-        body: 'Todas las compras de Soleil las procesa Apple conforme a los Términos de los Servicios Multimedia de Apple. Apple, no nosotros, gestiona los reembolsos. Puedes solicitar un reembolso en reportaproblem.apple.com o desde el historial de compras de tu Apple ID. No tenemos capacidad para emitir reembolsos directamente y no almacenamos tus datos de pago.',
+        body: 'Todas las compras de Hi\u00a0Sunshine las procesa Apple conforme a los Términos de los Servicios Multimedia de Apple. Apple, no nosotros, gestiona los reembolsos. Puedes solicitar un reembolso en reportaproblem.apple.com o desde el historial de compras de tu Apple ID. No tenemos capacidad para emitir reembolsos directamente y no almacenamos tus datos de pago.',
         link: {
           label: 'Solicitar un reembolso a Apple',
           href: 'https://reportaproblem.apple.com'
@@ -206,15 +206,15 @@ export const legal: LegalCopy = {
       },
       {
         title: '10. Uso aceptable',
-        body: 'Por favor, no (a) realices ingeniería inversa, descompiles ni modifiques Soleil salvo donde la ley o el EULA de Apple lo permitan expresamente; (b) eludas las comprobaciones de compra o de derechos de acceso; ni (c) interfieras con la App o con el uso que otra persona haga de ella. Cuando sea técnica y legalmente posible, podremos restringir el acceso a las funciones afectadas en caso de incumplimiento grave.'
+        body: 'Por favor, no (a) realices ingeniería inversa, descompiles ni modifiques Hi\u00a0Sunshine salvo donde la ley o el EULA de Apple lo permitan expresamente; (b) eludas las comprobaciones de compra o de derechos de acceso; ni (c) interfieras con la App o con el uso que otra persona haga de ella. Cuando sea técnica y legalmente posible, podremos restringir el acceso a las funciones afectadas en caso de incumplimiento grave.'
       },
       {
         title: '11. Nuestra propiedad intelectual',
-        body: 'El nombre, el diseño, los iconos, el código fuente y la marca de Soleil son de nuestra propiedad o se usan bajo licencia. La licencia de la sección 2 no te transfiere esos derechos. Puedes mencionar la App o enlazar a getsoleilapp.com en reseñas, artículos o publicaciones en redes sociales, pero no debes dar a entender nuestro respaldo o patrocinio sin permiso.'
+        body: 'El nombre, el diseño, los iconos, el código fuente y la marca de Hi\u00a0Sunshine son de nuestra propiedad o se usan bajo licencia. La licencia de la sección 2 no te transfiere esos derechos. Puedes mencionar la App o enlazar a robsansom.com/apps/hi-sunshine en reseñas, artículos o publicaciones en redes sociales, pero no debes dar a entender nuestro respaldo o patrocinio sin permiso.'
       },
       {
         title: '12. El papel de Apple (software habilitado por Apple)',
-        body: 'Soleil se distribuye a través del App Store de Apple, lo que añade los siguientes términos exigidos por Apple:',
+        body: 'Hi\u00a0Sunshine se distribuye a través del App Store de Apple, lo que añade los siguientes términos exigidos por Apple:',
         bullets: [
           'Estos términos se celebran entre tú y nosotros, no con Apple. Apple no es parte de ellos y no tiene responsabilidad alguna sobre la App ni su contenido.',
           'Nosotros (no Apple) somos los únicos responsables de la App, de su contenido y de cualquier mantenimiento o soporte. Apple no tiene obligación alguna de proporcionar mantenimiento o soporte en relación con la App.',
@@ -227,7 +227,7 @@ export const legal: LegalCopy = {
       },
       {
         title: '13. Exenciones de responsabilidad',
-        body: 'Soleil se proporciona "tal cual" y "según disponibilidad". En la máxima medida permitida por la ley, rechazamos todas las garantías, condiciones y declaraciones no expresamente indicadas aquí, incluida cualquier garantía de que la App funcionará sin interrupciones o sin errores, o de que las estimaciones de UV, meteorología o luz de día serán exactas. Nada en estos términos elimina ni limita los derechos irrenunciables que te correspondan en virtud de la Consumer Rights Act 2015 del Reino Unido o de leyes de protección del consumidor similares.'
+        body: 'Hi\u00a0Sunshine se proporciona "tal cual" y "según disponibilidad". En la máxima medida permitida por la ley, rechazamos todas las garantías, condiciones y declaraciones no expresamente indicadas aquí, incluida cualquier garantía de que la App funcionará sin interrupciones o sin errores, o de que las estimaciones de UV, meteorología o luz de día serán exactas. Nada en estos términos elimina ni limita los derechos irrenunciables que te correspondan en virtud de la Consumer Rights Act 2015 del Reino Unido o de leyes de protección del consumidor similares.'
       },
       {
         title: '14. Limitación de responsabilidad',
@@ -247,7 +247,7 @@ export const legal: LegalCopy = {
       },
       {
         title: '18. Contacto',
-        body: '¿Preguntas sobre estos términos? Escribe a support@getsoleilapp.com. Hay una dirección postal en el Reino Unido disponible bajo petición para correspondencia formal.'
+        body: '¿Preguntas sobre estos términos? Escribe a hisunshine@robsansom.com. Hay una dirección postal en el Reino Unido disponible bajo petición para correspondencia formal.'
       }
     ]
   }

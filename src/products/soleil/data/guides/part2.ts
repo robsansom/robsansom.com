@@ -5,7 +5,7 @@ export const part2: Guide[] = [
   {
     slug: 'can-you-tan-through-clouds',
     title: 'Can you tan or burn through clouds?',
-    metaTitle: 'Can You Tan or Burn Through Clouds? UV on Overcast Days | Soleil',
+    metaTitle: 'Can You Tan or Burn Through Clouds? UV on Overcast Days | Hi\u00a0Sunshine!',
     metaDescription:
       'Yes. Up to 90% of UV passes through light cloud, and broken cloud can even amplify it. Why cloudy-day sunburn is so common and how to check the real UV in seconds.',
     category: 'UV basics',
@@ -47,12 +47,12 @@ export const part2: Guide[] = [
     soleil: {
       heading: 'Check the real number, not the sky',
       paragraphs: [
-        'Soleil shows the live UV index for exactly where you are, next to the current cloud cover, so “it looks grey” stops being a judgement call. If UV is 3 or above, it says protection is recommended, whatever the sky looks like.',
+        'Hi\u00a0Sunshine shows the live UV index for exactly where you are, next to the current cloud cover, so “it looks grey” stops being a judgement call. If UV is 3 or above, it says protection is recommended, whatever the sky looks like.',
         'A Home Screen widget or Apple Watch complication makes this a half-second glance before you head out, the habit that prevents most cloudy-day burns.',
       ],
       screenshot: {
         src: productPath('/images/app/your-day.webp'),
-        alt: 'Soleil’s Your Day screen: UV 10, Very High, with cloud cover at 5% and humidity beside it',
+        alt: 'Hi\u00a0Sunshine’s Your Day screen: UV 10, Very High, with cloud cover at 5% and humidity beside it',
       },
     },
     faqs: [
@@ -75,7 +75,7 @@ export const part2: Guide[] = [
   {
     slug: 'fitzpatrick-skin-type',
     title: 'What’s your Fitzpatrick skin type? The 6 types, explained',
-    metaTitle: 'Fitzpatrick Skin Type Test: Find Your Type (I–VI) | Soleil',
+    metaTitle: 'Fitzpatrick Skin Type Test: Find Your Type (I–VI) | Hi\u00a0Sunshine!',
     metaDescription:
       'The Fitzpatrick scale classifies skin I–VI by how it burns and tans. Identify your type with the trait table and see why it changes your sun-protection timing.',
     category: 'Skin',
@@ -114,12 +114,12 @@ export const part2: Guide[] = [
     soleil: {
       heading: 'Set it once, and every number becomes yours',
       paragraphs: [
-        'Soleil establishes your Fitzpatrick type during onboarding: answer a short survey, pick it directly, or use the optional AI skin scan (one photo through a secure proxy, never stored, with a fully on-device fallback).',
+        'Hi\u00a0Sunshine establishes your Fitzpatrick type during onboarding: answer a short survey, pick it directly, or use the optional AI skin scan (one photo through a secure proxy, never stored, with a fully on-device fallback).',
         'From then on, every protection-check estimate, family profile and session record is calibrated to the skin you actually have, not a population average. You can change it any time in the You tab.',
       ],
       screenshot: {
         src: productPath('/images/app/you.webp'),
-        alt: 'Soleil’s You tab: Skin Type III, then each person in the family with their own protection guidance',
+        alt: 'Hi\u00a0Sunshine’s You tab: Skin Type III, then each person in the family with their own protection guidance',
       },
     },
     faqs: [
@@ -142,7 +142,7 @@ export const part2: Guide[] = [
   {
     slug: 'uv-index-for-kids',
     title: 'What UV index is safe for kids? A parent’s guide',
-    metaTitle: 'What UV Index Is Safe for Kids? Family Sun Safety Guide | Soleil',
+    metaTitle: 'What UV Index Is Safe for Kids? Family Sun Safety Guide | Hi\u00a0Sunshine!',
     metaDescription:
       'Children need protection from UV 3, and babies under 6 months should stay out of direct sun entirely. Practical family rules: shade, clothing, SPF, reapply timing.',
     category: 'Family',
@@ -174,12 +174,12 @@ export const part2: Guide[] = [
     soleil: {
       heading: 'One outing, every child in view',
       paragraphs: [
-        'Family is built into Soleil’s session model. Add a profile for each person you look after, each with their own skin type, then start an outing and record sunscreen, shade, cover and swimming per person. Each child gets their <strong>own reapply reminder</strong>, because the toddler who just towelled off is not on the same clock as the teenager in the shade.',
-        'The You tab shows everyone’s skin type and protection guidance at a glance, and family data stays on your devices and in your own private iCloud: no Soleil account, nothing shared with us. Pro adds the family’s history over time and a Family status widget.',
+        'Family is built into Hi\u00a0Sunshine’s session model. Add a profile for each person you look after, each with their own skin type, then start an outing and record sunscreen, shade, cover and swimming per person. Each child gets their <strong>own reapply reminder</strong>, because the toddler who just towelled off is not on the same clock as the teenager in the shade.',
+        'The You tab shows everyone’s skin type and protection guidance at a glance, and family data stays on your devices and in your own private iCloud: no Hi\u00a0Sunshine account, nothing shared with us. Pro adds the family’s history over time and a Family status widget.',
       ],
       screenshot: {
         src: productPath('/images/app/you.webp'),
-        alt: 'Soleil’s You tab: family members, including a child, each with their own skin type and protection guidance',
+        alt: 'Hi\u00a0Sunshine’s You tab: family members, including a child, each with their own skin type and protection guidance',
       },
     },
     faqs: [
@@ -202,7 +202,7 @@ export const part2: Guide[] = [
   {
     slug: 'what-does-spf-mean',
     title: 'What does SPF actually mean?',
-    metaTitle: 'What Does SPF Mean? SPF 30 vs 50, How It Really Works | Soleil',
+    metaTitle: 'What Does SPF Mean? SPF 30 vs 50, How It Really Works | Hi\u00a0Sunshine!',
     metaDescription:
       'SPF is a lab-measured multiplier of how long skin takes to redden under UVB. SPF 30 filters ~96.7%, SPF 50 ~98%, and real-world application changes everything.',
     category: 'Sunscreen',
@@ -243,12 +243,12 @@ export const part2: Guide[] = [
     soleil: {
       heading: 'SPF as an input, not a promise',
       paragraphs: [
-        'Soleil records which SPF you’re wearing and factors it into your protection-check estimates alongside live UV, your skin type and clothing, using conservative real-world assumptions, not the lab multiplier.',
+        'Hi\u00a0Sunshine records which SPF you’re wearing and factors it into your protection-check estimates alongside live UV, your skin type and clothing, using conservative real-world assumptions, not the lab multiplier.',
         'It’s honest by design: logging SPF 50 doesn’t make the timer promise you the whole afternoon, and reapplying never extends a session. The estimate is a prompt to reassess, not permission.',
       ],
       screenshot: {
         src: productPath('/images/app/live-outing.webp'),
-        alt: 'Soleil’s live outing: elapsed time, not a safe-time countdown, beside a protection check and sunscreen alerts',
+        alt: 'Hi\u00a0Sunshine’s live outing: elapsed time, not a safe-time countdown, beside a protection check and sunscreen alerts',
       },
     },
     faqs: [
@@ -271,7 +271,7 @@ export const part2: Guide[] = [
   {
     slug: 'apple-watch-time-in-daylight',
     title: 'Apple Watch “Time in Daylight”, explained',
-    metaTitle: 'Apple Watch Time in Daylight: How It Works & How to Use It | Soleil',
+    metaTitle: 'Apple Watch Time in Daylight: How It Works & How to Use It | Hi\u00a0Sunshine!',
     metaDescription:
       'Time in Daylight uses the Apple Watch ambient light sensor to estimate minutes spent in ≥1,000 lux. How it works, where to find it, its limits, and how to pair it with UV.',
     category: 'Apple Watch',
@@ -285,7 +285,7 @@ export const part2: Guide[] = [
         items: [
           'The watch samples ambient light through the day and accumulates minutes above the daylight threshold, with no GPS or UV measurement involved.',
           'View it in the <strong>Health app → Browse → Other Data → Time in Daylight</strong> (or via Health Sharing for a child’s watch).',
-          'It syncs to HealthKit, so apps you authorise can read it, which is how Soleil uses it.',
+          'It syncs to HealthKit, so apps you authorise can read it, which is how Hi\u00a0Sunshine uses it.',
         ],
       },
       { type: 'h2', text: 'What it can’t tell you' },
@@ -301,12 +301,12 @@ export const part2: Guide[] = [
     soleil: {
       heading: 'Real Sun: your daylight, against the day’s UV',
       paragraphs: [
-        'Soleil’s <strong>Real Sun</strong> (Pro) reads your Time in Daylight from HealthKit, with your permission, read-only and entirely on-device, and draws it against the same day’s UV curve. You can see at a glance whether your outdoor time was gentle morning light or peak-index sun, and what that meant for your exposure.',
-        'The free Soleil Watch app also puts live UV, session time and today’s daylight on your wrist, with complications and a Smart Stack card.',
+        'Hi\u00a0Sunshine’s <strong>Real Sun</strong> (Pro) reads your Time in Daylight from HealthKit, with your permission, read-only and entirely on-device, and draws it against the same day’s UV curve. You can see at a glance whether your outdoor time was gentle morning light or peak-index sun, and what that meant for your exposure.',
+        'The free Hi\u00a0Sunshine Watch app also puts live UV, session time and today’s daylight on your wrist, with complications and a Smart Stack card.',
       ],
       screenshot: {
         src: productPath('/images/app/your-sun.webp'),
-        alt: 'The Soleil Your Sun tab: start the Sun timer and keep protection checks running',
+        alt: 'The Hi\u00a0Sunshine Your Sun tab: start the Sun timer and keep protection checks running',
       },
     },
     faqs: [

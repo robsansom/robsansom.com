@@ -5,7 +5,7 @@ import { productPath, localizeHtml } from '../../paths';
 import RailArrows from '../site/RailArrows.astro';
 import { useTranslations } from '../../i18n/utils';
 
-const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const t = useTranslations((Astro.url.pathname.match(/\/hi-sunshine\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
 const { moves } = t.home;
 
 /** Commissioned ink drawings, one per move. Derived to WebP by

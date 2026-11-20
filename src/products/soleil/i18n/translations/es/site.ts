@@ -3,13 +3,13 @@ import type { SiteCopy } from '../../types';
 
 export const site: SiteCopy = {
   meta: {
-    title: 'Soleil - Índice UV y protección solar para iPhone y Apple Watch',
-    description: 'Soleil es una app de UV centrada en la protección: UV en directo donde estás, una comprobación de protección ajustada a tu piel y tu FPS, recordatorios de protector solar que siguen el día y comprobaciones para las personas que cuidas.'
+    title: 'Hi\u00a0Sunshine! - Índice UV y protección solar para iPhone y Apple Watch',
+    description: 'Hi\u00a0Sunshine es una app de UV centrada en la protección: UV en directo donde estás, una comprobación de protección ajustada a tu piel y tu FPS, recordatorios de protector solar que siguen el día y comprobaciones para las personas que cuidas.'
   },
   a11y: {
     selectLanguage: 'Seleccionar idioma',
-    homeLink: 'Inicio de Soleil',
-    appStoreLinkLabel: 'Descarga Soleil en el App Store',
+    homeLink: 'Inicio de Hi\u00a0Sunshine',
+    appStoreLinkLabel: 'Descarga Hi\u00a0Sunshine en el App Store',
     appStoreBadgeAlt: 'Descárgalo en el App Store'
   },
   header: {
@@ -22,9 +22,9 @@ export const site: SiteCopy = {
     taglineHeadline: 'La forma de',
     taglineHeadlineDim: 'tu día al sol.',
     copyright: 'Hecho con cariño en el Reino Unido.',
-    appleAffiliation: 'Soleil es una app independiente, no afiliada a Apple Inc.',
+    appleAffiliation: 'Hi\u00a0Sunshine es una app independiente, no afiliada a Apple Inc.',
     appleTrademarks: 'Apple, el logotipo de Apple, iPhone y Apple Watch son marcas comerciales de Apple Inc., registradas en EE. UU. y en otros países y regiones. App Store es una marca de servicio de Apple Inc.',
-    medicalDisclaimer: 'Soleil ofrece orientación de bienestar, no consejo médico. Si tienes la piel sensible o una afección diagnosticada, sigue el plan de tu dermatólogo.',
+    medicalDisclaimer: 'Hi\u00a0Sunshine ofrece orientación de bienestar, no consejo médico. Si tienes la piel sensible o una afección diagnosticada, sigue el plan de tu dermatólogo.',
     product: 'Producto',
     company: 'Empresa',
     legal: 'Legal',

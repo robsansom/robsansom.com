@@ -21,7 +21,7 @@ import DaylightCard from '../app/cards/DaylightCard.astro';
 import RailArrows from '../site/RailArrows.astro';
 import { useTranslations } from '../../i18n/utils';
 
-const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const t = useTranslations((Astro.url.pathname.match(/\/hi-sunshine\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
 const { toolkit } = t.home;
 
 /** Visual treatment per card, in the order the copy declares them. */

@@ -5,8 +5,8 @@ import LanguageSelector from './LanguageSelector.astro';
 import { site } from '../../config/site';
 import { useTranslations, toLocale, localePath, localeHash } from '../../i18n/utils';
 
-const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
-const locale = toLocale((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const t = useTranslations((Astro.url.pathname.match(/\/hi-sunshine\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const locale = toLocale((Astro.url.pathname.match(/\/hi-sunshine\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
 const year = new Date().getFullYear();
 
 const columns = [
@@ -22,7 +22,7 @@ const columns = [
     title: t.footer.company,
     links: [
       { href: localePath(locale, '/support'), label: t.footer.support },
-      { href: `mailto:${site.supportEmail}`, label: t.footer.contact },
+      { href: site.supportMailto, label: t.footer.contact },
     ],
   },
   {
@@ -68,7 +68,7 @@ const columns = [
     </div>
 
     <div class="ftr__fine">
-      <p>© {year} {site.appName}. {t.footer.copyright}</p>
+      <p>© {year} {site.appNameInline}. {t.footer.copyright}</p>
       <p>{t.footer.medicalDisclaimer}</p>
       <p>{t.footer.appleAffiliation}</p>
       <p class="ftr__trademarks">{t.footer.appleTrademarks}</p>

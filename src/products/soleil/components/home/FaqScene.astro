@@ -9,8 +9,8 @@ import { productPath, localizeHtml } from '../../paths';
 import { homeFaqs } from '../../data/homeFaq';
 import { useTranslations, toLocale, localePath } from '../../i18n/utils';
 
-const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
-const locale = toLocale((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const t = useTranslations((Astro.url.pathname.match(/\/hi-sunshine\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const locale = toLocale((Astro.url.pathname.match(/\/hi-sunshine\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
 const isEnglish = locale === 'en';
 
 const items = isEnglish

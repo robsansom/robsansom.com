@@ -13,7 +13,7 @@ import { homeFaqs } from '../../data/homeFaq';
 import { useTranslations, toLocale } from '../../i18n/utils';
 import { site } from '../../config/site';
 
-const locale = toLocale((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const locale = toLocale((Astro.url.pathname.match(/\/hi-sunshine\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
 const t = useTranslations(locale);
 const isEnglish = locale === 'en';
 const siteUrl = Astro.site?.toString();
@@ -24,13 +24,13 @@ const jsonLd = isEnglish
       {
         '@context': 'https://schema.org',
         '@type': 'MobileApplication',
-        name: 'Soleil',
+        name: 'Hi Sunshine!',
         operatingSystem: 'iOS, watchOS',
         applicationCategory: 'HealthApplication',
         description: t.meta.description,
         installUrl: site.appStoreUrl,
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-        author: { '@type': 'Organization', name: 'Soleil', url: siteUrl },
+        author: { '@type': 'Organization', name: 'Hi Sunshine!', url: siteUrl },
       },
       {
         '@context': 'https://schema.org',
@@ -44,7 +44,7 @@ const jsonLd = isEnglish
       {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
-        name: 'Soleil',
+        name: 'Hi Sunshine!',
         url: siteUrl,
       },
     ]

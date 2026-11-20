@@ -27,10 +27,10 @@ export const home: HomeCopy = {
 
   toolkit: {
     eyebrow: 'Das Werkzeug',
-    headline: 'Sechs Dinge, die Soleil gut kann',
+    headline: 'Sechs Dinge, die Hi\u00a0Sunshine gut kann',
     prev: 'Vorherige Karte',
     next: 'Nächste Karte',
-    railLabel: 'Funktionen von Soleil',
+    railLabel: 'Funktionen von Hi\u00a0Sunshine',
     cards: [
       {
         tag: 'Jetzt',
@@ -50,7 +50,7 @@ export const home: HomeCopy = {
       {
         tag: 'Draußen',
         title: 'Sonnen-Timer',
-        body: 'Starte einen Ausflug: Soleil hält verstrichene Zeit, den Schutz aller und ihre Erinnerungen zusammen. Daily Glow ergänzt eine optionale geführte Routine.',
+        body: 'Starte einen Ausflug: Hi\u00a0Sunshine hält verstrichene Zeit, den Schutz aller und ihre Erinnerungen zusammen. Daily Glow ergänzt eine optionale geführte Routine.',
       },
       {
         tag: 'Deine Leute',
@@ -94,7 +94,7 @@ export const home: HomeCopy = {
     steps: [
       {
         label: 'Eine Karte',
-        title: 'Du öffnest Soleil, und der Himmel antwortet zuerst.',
+        title: 'Du öffnest Hi\u00a0Sunshine, und der Himmel antwortet zuerst.',
         body: 'Nichts zu entziffern. Dein Tag beginnt mit dem Live-UV-Index an deinem Standort.',
       },
       {
@@ -110,11 +110,11 @@ export const home: HomeCopy = {
       {
         label: 'Dein Check',
         title: 'Was jetzt zu tun ist, nicht wie lange du bleiben darfst.',
-        body: 'Hauttyp und LSF machen aus dem Messwert einen Schutz-Check. Soleil stellt Zeit nie als Erlaubnis dar.',
+        body: 'Hauttyp und LSF machen aus dem Messwert einen Schutz-Check. Hi\u00a0Sunshine stellt Zeit nie als Erlaubnis dar.',
       },
     ],
     imageAlt:
-      'Der Bildschirm „Dein Tag“ von Soleil auf dem iPhone: Live-UV, Tagesmaximum und die Bedingungen dahinter',
+      'Der Bildschirm „Dein Tag“ von Hi\u00a0Sunshine auf dem iPhone: Live-UV, Tagesmaximum und die Bedingungen dahinter',
   },
 
   moments: {
@@ -135,9 +135,9 @@ export const home: HomeCopy = {
   },
 
   why: {
-    eyebrow: 'Warum Soleil',
+    eyebrow: 'Warum Hi\u00a0Sunshine',
     headline: 'Nützlich, und deins',
-    body: 'Alles, was Soleil über deine Sonne lernt, bleibt deins: auf deinem iPhone und, wenn du synchronisierst, in deiner privaten iCloud. Kein Account, keine Analytics, keine Werbung, kein app-übergreifendes Tracking.',
+    body: 'Alles, was Hi\u00a0Sunshine über deine Sonne lernt, bleibt deins: auf deinem iPhone und, wenn du synchronisierst, in deiner privaten iCloud. Kein Account, keine Analytics, keine Werbung, kein app-übergreifendes Tracking.',
     badges: [
       'Live-UV vor Ort',
       'Privat von Haus aus',
@@ -179,7 +179,7 @@ export const home: HomeCopy = {
       {
         label: 'Maximum',
         title: 'Die stärksten Stunden',
-        body: 'Um die Mittagszeit erreicht der Index sein Tageshoch. Soleil zeigt, wie viel deines Tageslichts hier lag.',
+        body: 'Um die Mittagszeit erreicht der Index sein Tageshoch. Hi\u00a0Sunshine zeigt, wie viel deines Tageslichts hier lag.',
       },
       {
         label: 'Abends',
@@ -187,9 +187,9 @@ export const home: HomeCopy = {
         body: 'Spätes Tageslicht liegt auf der fallenden Seite der Kurve.',
       },
     ],
-    note: 'Real Sun liest mit deiner Erlaubnis die Tageslichtzeit der Apple Watch. Soleil schreibt nie in „Health“, und Tageslicht wird nie als Kontingent dargestellt.',
+    note: 'Real Sun liest mit deiner Erlaubnis die Tageslichtzeit der Apple Watch. Hi\u00a0Sunshine schreibt nie in „Health“, und Tageslicht wird nie als Kontingent dargestellt.',
     imageAlt:
-      'Das Real-Sun-Diagramm von Soleil: Tageslichtzeit auf der UV-Kurve des Tages',
+      'Das Real-Sun-Diagramm von Hi\u00a0Sunshine: Tageslichtzeit auf der UV-Kurve des Tages',
   },
 
   faq: {
@@ -199,11 +199,11 @@ export const home: HomeCopy = {
   },
 
   closing: {
-    headline: 'Nimm Soleil mit.',
+    headline: 'Nimm Hi\u00a0Sunshine mit.',
     body: 'Live-UV, ein Schutz-Check für deine Haut und Erinnerungen, die mit dem Tag Schritt halten.',
     note: 'iPhone und Apple Watch',
     privacy:
       'Kein Account. Kein Tracking. Deine Historie bleibt auf deinen Geräten und in deiner eigenen iCloud.',
-    imageAlt: 'Das Soleil-App-Symbol: eine goldene Sonne an blauem Himmel',
+    imageAlt: 'Das Hi-Sunshine-App-Symbol: eine goldene Sonne an blauem Himmel',
   },
 };

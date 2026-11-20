@@ -19,7 +19,7 @@ export interface Props {
 }
 
 const { compact = false, peak = false, lean = 0 } = Astro.props;
-const t = useTranslations((Astro.url.pathname.match(/\/soleil\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
+const t = useTranslations((Astro.url.pathname.match(/\/hi-sunshine\/(fr|es|de|ja)(?:\/|$)/)?.[1] ?? 'en'));
 const ui = t.appUi.uvNow;
 
 /**

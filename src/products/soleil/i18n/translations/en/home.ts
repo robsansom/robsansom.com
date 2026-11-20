@@ -27,10 +27,10 @@ export const home: HomeCopy = {
 
   toolkit: {
     eyebrow: 'The toolkit',
-    headline: 'Six things Soleil does well',
+    headline: 'Six things Hi\u00a0Sunshine does well',
     prev: 'Previous card',
     next: 'Next card',
-    railLabel: 'Soleil features',
+    railLabel: 'Hi\u00a0Sunshine features',
     cards: [
       {
         tag: 'Now',
@@ -50,7 +50,7 @@ export const home: HomeCopy = {
       {
         tag: 'Outside',
         title: 'Sun timer',
-        body: 'Start an outing and Soleil keeps elapsed time, each person’s cover and their reminders together. Daily Glow adds an optional guided routine.',
+        body: 'Start an outing and Hi\u00a0Sunshine keeps elapsed time, each person’s cover and their reminders together. Daily Glow adds an optional guided routine.',
       },
       {
         tag: 'Your people',
@@ -94,7 +94,7 @@ export const home: HomeCopy = {
     steps: [
       {
         label: 'One card',
-        title: 'Open Soleil and the sky answers first.',
+        title: 'Open Hi\u00a0Sunshine and the sky answers first.',
         body: 'No dashboard to decode. Your Day opens on the live UV index for where you are.',
       },
       {
@@ -110,10 +110,10 @@ export const home: HomeCopy = {
       {
         label: 'Your check',
         title: 'What to do now, not how long you may stay.',
-        body: 'Your skin type and SPF turn the reading into a timely protection check. Soleil never presents time as permission.',
+        body: 'Your skin type and SPF turn the reading into a timely protection check. Hi\u00a0Sunshine never presents time as permission.',
       },
     ],
-    imageAlt: 'Soleil’s Your Day screen on iPhone: live UV, today’s peak and the conditions behind it',
+    imageAlt: 'Hi\u00a0Sunshine’s Your Day screen on iPhone: live UV, today’s peak and the conditions behind it',
   },
 
   moments: {
@@ -134,9 +134,9 @@ export const home: HomeCopy = {
   },
 
   why: {
-    eyebrow: 'Why Soleil',
+    eyebrow: 'Why Hi\u00a0Sunshine',
     headline: 'Useful, and yours',
-    body: 'Everything Soleil learns about your sun stays yours: on your iPhone, and in your own private iCloud if you sync. No account to make, no analytics, no advertising, no cross-app tracking.',
+    body: 'Everything Hi\u00a0Sunshine learns about your sun stays yours: on your iPhone, and in your own private iCloud if you sync. No account to make, no analytics, no advertising, no cross-app tracking.',
     badges: [
       'Live local UV',
       'Private by default',
@@ -178,7 +178,7 @@ export const home: HomeCopy = {
       {
         label: 'Peak',
         title: 'The strongest hours',
-        body: 'Around midday the index reaches today’s high. Soleil shows how much of your daylight happened here.',
+        body: 'Around midday the index reaches today’s high. Hi\u00a0Sunshine shows how much of your daylight happened here.',
       },
       {
         label: 'Evening',
@@ -186,8 +186,8 @@ export const home: HomeCopy = {
         body: 'Late daylight sits on the falling side of the curve.',
       },
     ],
-    note: 'Real Sun reads Apple Watch Time in Daylight with your permission. Soleil never writes to Health, and daylight is never presented as an allowance.',
-    imageAlt: 'The Soleil Real Sun chart: time in daylight drawn against the day’s UV curve',
+    note: 'Real Sun reads Apple Watch Time in Daylight with your permission. Hi\u00a0Sunshine never writes to Health, and daylight is never presented as an allowance.',
+    imageAlt: 'The Hi\u00a0Sunshine Real Sun chart: time in daylight drawn against the day’s UV curve',
   },
 
   faq: {
@@ -197,10 +197,10 @@ export const home: HomeCopy = {
   },
 
   closing: {
-    headline: 'Take Soleil with you.',
+    headline: 'Take Hi\u00a0Sunshine with you.',
     body: 'Live UV, a protection check for your skin, and reminders that keep up with the day.',
     note: 'iPhone & Apple Watch',
     privacy: 'No account. No tracking. Your history stays on your devices and in your own iCloud.',
-    imageAlt: 'The Soleil app icon: a golden sun on a blue sky',
+    imageAlt: 'The Hi\u00a0Sunshine app icon: a golden sun on a blue sky',
   },
 };

@@ -33,8 +33,8 @@ const jsonLd = [
     description: guide.metaDescription,
     url,
     image: new URL(productPath('/images/social-card.png'), Astro.site).toString(),
-    author: { '@type': 'Organization', name: 'Soleil', url: Astro.site?.toString() },
-    publisher: { '@type': 'Organization', name: 'Soleil', url: Astro.site?.toString() },
+    author: { '@type': 'Organization', name: 'Hi Sunshine!', url: Astro.site?.toString() },
+    publisher: { '@type': 'Organization', name: 'Hi Sunshine!', url: Astro.site?.toString() },
   },
   {
     '@context': 'https://schema.org',
@@ -119,7 +119,7 @@ const jsonLd = [
 
         <section class="guide__app">
           <div>
-            <p class="eyebrow guide__cat">How Soleil helps</p>
+            <p class="eyebrow guide__cat">How Hi&nbsp;Sunshine helps</p>
             <h2 class="display-md">{guide.soleil.heading}</h2>
             {guide.soleil.paragraphs.map((p) => <p class="guide__appBody" set:html={localizeHtml(p)} />)}
             <div class="guide__appCta"><Cta variant="ink" /></div>
@@ -148,7 +148,7 @@ const jsonLd = [
         </section>
 
         <p class="guide__disclaimer">
-          Soleil is wellness guidance, not medical advice. For sensitive skin or
+          Hi&nbsp;Sunshine is wellness guidance, not medical advice. For sensitive skin or
           diagnosed conditions, please follow a dermatologist’s plan.
         </p>
 
